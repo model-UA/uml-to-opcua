@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
+         <menu
+               id="at.ac.tuwien.auto.modelua.uml2opcua.ui.transform"
+               label="Transform to OPC UA">
+            <separator
+                  name="additions"
+                  visible="false">
+            </separator>
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>
