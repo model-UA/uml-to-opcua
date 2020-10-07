@@ -17,4 +17,12 @@
       </menuContribution>
    </extension>
 
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="at.ac.tuwien.auto.modelua.wizardCategory"
+            name="model-UA UML 2 OPC UA Transformation Projects">
+      </category>
+   </extension>
+   
 </plugin>
