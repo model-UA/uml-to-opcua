@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="at.ac.tuwien.auto.modelua.uml2opcua.feature"
-      label="UML to OPC UA Transformation UI"
+      label="UML to OPC UA Transformation"
       version="1.0.0.qualifier"
       provider-name="Automation Systems Group">
 
