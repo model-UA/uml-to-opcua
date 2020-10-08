@@ -18,6 +18,7 @@ public class OpcuaSerializer {
 		Map<Object,Object> options = new HashMap<Object,Object>();
 		options.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
 		options.put(XMLResource.OPTION_ENCODING, "utf-8");
+		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.FALSE); // omit xsi:schemaLocation in the output file
 		
 		// serialize/persist the model to a nodeset XML file
 		URI nodesetURI = URI.createFileURI(outputFile.getAbsolutePath());
