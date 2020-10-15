@@ -53,3 +53,33 @@ To gain knowledge about Eclipse Plugins in general you may want to visit https:/
 
 Coming soon.
 
+# UML to OPC UA Model Transformation using QVTo
+
+This repository contains an Eclipse Plugin that allows to trigger UML to OPC UA model transformations. Transformation rules are specified in QVTo.
+
+## Prerequisites
+
+### Install QVTo Eclipse Plugins
+
+This Plugin uses QVTo for UML to OPC UA transformations (cf. https://wiki.eclipse.org/QVTo). Therefore, the QVTo Eclipse Plugins are required and can be installed via the Eclipse Update Site https://download.eclipse.org/mmt/qvto/updates/releases/ via "Help" --> "Install New Software...".
+
+### Install UML to OPC UA Transformation Feature
+
+This Plugin extends the "UML to OPC UA Transformation" Feature, which is provided via the model-UA/uml-to-opcua repository. Follow the instructions in model-UA/uml-to-opcua/README.md to install the "UML to OPC UA Transformation" Feature.
+
+## Using the Plugin 
+
+Have a look at "Adding the Plugin to your Workspace" in model-UA/uml-to-opcua/README.md for information about how to install this Plugin.
+
+### Using the Plugin with pre-defined QVTo transformation rules
+
+This Plugin adds the "Transform with QVTo" menu entry under "Transform to OPC UA" (cf. model-UA/uml-to-opcua). The model transformation can be triggered by right-clicking on a UML file and selecting "Transform to OPC UA" --> "Transform with QVTo". The QVTo files that specify the transformation rules are embedded in the Plugin and should not be changed by the user.
+
+### Using the Plugin to define custom QVTo transformation rules
+
+To enable users to adapt the QVTo transformation rules to their needs, the repository also provides a developer version of the QVTo transformation plugin. When installed, it adds the menu entry "Transform to OPC UA" --> "Transform with custom QVTo". This command will search the user's workspace for a QVTo Project (cf. https://wiki.eclipse.org/QVTo), which has to contain a subfolder "transformations" and a file named "Uml2Opcua.qvto". The transformation available at "model-UA/uml-to-opcua-qvto/at.ac.tuwien.auto.modelua.uml2opcua.qvto/transformations" may serve as a starting point for your customized transformation rules.
+
+### Installing via Update Site
+
+Coming soon.
+
