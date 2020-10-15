@@ -19,6 +19,10 @@ public class OpcuaSerializer {
 		options.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
 		options.put(XMLResource.OPTION_ENCODING, "utf-8");
 		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.FALSE); // omit xsi:schemaLocation in the output file
+		// Try to set the xmlns to the OPC UA Namespace Uri
+		if(extendedMetaData.demandPackage("http://opcfoundation.org/UA/2011/03/UANodeSet.xsd") != null)
+			extendedMetaData.demandPackage("http://opcfoundation.org/UA/2011/03/UANodeSet.xsd").setNsPrefix("");
+		
 		
 		// serialize/persist the model to a nodeset XML file
 		URI nodesetURI = URI.createFileURI(outputFile.getAbsolutePath());
