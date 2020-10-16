@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UML to OPC UA QVTo Transformation Developer UI Plug-in
+Bundle-SymbolicName: at.ac.tuwien.auto.modelua.uml2opcua.qvto.developer.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: at.ac.tuwien.auto.modelua.uml2opcua.qvto.developer.ui.Activator
+Bundle-Vendor: Automation Systems Group
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ at.ac.tuwien.auto.modelua.uml2opcua.ui;bundle-version="1.0.0",
+ at.ac.tuwien.auto.modelua.uml2opcua.qvto;bundle-version="1.0.0",
+ org.eclipse.core.resources,
+ org.eclipse.ui.console,
+ org.slf4j.api,
+ org.eclipse.emf.common,
+ org.eclipse.m2m.qvt.oml
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: at.ac.tuwien.auto.modelua.uml2opcua.qvto
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.emf.ecore.resource

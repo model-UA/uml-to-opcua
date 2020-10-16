@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types.edit;singleton:=true
+Automatic-Module-Name: at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types.edit
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.opcfoundation.ua._2008._02.types.provider.OpcUaEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.opcfoundation.ua._2008._02.types.provider
+Require-Bundle: org.eclipse.core.runtime,
+ at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

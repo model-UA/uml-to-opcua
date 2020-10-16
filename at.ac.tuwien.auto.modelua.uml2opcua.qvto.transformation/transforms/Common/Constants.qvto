@@ -1,0 +1,7 @@
+/*
+ * This file defines constants that should typically not require to be changed by the user.
+ */
+
+library Constants;
+
+property OPCUA_NAMESPACE_URI : String = "http://opcfoundation.org/UA/";

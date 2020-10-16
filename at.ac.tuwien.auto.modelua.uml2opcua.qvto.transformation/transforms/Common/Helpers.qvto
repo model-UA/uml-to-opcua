@@ -1,0 +1,173 @@
+/*
+ * This file contains helper functions, i.e. functions that fulfill a certain functionality
+ * that is reused often or would negatively effect the readability of the actual transformation.
+ */
+
+library Helpers;
+import Configuration;
+import Constants;
+import emf.tools;
+import Blackbox.Blackbox;
+modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
+
+// Naming convention:
+// identifier have the form i=256
+// nodeIds have the form ns=2;s=someString
+
+// entries are of the form "http://opcfoundation.org/UA/","NonHierarchicalReferences","i=32"
+property IdentifierLookupTable : Dict(String,Dict(String,String)); 
+
+// the following properties contain information only for namespaces that are acutally used by the model
+property nextNamespaceIndex : Integer = 1; // variable used to keep track of namespace indices, namespace 0 is the OPC UA base namespace
+property NamespaceUri2NamespaceIndex : Dict(String,Integer); // entries of the form "http://opcfoundation.org/UA/", 0
+property NamespaceIndex2NamespaceUri : Dict(Integer,String); // entries of the form 0, "http://opcfoundation.org/UA/"
+property AliasesForAliasTable : Set(String); // a set does not contain duplicates
+
+// "traverse the element tree upwards " until a UML::Package or a UML::Model is reached to get the namespace
+helper UML::Element::getUri() : String {
+	var element := self;
+	var uri : String;
+	while(element <> null) {
+		if(element.oclIsTypeOf(UML::Package)) {
+			var package := element.oclAsType(UML::Package);
+			if(package.URI <> null and package.URI.length() > 0) {
+				uri := package.URI;
+				break;
+			} else if(package.name <> null and package.name.length() > 0) {
+				uri := package.name;
+				break;
+			} else {
+				element := element.owner;
+				continue;
+			};
+		}
+		else if(element.oclIsTypeOf(UML::Model)) {
+			var model := element.oclAsType(UML::Model);
+			if(model.URI <> null and model.URI.length() > 0) {
+				uri := model.URI;
+				break;
+			} else if(model.name <> null and model.name.length() > 0) {
+				uri := model.name;
+				break;
+			} else {
+				raise Exception("Could not identify a namespace for UML::Element" + self.toString() +
+			                    "Add it to a UML::Package or define a URI or name for your UML::Model");
+			};
+		};
+		element := element.owner;
+	};
+	
+	// if the does not have an Id yet, assign one and add it to the corresponding dictionaries
+	if(not NamespaceUri2NamespaceIndex->hasKey(uri)) {
+		addNamespace(nextNamespaceIndex, uri);
+		nextNamespaceIndex := nextNamespaceIndex + 1;
+	};
+	return uri;
+}
+
+helper UML::NamedElement::getNodeIdPrefix() : String {
+	var ns := self.getUri();
+	return "ns=" + NamespaceUri2NamespaceIndex->get(ns).toString() + ";s=";
+}
+
+helper UML::NamedElement::getNamePostfix() : String {
+	switch {
+		case(self.oclIsTypeOf(UML::Class)) return "Type";
+		case(self.oclIsTypeOf(UML::StateMachine)) return "Type";
+		else return "";
+	};
+}
+
+helper UML::NamedElement::createNodeId() : String {
+	return self.getNodeIdPrefix() + self.name + self.getNamePostfix();
+}
+
+helper UML::NamedElement::createNodeId(nodeName : String) : String {
+	return self.getNodeIdPrefix() + nodeName + self.getNamePostfix();
+}
+
+helper UML::NamedElement::createBrowseName() : String {
+	return self.name + self.getNamePostfix();
+}
+
+helper addNamespace(namespaceIndex : Integer, namespaceUri : String) {
+	NamespaceIndex2NamespaceUri->put(namespaceIndex, namespaceUri);
+	NamespaceUri2NamespaceIndex->put(namespaceUri, namespaceIndex);
+}
+
+// TODO: Support loading the NodeIds for the same Namespace from difference CSV files
+helper loadExternalNodeIds(namespaceUri : String, filename : String ) {
+	var y : Dict(String,String) := readNodeIdsCsv(filename);
+	IdentifierLookupTable->put(namespaceUri, y);
+}
+
+helper getNamespaceIndex(namespaceUri : String) : Integer {
+	return NamespaceUri2NamespaceIndex->get(namespaceUri);
+}
+
+helper getNamespaceUri(namespaceIndex : Integer) : String {
+	return NamespaceIndex2NamespaceUri->get(namespaceIndex);
+}
+
+helper loadInternalNodeIds() {
+	// add NodeIds for Namespace 0
+	var y : Dict(String,String);
+	y->put("Int32", "i=6");
+	y->put("Int32", "i=6");
+	y->put("Double", "i=11");
+	y->put("String", "i=12");
+	y->put("NonHierarchicalReferences", "i=32");
+	y->put("HasModellingRule", "i=37");
+	y->put("HasTypeDefinition", "i=40");
+	y->put("HasSubtype", "i=45");
+	y->put("HasProperty", "i=46");
+	y->put("HasComponent", "i=47");
+	y->put("FromState", "i=51");
+	y->put("ToState", "i=52");
+	y->put("BaseObjectType", "i=58");
+	y->put("BaseDataVariableType", "i=63");
+	y->put("PropertyType", "i=68");
+	y->put("ModellingRule_Mandatory", "i=78");
+	y->put("ModellingRule_Optional", "i=80");
+	y->put("ModellingRule_OptionalPlaceholder", "i=11508");
+	y->put("ModellingRule_MandatoryPlaceholder", "i=11510");
+	y->put("Argument", "i=296");
+	y->put("Argument_Encoding_DefaultXml", "i=297");
+	y->put("StateType", "i=2037");
+	y->put("TransitionType", "i=2310");
+	y->put("InitialStateType", "i=2039");
+	y->put("FiniteStateMachineType", "i=2771");
+	IdentifierLookupTable->put(OPCUA_NAMESPACE_URI, y);
+}
+
+helper fillAliasTable(inout aliasTable : OPCUA::AliasTable) {
+	aliasTable.alias += AliasesForAliasTable->map createAliasTableEntry();
+}
+
+mapping String::createAliasTableEntry() : OPCUA::NodeIdAlias {
+	value := IdentifierLookupTable->get(OPCUA_NAMESPACE_URI)->get(self);
+	alias := self;
+	
+	assert fatal (value <> null) with log("No Identifier found in the Identifier Lookup Table for node " + self.toString());
+}
+
+helper fillUriTable(inout uriTable : OPCUA::UriTable) {
+	uriTable.uri += NamespaceUri2NamespaceIndex->keys()->asSequence()->excluding(OPCUA_NAMESPACE_URI);
+}
+
+// returns something like i=256, or s=someString
+// this is only valid for namespace 0
+helper getId(name : String) : String {
+	// add the name to the AliasesForAliasTable
+	// this means, it is used and needs to be added to the alias table after the transformation has finished
+	if(CFG_ENABLE_ALIAS_TABLE)
+		AliasesForAliasTable += name;
+
+	if(CFG_ENABLE_ALIAS_TABLE)
+		return name; // just use the human-readable name as identifier if ALIAS_TABLE is enabled
+
+	return IdentifierLookupTable->get(OPCUA_NAMESPACE_URI)->get(name);
+}
+
+

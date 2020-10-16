@@ -1,0 +1,103 @@
+library References;
+
+import Common.Helpers;
+
+modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
+
+
+mapping UML::Generalization::generalization2UAReference() : OPCUA::Reference {
+	log("generalization2UAReference: UML element " + self.source->any(0=0).oclAsType(NamedElement).name + " is inherited from UML element " + self.target->any(0=0).oclAsType(NamedElement).name);
+	
+	assert error (self.target->size() = 1) with log ("Only single inheritance is supported for UML to OPC UA transformation");
+
+	// set attributes of the OPCUA::Reference, self.target should only contain 1 element
+	value := self.target->any(0=0).oclAsType(NamedElement).createNodeId();
+	referenceType := getId("HasSubtype");
+	isForward := false;
+}
+
+// TODO: check what happens if the source object and the target object are in different namespaces
+mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout nodeset : OPCUA::UANodeSetType) : OPCUA::Reference {
+	log("property2Reference for UML element " + self.name);
+	var targetClassName := self.type.name;
+	var targetObjectTypeNodeId := self.type.createNodeId();
+	switch {
+		case(self.aggregation = UML::AggregationKind::composite or self.aggregation = UML::AggregationKind::shared) {
+			// Composition or Aggregation are both handled the same way
+			// use HasComponent reference for compositions
+			referenceType := getId("HasComponent");
+			
+			// if A isComposedOf B, OPC UA requires to create an UAObject of B and add it to A via a reference
+			// note that this object is only created specifically for the OPC UA model but is not present in the UML model
+			var targetObject := object OPCUA::UAObject{
+				// "1" is appended to the ClassName to identify the result as OPC UA Object
+				nodeId := self.createNodeId(targetClassName + "1");
+				parentNodeId := parent.nodeId;
+			};
+			
+			// the reference points to the newly created object
+			value := targetObject.nodeId;
+
+			// add the list of references
+			targetObject._references := object OPCUA::ListOfReferences{};
+			targetObject._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := targetObjectTypeNodeId};
+			targetObject._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+
+			// define modelling rule; note that -1 means infitiy (*); therefore, for 0..* the limits are lower=0 and upper=-1
+			var modelingRuleReference := object OPCUA::Reference{referenceType := getId("HasModellingRule")};
+			if(self.lower = 0 and self.upper = 1) {
+				targetObject.displayName += object OPCUA::LocalizedText{value := targetClassName + "1"};
+				targetObject.browseName := targetClassName + "1";
+				modelingRuleReference.value := getId("ModellingRule_Optional");
+			}
+			else if(self.lower = 1 and self.upper = 1) {
+				targetObject.displayName += object OPCUA::LocalizedText{value := targetClassName + "1"};
+				targetObject.browseName := targetClassName + "1";
+				modelingRuleReference.value := getId("ModellingRule_Mandatory");
+			}
+			else if(self.lower = 0 and self.upper = -1) {
+				targetObject.displayName += object OPCUA::LocalizedText{value := targetClassName + "1"};
+				targetObject.browseName := targetClassName + "1";
+			 	modelingRuleReference.value := getId("ModellingRule_OptionalPlaceholder");
+		 	}
+		 	else if(self.lower = 1 and self.upper = -1) {
+				targetObject.displayName += object OPCUA::LocalizedText{value := targetClassName + "1"};
+				targetObject.browseName := targetClassName + "1";
+		 		modelingRuleReference.value := getId("ModellingRule_MandatoryPlaceholder");
+		 	}
+			else {
+				modelingRuleReference.value := getId("ModellingRule_MandatoryPlaceholder");
+			};
+			targetObject._references.reference += modelingRuleReference;
+			
+			// add the new object to the nodeset
+			nodeset.uAObject += targetObject;
+		};
+		
+		case(self.aggregation = UML::AggregationKind::none) { // neither coposition, nor aggregation
+			// create a new UAReferenceType if not available yet
+			// TODO: check if the reference type has already been created
+			log("Creating new reference type " + self.association.name);
+			var newReferenceType := object OPCUA::UAReferenceType {
+				nodeId := self.createNodeId(self.association.name);
+				browseName := self.association.name;
+				displayName := object OPCUA::LocalizedText{value := self.association.name};
+			};
+
+			// add the list of references
+			newReferenceType._references := object OPCUA::ListOfReferences{};
+			newReferenceType._references.reference += object OPCUA::Reference{referenceType := "HasSubtype"; value := getId("NonHierarchicalReferences"); isForward := false};
+
+			// add the new reference type to the nodeset
+			nodeset.uAReferenceType += newReferenceType;
+			
+			
+			value := self.createNodeId(targetClassName);
+			referenceType := self.association.name;
+		}
+		else {
+			raise Exception("Unkown aggregation for property " + self.name + ": " + self.aggregation.toString());
+		}
+	};
+}

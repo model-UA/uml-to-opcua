@@ -1,0 +1,89 @@
+/*
+ * This file specifies a QVTo transformation.
+ */
+import Common.Helpers;
+import ClassDiagram.Classes;
+import StateMachineDiagram.StateMachines;
+
+modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
+modeltype TYPES uses types('http://opcfoundation.org/UA/2008/02/Types.xsd');
+modeltype ecore "strict" uses 'http://www.eclipse.org/emf/2002/Ecore';
+
+// TODO: Add support for packages and namespaces
+// TODO: Add an option to use or not use the alias table
+
+/*
+ * UML to OPC UA Model Transformation using QVTo 
+ * @param umlInputModel The UML input model.
+ * @param opcuaOutputModel The OPC UA output model generated from the umlInputModel by means of model transformation.
+ */
+transformation UMLtoOPCUA(in umlInputModel : UML, out opcuaOutputModel : OPCUA);
+
+/*
+ * The main entry point of the transformation.
+ */
+main() {
+	log("Starting UML 2 OPC UA transformation with external QVTo file");
+	
+	// initilize internal datastructures
+	addNamespace(0, OPCUA_NAMESPACE_URI); // this Namespace Uri always needs to be added
+	
+	// the transformation supports the use of NodeId aliases, i.e. using human-readable names instead of NodeIds
+	// these aliases can either be read from a NodeId CSV file, or aliases internally defined in Helpers.qvto 
+	if(CFG_USE_BLACKBOX) {
+		loadExternalNodeIds(OPCUA_NAMESPACE_URI, "/NodeIds/NS0/NodeIds.csv");
+	} else {
+		loadInternalNodeIds();
+	};
+
+	// create a OPCUA::DocumentRoot as the top-level element of the OPC UA model
+	var documentRoot := object OPCUA::DocumentRoot{};
+	
+	// map UML::Model elements to OPCUA::NodeSetType elements and collect them in a set
+	// TODO: verify what happens if the inputModel contains multiple UML::Model elements
+	var x := documentRoot.xMLNSPrefixMap;
+	documentRoot.uANodeSet += umlInputModel.rootObjects()->selectByType(UML::Model)->map model2OPCUANodeSetType();
+	/*
+	var y := object ecore::EStringToStringMapEntry{key := ""; value := OPCUA_NAMESPACE_URI};
+	documentRoot.xMLNSPrefixMap += y;
+	*/
+}
+
+/*
+ * Transformation rule mapping a UML::Model element to an OPCUA::UANodeSetType element
+ */
+mapping UML::Model::model2OPCUANodeSetType() : OPCUA::UANodeSetType {
+	log("model2OPCUANodeSetType for UML element " + self.name);
+	
+	// process all UML::Packages
+	self.ownedElement->selectByType(UML::Package).package2Namespace(result);
+	
+	// map UML::Classes to OPCUA::UAObjectTypes that are not included in any namspeace
+	uAObjectType += self.ownedElement->selectByType(UML::Class)->map class2OPCUAObjectType(result);
+
+	// map UML::StateMachines to OPCUA::UAObjectTypes that are not included in any namspeace
+	uAObjectType += self.ownedElement->selectByType(UML::StateMachine)->map statemachine2FiniteStateMachineType(result);
+	
+	// although UML::Associations are top-level elements in a model, UML::Association to OPCUA::Reference transformation is handled as part of the class transformation
+
+	// create a OPCUA::UriTable and link it to the DocumentRoot
+	namespaceUris := object OPCUA::UriTable{};
+	fillUriTable(namespaceUris);
+
+	// create an OPCUA::Alias table
+	if(CFG_ENABLE_ALIAS_TABLE) {
+		aliases := object OPCUA::AliasTable{};
+		fillAliasTable(aliases);
+	}
+}
+
+helper UML::Package::package2Namespace(inout nodeset : OPCUA::UANodeSetType) {
+	// map all UML::Classes in this package to OPCUA::UAObjectTypes and collect them in a set
+	nodeset.uAObjectType += self.ownedElement->selectByType(UML::Class)->map class2OPCUAObjectType(nodeset);
+
+	// map UML::StateMachines to OPCUA::UAObjectTypes that are not included in any namspeace
+	nodeset.uAObjectType += self.ownedElement->selectByType(UML::StateMachine)->map statemachine2FiniteStateMachineType(nodeset);
+}
+
+

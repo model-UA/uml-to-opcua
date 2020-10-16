@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/at.ac.tuwien.auto.modelua.uml2opcua.emf.UANodeSet/src"
+    modelPluginID="at.ac.tuwien.auto.modelua.uml2opcua.emf.UANodeSet" modelName="UANodeSet"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.xsd.ecore.importer"
+    complianceLevel="5.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>file:/C:/Users/user1/Desktop/model-UA/UANodeSet.xsd</foreignModel>
+  <genPackages prefix="Set" basePackage="org.opcfoundation.ua._2011._03.ua.node" resource="XML"
+      disposableProviderFactory="true" ecorePackage="set.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="set.ecore#//DataTypePurpose">
+      <genEnumLiterals ecoreEnumLiteral="set.ecore#//DataTypePurpose/Normal"/>
+      <genEnumLiterals ecoreEnumLiteral="set.ecore#//DataTypePurpose/ServicesOnly"/>
+      <genEnumLiterals ecoreEnumLiteral="set.ecore#//DataTypePurpose/CodeGenerator"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="set.ecore#//ReleaseStatus">
+      <genEnumLiterals ecoreEnumLiteral="set.ecore#//ReleaseStatus/Released"/>
+      <genEnumLiterals ecoreEnumLiteral="set.ecore#//ReleaseStatus/Draft"/>
+      <genEnumLiterals ecoreEnumLiteral="set.ecore#//ReleaseStatus/Deprecated"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="set.ecore#//AccessLevel"/>
+    <genDataTypes ecoreDataType="set.ecore#//AccessLevelObject"/>
+    <genDataTypes ecoreDataType="set.ecore#//AccessRestriction"/>
+    <genDataTypes ecoreDataType="set.ecore#//AccessRestrictionObject"/>
+    <genDataTypes ecoreDataType="set.ecore#//ArrayDimensions"/>
+    <genDataTypes ecoreDataType="set.ecore#//CardinalityType"/>
+    <genDataTypes ecoreDataType="set.ecore#//CardinalityTypeItem"/>
+    <genDataTypes ecoreDataType="set.ecore#//DataTypePurposeObject"/>
+    <genDataTypes ecoreDataType="set.ecore#//Duration"/>
+    <genDataTypes ecoreDataType="set.ecore#//DurationObject"/>
+    <genDataTypes ecoreDataType="set.ecore#//EventNotifier"/>
+    <genDataTypes ecoreDataType="set.ecore#//EventNotifierObject"/>
+    <genDataTypes ecoreDataType="set.ecore#//Locale"/>
+    <genDataTypes ecoreDataType="set.ecore#//NodeId"/>
+    <genDataTypes ecoreDataType="set.ecore#//QualifiedName"/>
+    <genDataTypes ecoreDataType="set.ecore#//ReleaseStatusObject"/>
+    <genDataTypes ecoreDataType="set.ecore#//SymbolicName"/>
+    <genDataTypes ecoreDataType="set.ecore#//SymbolicNameItem"/>
+    <genDataTypes ecoreDataType="set.ecore#//ValueRank"/>
+    <genDataTypes ecoreDataType="set.ecore#//ValueRankObject"/>
+    <genDataTypes ecoreDataType="set.ecore#//WriteMask"/>
+    <genDataTypes ecoreDataType="set.ecore#//WriteMaskObject"/>
+    <genClasses ecoreClass="set.ecore#//AliasTable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//AliasTable/alias"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//DataTypeDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//DataTypeDefinition/field"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeDefinition/baseType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeDefinition/isOptionSet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeDefinition/isUnion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeDefinition/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeDefinition/symbolicName"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//DataTypeField">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//DataTypeField/displayName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//DataTypeField/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeField/arrayDimensions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeField/dataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeField/isOptional"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeField/maxStringLength"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeField/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeField/symbolicName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeField/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DataTypeField/valueRank"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//DocumentRoot/uANodeSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//DocumentRoot/uANodeSetChanges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//DocumentRoot/uANodeSetChangesStatus"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ExtensionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute set.ecore#//ExtensionType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ListOfExtensions">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//ListOfExtensions/extension"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ListOfReferences">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//ListOfReferences/reference"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ListOfRolePermissions">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//ListOfRolePermissions/rolePermission"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//LocalizedText">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//LocalizedText/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//LocalizedText/locale"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ModelTable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//ModelTable/model"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ModelTableEntry">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//ModelTableEntry/rolePermissions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//ModelTableEntry/requiredModel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//ModelTableEntry/accessRestrictions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//ModelTableEntry/modelUri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//ModelTableEntry/publicationDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//ModelTableEntry/version"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//NodeIdAlias">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//NodeIdAlias/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//NodeIdAlias/alias"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//NodeSetStatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//NodeSetStatus/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//NodeSetStatus/code"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//NodeSetStatusList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//NodeSetStatusList/status"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//NodesToAdd">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute set.ecore#//NodesToAdd/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//NodesToAdd/uAObject"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//NodesToAdd/uAVariable"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//NodesToAdd/uAMethod"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//NodesToAdd/uAView"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//NodesToAdd/uAObjectType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//NodesToAdd/uAVariableType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//NodesToAdd/uADataType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//NodesToAdd/uAReferenceType"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//NodesToDelete">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//NodesToDelete/node"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//NodeToDelete">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//NodeToDelete/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//NodeToDelete/deleteReverseReferences"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//Reference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//Reference/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//Reference/isForward"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//Reference/referenceType"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ReferenceChange">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//ReferenceChange/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//ReferenceChange/isForward"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//ReferenceChange/referenceType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//ReferenceChange/source"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ReferencesToChange">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//ReferencesToChange/reference"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//RolePermission">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//RolePermission/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//RolePermission/permissions"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//StructureTranslationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//StructureTranslationType/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//StructureTranslationType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//TranslationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//TranslationType/text"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//TranslationType/field"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UADataType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UADataType/definition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UADataType/purpose"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UAInstance">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAInstance/parentNodeId"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UAMethod">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UAMethod/argumentDescription"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAMethod/executable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAMethod/methodDeclarationId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAMethod/userExecutable"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UAMethodArgument">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAMethodArgument/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UAMethodArgument/description"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UANode">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANode/displayName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANode/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANode/category"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANode/documentation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANode/references"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANode/rolePermissions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANode/extensions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANode/accessRestrictions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANode/browseName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANode/nodeId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANode/releaseStatus"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANode/symbolicName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANode/userWriteMask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANode/writeMask"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UANodeSetChangesStatusType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesStatusType/nodesToAdd"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesStatusType/referencesToAdd"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesStatusType/nodesToDelete"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesStatusType/referencesToDelete"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANodeSetChangesStatusType/lastModified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANodeSetChangesStatusType/transactionId"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UANodeSetChangesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesType/namespaceUris"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesType/serverUris"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesType/aliases"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesType/extensions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesType/nodesToAdd"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesType/referencesToAdd"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesType/nodesToDelete"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetChangesType/referencesToDelete"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANodeSetChangesType/acceptAllOrNothing"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANodeSetChangesType/lastModified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANodeSetChangesType/transactionId"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UANodeSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/namespaceUris"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/serverUris"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/models"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/aliases"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/extensions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute set.ecore#//UANodeSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/uAObject"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/uAVariable"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/uAMethod"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/uAView"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/uAObjectType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/uAVariableType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/uADataType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference set.ecore#//UANodeSetType/uAReferenceType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UANodeSetType/lastModified"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UAObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAObject/eventNotifier"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UAObjectType"/>
+    <genClasses ecoreClass="set.ecore#//UAReferenceType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UAReferenceType/inverseName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAReferenceType/symmetric"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UAType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAType/isAbstract"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UAVariable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UAVariable/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UAVariable/translation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariable/accessLevel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariable/arrayDimensions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariable/dataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariable/historizing"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariable/minimumSamplingInterval"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariable/userAccessLevel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariable/valueRank"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UAVariableType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference set.ecore#//UAVariableType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariableType/arrayDimensions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariableType/dataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAVariableType/valueRank"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UAView">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAView/containsNoLoops"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UAView/eventNotifier"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//UriTable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute set.ecore#//UriTable/uri"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ValueType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute set.ecore#//ValueType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="set.ecore#//ValueType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute set.ecore#//ValueType1/any"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

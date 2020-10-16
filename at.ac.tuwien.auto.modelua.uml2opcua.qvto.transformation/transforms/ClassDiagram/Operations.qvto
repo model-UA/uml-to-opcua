@@ -1,0 +1,152 @@
+library Operations;
+
+import Common.Helpers;
+
+modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
+modeltype TYPES uses types('http://opcfoundation.org/UA/2008/02/Types.xsd');
+modeltype ecore "strict" uses 'http://www.eclipse.org/emf/2002/Ecore';
+modeltype UMLTYPES uses types('http://www.eclipse.org/uml2/5.0.0/Types');
+modeltype UMLPARAMETER uses umlParameter('http://www.eclipse.org/papyrus/uml/textedit/parameter/xtext/UmlParameter');
+
+/*
+ * Transforming UML Operations to OPC UA Methods requires an UAMethod node and, possibly,
+ * a UAVariable node for input arguments and anohter UAVariable node for output arguments
+ * @param parent should either be a UAObject or a UAObjectType
+ * @param nodeset the UANodeset
+ */
+// TODO: check what to do with inout parameters
+// TODO: check what to do with return parameters
+mapping UML::Operation::operation2UAMethod(inout parent : OPCUA::UANode, inout nodeset : OPCUA::UANodeSetType) : OPCUA::UAMethod {
+	log("operation2UAMethod for UML element " + self.name);
+
+	// set attributs of the OPCUA::UAMethod
+	nodeId := self.createNodeId();
+	browseName := self.createBrowseName();
+	displayName := displayName := object OPCUA::LocalizedText{value := browseName};
+	
+	// link the OPCUA::UAVariable to the parent
+	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := nodeId};
+	parentNodeId := parent.nodeId;
+
+	// add references
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+	
+	if (self.ownedElement->selectByType(UML::Parameter)->select(direction = UML::ParameterDirectionKind::_'in')->size() > 0){ // if the operation has input parameters
+		// create a UAVariable for input arguments
+		var inputArgumentsVariable := object OPCUA::UAVariable{
+			nodeId := self.createNodeId() + "InputArguments";
+			browseName := "InputArguments";
+			displayName := object OPCUA::LocalizedText{value := "InputArguments"};
+			dataType := getId("Argument");
+			parentNodeId := result.nodeId; // result.nodeId refers to the nodeId of the UAMethod
+			valueRank := 1; // the Value is an array with the specified 1 dimensions.
+			arrayDimensions := self.ownedElement->selectByType(UML::Parameter)->size().toString(); // defines the number of arguments
+		};
+		
+		// add the variable to the nodeset
+		nodeset.uAVariable += inputArgumentsVariable;
+		
+		// add a reference from the method to the variable
+		_references.reference += object OPCUA::Reference{referenceType := getId("HasProperty"); value := inputArgumentsVariable.nodeId};
+		
+		// add references to the variable
+		inputArgumentsVariable._references := object OPCUA::ListOfReferences{};
+		inputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")};
+		inputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId; isForward := false}; // result.nodeId refers to the nodeId of the UAMethod
+		inputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("PropertyType")};
+		
+		// add a list of extension objects
+		var vt1 := object OPCUA::ValueType1{};
+		var loeo := object TYPES::ListOfExtensionObject{};
+		var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("listOfExtensionObject");
+		vt1.oclAsType(EObject).eSet(feature, loeo); // add the loeo as structural feature of type "TYPES::ListOfExtensionObject"
+		inputArgumentsVariable.value := vt1;
+		
+		// create an extension object for each input parameter of the method
+		loeo.extensionObject := self.ownedElement->selectByType(UML::Parameter)->select(direction = UML::ParameterDirectionKind::_'in')->map parameter2ExtensionObject(result, nodeset) -> asOrderedSet();
+	};
+
+	if (self.ownedElement->selectByType(UML::Parameter)->select(direction = UML::ParameterDirectionKind::_'out')->size() > 0){ // if the operation has output parameters
+		// create a UAVariable for output arguments
+		var outputArgumentsVariable := object OPCUA::UAVariable{
+			nodeId := self.createNodeId() + "OutputArguments";
+			browseName := "OutputArguments";
+			displayName := object OPCUA::LocalizedText{value := "OutputArguments"};
+			dataType := "Argument";
+			parentNodeId := result.nodeId; // result.nodeId refers to the nodeId of the UAMethod
+			valueRank := 1; // the Value is an array with the specified 1 dimensions.
+			arrayDimensions := self.ownedElement->selectByType(UML::Parameter)->size().toString(); // defines the number of arguments
+		};
+		
+		// add the variable to the nodeset
+		nodeset.uAVariable += outputArgumentsVariable;
+		
+		// add a reference from the method to the variable
+		_references.reference += object OPCUA::Reference{referenceType := getId("HasProperty"); value := outputArgumentsVariable.nodeId};
+		
+		// add references to the variable
+		outputArgumentsVariable._references := object OPCUA::ListOfReferences{};
+		outputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")};
+		outputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId; isForward := false}; // result.nodeId refers to the nodeId of the UAMethod
+		outputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("PropertyType")};
+		
+		// add a list of extension objects
+		var vt1 := object OPCUA::ValueType1{};
+		var loeo := object TYPES::ListOfExtensionObject{};
+		var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("listOfExtensionObject");
+		vt1.oclAsType(EObject).eSet(feature, loeo); // add the loeo as structural feature of type "TYPES::ListOfExtensionObject"
+		outputArgumentsVariable.value := vt1;
+		
+		// create an extension object for each output parameter of the method
+		loeo.extensionObject := self.ownedElement->selectByType(UML::Parameter)->select(direction = UML::ParameterDirectionKind::_'out')->map parameter2ExtensionObject(result, nodeset) -> asOrderedSet();
+	};
+	
+}
+
+/*
+ * Transforming UML Parameter to TYPES Extension Object 
+ * @param method the UAMethod
+ * @param nodeset the UANodeset
+*/
+// TODO: find a better solution for the type check
+// TODO: add additionall datatypes
+// TODO: add support for arrays??	
+mapping UML::Parameter::parameter2ExtensionObject(inout method : OPCUA::UAMethod, inout nodeset : OPCUA::UANodeSetType) : TYPES::ExtensionObject {
+	log("parameter2ExtensionObject for UML element " + self.name);
+	
+	typeId := object TYPES::NodeId{identifier := getId("Argument_Encoding_DefaultXml")};
+	body := object TYPES::BodyType{};
+	var argument := object TYPES::Argument{
+		name := self.name;
+	};
+	
+	// set the datatype of the extension obejct
+	switch {
+		case (self.type.toString().find("Integer") > 0) {
+			argument.dataType := object TYPES::NodeId{identifier := getId("Int32")};
+			argument.valueRank := -1;
+		}
+		case (self.type.toString().find("String") > 0) {
+			argument.dataType := object TYPES::NodeId{identifier := getId("String")};
+			argument.valueRank := -1;
+		}
+		case (self.type.toString().find("Real") > 0) {
+			argument.dataType := object TYPES::NodeId{identifier := getId("Double")};
+			argument.valueRank := -1;
+		}
+		case (self.type.toString().find("Boolean") > 0) {
+			argument.dataType := object TYPES::NodeId{identifier := getId("Boolean")};
+			argument.valueRank := -1;
+		}
+		else {
+			raise Exception("Unkown datatype for parameter " + self.name + ": " + self.type.toString());
+		}
+	};
+
+	var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("argument");
+	log("feature: " + feature.toString());
+	body.oclAsType(EObject).eSet(feature, argument); // add the argument as structural feature of type "TYPES::Argument"
+}

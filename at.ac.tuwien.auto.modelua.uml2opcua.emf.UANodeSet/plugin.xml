@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated UANodeSet -->
+      <package
+            uri="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd"
+            class="org.opcfoundation.ua._2011._03.ua.node.set.SetPackage"
+            genModel="model/UANodeSet.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated UANodeSet -->
+      <parser
+            type="set"
+            class="org.opcfoundation.ua._2011._03.ua.node.set.util.SetResourceFactoryImpl"/>
+   </extension>
+
+</plugin>

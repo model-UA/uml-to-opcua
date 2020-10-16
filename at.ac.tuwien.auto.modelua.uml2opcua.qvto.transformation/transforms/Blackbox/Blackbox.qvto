@@ -1,0 +1,9 @@
+library Blackbox;
+
+blackbox helper saySomething() : String;
+
+// returns a dictionary with entries like 
+// "HasModellingRule","i=37"
+// "MyOwnObject","s=someBrowsename"
+// ...
+blackbox helper readNodeIdsCsv(filename : String) : Dict(String,String);

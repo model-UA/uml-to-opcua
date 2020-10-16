@@ -1,0 +1,7 @@
+/*
+ * This file defines configurations that may be changed by the user.
+ */
+library Configuration;
+
+property CFG_ENABLE_ALIAS_TABLE : Boolean = false;
+property CFG_USE_BLACKBOX : Boolean = false;

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set:DocumentRoot xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:set="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd" xsi:schemaLocation="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd ../metamodels/set.ecore">
+  <uANodeSet>
+    <namespaceUris>
+      <uri>Class</uri>
+    </namespaceUris>
+    <aliases>
+      <alias value="i=45" alias="HasSubtype"/>
+      <alias value="i=58" alias="BaseObjectType"/>
+    </aliases>
+    <uAObjectType browseName="Class2Type" nodeId="ns=1;s=Class2Type">
+      <displayName value="Class2Type"/>
+      <references>
+        <reference value="BaseObjectType" isForward="false" referenceType="HasSubtype"/>
+      </references>
+    </uAObjectType>
+  </uANodeSet>
+</set:DocumentRoot>

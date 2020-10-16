@@ -1,0 +1,96 @@
+library StateMachines;
+
+import Common.Helpers;
+
+modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
+
+
+// State machines in OPC UA are UAObjects of Supertype FiniteStateMachineType
+mapping UML::StateMachine::statemachine2FiniteStateMachineType(inout nodeset : OPCUA::UANodeSetType) : OPCUA::UAObjectType {
+	log("statemachine2FiniteStateMachineType for UML element " + self.name);
+
+	// set attributes of the OPCUA::UAObjectType
+	browseName := self.createBrowseName();
+	nodeId := self.createNodeId();
+	displayName := object OPCUA::LocalizedText{value := browseName};
+	
+	// create the list of references object and add FiniteStateMachineType as supertype
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := "HasSubtype"; value := getId("FiniteStateMachineType"); isForward := false};
+	
+	// create an OPCUA::Object of type InitialStateType for each state
+	nodeset.uAObject += self.ownedElement->selectByType(UML::Region).ownedElement->selectByKind(UML::Pseudostate)->map pseudostate2InitialState(result);
+	nodeset.uAObject += self.ownedElement->selectByType(UML::Region).ownedElement->selectByKind(UML::State)->map state2State(result);
+	nodeset.uAObject += self.ownedElement->selectByType(UML::Region).ownedElement->selectByKind(UML::Transition)->map transition2Transition(result);
+	
+	// 
+	// create a OPCUA::StateType for each state
+}
+
+mapping UML::State::state2State(inout parent : OPCUA::UANode) : OPCUA::UAObject {
+	log("state2State for UML element " + self.name);
+
+	// set attributes of the OPCUA::UAObjectType
+	browseName := self.createBrowseName();
+	nodeId := self.createNodeId();
+	displayName := object OPCUA::LocalizedText{value := browseName};
+	parentNodeId := parent.nodeId;
+	
+	// create the list of references object 
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("StateType")};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+
+	// add a reference from the parent node to this node
+	parent._references.reference += object OPCUA::Reference{referenceType := "HasComponent"; value := result.nodeId};
+}
+
+mapping UML::Pseudostate::pseudostate2InitialState(inout parent : OPCUA::UANode) : OPCUA::UAObject {
+	log("pseudostate2InitialState for UML element " + self.name);
+
+	// set attributes of the OPCUA::UAObjectType
+	browseName := self.createBrowseName();
+	nodeId := self.createNodeId();
+	displayName := object OPCUA::LocalizedText{value := browseName};
+	parentNodeId := parent.nodeId;
+	
+	// create the list of references object 
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("InitialStateType")}; 
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+
+	// add a reference from the parent node to this node
+	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId};
+}
+
+mapping UML::Transition::transition2Transition(inout parent : OPCUA::UANode) : OPCUA::UAObject {
+	var transitionName : String;
+	if(self.name <> null) { // if the transition has a name, use it as name for the UAObject
+		// log("transition2Transition for UML element " + self.name);
+		transitionName := self.name;
+	}
+	else { // if the transition has a name, create a new name of the form sourceNode_to_targetNode
+		// log("transition2Transition for UML transition without name from " + self.source.name +  " to " + self.target.name);
+		transitionName := self.source.name + "_to_" + self.target.name;
+	};
+
+	// set attributes of the OPCUA::UAObjectType
+	browseName := transitionName;
+	nodeId := self.createNodeId(transitionName);
+	displayName := displayName := object OPCUA::LocalizedText{value := browseName};
+	parentNodeId := parent.nodeId;
+
+	// create the list of references object 
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("TransitionType")};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+	_references.reference += object OPCUA::Reference{referenceType := getId("FromState"); value := self.source.createNodeId()};
+	_references.reference += object OPCUA::Reference{referenceType := getId("ToState"); value := self.target.createNodeId()};
+	
+	// add a reference from the parent node to this node
+	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId};
+}

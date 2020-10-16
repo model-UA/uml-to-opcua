@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:at.ac.tuwien.auto.modelua.uml2opcua.ui.transform?after=additions">
+         <command
+               commandId="at.ac.tuwien.auto.modelua.uml2opcua.qvto.ui.transformWithQVTo"
+               label="Transform with QVTo"
+               style="push"
+               tooltip="Start a UML to OPC UA transformation">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="at.ac.tuwien.auto.modelua.uml2opcua.qvto.ui.handlers.TransformWithQvtHandler"
+            description="Start a UML to OPC UA transformation"
+            id="at.ac.tuwien.auto.modelua.uml2opcua.qvto.ui.transformWithQVTo"
+            name="Transform with QVTo">
+      </command>
+   </extension>
+
+</plugin>

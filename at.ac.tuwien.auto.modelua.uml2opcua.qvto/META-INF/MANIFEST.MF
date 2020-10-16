@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UML to OPC UA QVTo Transformation Plug-in
+Bundle-SymbolicName: at.ac.tuwien.auto.modelua.uml2opcua.qvto;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: at.ac.tuwien.auto.modelua.uml2opcua.qvto.Activator
+Bundle-Vendor: Automation Systems Group
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.m2m.qvt.oml,
+ org.eclipse.core.resources,
+ at.ac.tuwien.auto.modelua.uml2opcua.opcuaserializer;bundle-version="1.0.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.ui.console,
+ org.eclipse.jface,
+ org.eclipse.ui.workbench,
+ at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types;bundle-version="1.0.0",
+ at.ac.tuwien.auto.modelua.uml2opcua.emf.UANodeSet;bundle-version="1.0.0",
+ at.ac.tuwien.auto.modelua.uml2opcua.qvto.transformation;bundle-version="0.1.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: at.ac.tuwien.auto.modelua.uml2opcua.qvto
+Bundle-ActivationPolicy: lazy
+Export-Package: at.ac.tuwien.auto.modelua.uml2opcua.qvto
+Import-Package: opcuaserializer

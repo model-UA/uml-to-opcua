@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="at.ac.tuwien.auto.modelua.uml2opcua.qvto.feature"
+      label="UML to OPC UA QVTo Transformation"
+      version="1.0.0.qualifier"
+      provider-name="Automation Systems Group">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+</feature>

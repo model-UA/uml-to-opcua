@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated UANodeSet -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.opcfoundation.ua._2011._03.ua.node.set.presentation.SetModelWizardID"
+            name="%_UI_SetModelWizard_label"
+            class="org.opcfoundation.ua._2011._03.ua.node.set.presentation.SetModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SetModelFile.gif">
+         <description>%_UI_SetModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated UANodeSet -->
+      <editor
+            id="org.opcfoundation.ua._2011._03.ua.node.set.presentation.SetEditorID"
+            name="%_UI_SetEditor_label"
+            icon="icons/full/obj16/SetModelFile.gif"
+            extensions="set"
+            class="org.opcfoundation.ua._2011._03.ua.node.set.presentation.SetEditor"
+            contributorClass="org.opcfoundation.ua._2011._03.ua.node.set.presentation.SetActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

@@ -1,0 +1,73 @@
+library Classes;
+
+import ClassDiagram.References;
+import ClassDiagram.Operations;
+
+modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
+
+mapping UML::Class::class2OPCUAObjectType(inout nodeset : OPCUA::UANodeSetType) : OPCUA::UAObjectType {
+	log("class2OPCUAObjectType for UML element " + self.name);
+	
+	// set attributes of the OPCUA::UAObjectType
+	browseName := self.createBrowseName();
+	nodeId := self.createNodeId();
+	displayName := (object OPCUA::LocalizedText {value := browseName})->asOrderedSet();
+	
+	// create the list of references object
+	_references := object OPCUA::ListOfReferences{};
+	if(self.ownedElement->selectByType(UML::Generalization)->size() > 0) { //check if the class has any supertypes
+		// transform generalizations (i.e. subclass references) of the class
+		_references.reference += self.ownedElement->selectByType(UML::Generalization)->map generalization2UAReference();
+	} else {
+		 // if the class has no other supertypes, use the BaseObjectType as supertype
+		_references.reference += object OPCUA::Reference{referenceType := getId("HasSubtype"); value := getId("BaseObjectType"); isForward := false};
+	};
+	
+	// transform variables of the class
+	nodeset.uAVariable += self.ownedElement->selectByType(UML::Property)->select(x|x.association = null)->map property2UAVariable(result)->asOrderedSet(); // variables do not have an association field
+
+	// transform associations of the class
+	_references.reference += self.ownedElement->selectByType(UML::Property)->select(x|x.association <> null)->map property2Reference(result, nodeset)->asOrderedSet(); // associations do have an association field
+
+	// transform operations of the class
+	nodeset.uAMethod += self.ownedElement->selectByType(UML::Operation)->map operation2UAMethod(result, nodeset)->asOrderedSet();
+}
+
+mapping UML::Property::property2UAVariable(inout parent : OPCUA::UANode) : OPCUA::UAVariable {
+	log("property2UAVariable for UML element " + self.name);
+
+	// set attributs of the OPCUA::UAVariable
+	nodeId := self.createNodeId();
+	browseName := self.createBrowseName();
+	displayName := object OPCUA::LocalizedText{value := browseName};
+	
+	// set the datatype of the UA::Variable
+	switch {
+		case (self.type.toString().find("Integer") > 0) {
+			dataType := getId("Int32"); // do not use getIdentifier here
+		}
+		case (self.type.toString().find("String") > 0) {
+			dataType := getId("String"); // do not use getIdentifier here
+		}
+		case (self.type.toString().find("Real") > 0) {
+			dataType := getId("Double"); // do not use getIdentifier here
+		}
+		case (self.type.toString().find("Boolean") > 0) {
+			dataType := getId("Boolean"); // do not use getIdentifier here
+		}
+		else {
+			raise Exception("Unkown datatype for parameter " + self.name + ": " + self.type.toString());
+		}
+	};
+		
+	// link the OPCUA::UAVariable to the parent
+	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := nodeId};
+	parentNodeId := parent.nodeId;
+	
+	// add references
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("BaseDataVariableType")};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+}
