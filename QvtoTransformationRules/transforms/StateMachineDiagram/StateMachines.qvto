@@ -77,6 +77,8 @@ mapping UML::Transition::transition2Transition(inout parent : OPCUA::UANode) : O
 		transitionName := self.source.name + "_to_" + self.target.name;
 	};
 
+	log("transition2Transition for UML element " + transitionName);
+
 	// set attributes of the OPCUA::UAObjectType
 	browseName := transitionName;
 	nodeId := self.createNodeId(transitionName);
@@ -93,4 +95,20 @@ mapping UML::Transition::transition2Transition(inout parent : OPCUA::UANode) : O
 	
 	// add a reference from the parent node to this node
 	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId};
+	
+	// process the triggers
+	// a trigger can contain an event (mostly method calls that may trigger a transition)
+	// 
+	
+	log("Trigger: " + self.trigger->asList()->first().toString());
+	_references.reference += self.trigger->map trigger2hasCause(result);
+}
+
+mapping UML::Trigger::trigger2hasCause(inout parent : OPCUA::UANode) : OPCUA::Reference {
+	log("trigger2hasCause for UML element " + self.name);
+	
+	// assuming the 
+	referenceType := getId("HasCause");
+	value := getId("ModellingRule_Mandatory"); // TODO: change this to the node id of the method
+	
 }
