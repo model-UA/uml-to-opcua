@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.m2m.qvt.oml.javaBlackboxUnits">
       <library
-            class="at.ac.tuwien.auto.modelua.uml2opcua.qvto.Blackbox"
+            class="at.ac.tuwien.auto.modelua.uml2opcua.qvto.Uml2OpcuaBlackbox"
             name="Blackbox">
       </library>
    </extension>

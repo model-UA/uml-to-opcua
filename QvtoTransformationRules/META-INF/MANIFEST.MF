@@ -4,6 +4,5 @@ Bundle-Name: QVTo Transformation Rules Plug-in
 Bundle-SymbolicName: at.ac.tuwien.auto.modelua.uml2opcua.qvto.transformation;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.m2m.qvt.oml,
- at.ac.tuwien.auto.modelua.uml2opcua.transformation.blackboxes;bundle-version="1.0.0"
+ org.eclipse.m2m.qvt.oml
 Bundle-ActivationPolicy: lazy

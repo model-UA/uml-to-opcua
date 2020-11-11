@@ -7,7 +7,7 @@ library Helpers;
 import Configuration;
 import Constants;
 import emf.tools;
-import Blackbox.Blackbox;
+import Blackbox.Uml2OpcuaBlackbox;
 modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
 
@@ -166,8 +166,12 @@ helper getId(name : String) : String {
 
 	if(CFG_ENABLE_ALIAS_TABLE)
 		return name; // just use the human-readable name as identifier if ALIAS_TABLE is enabled
+		
+	var id := IdentifierLookupTable->get(OPCUA_NAMESPACE_URI)->get(name);
+	
+	assert fatal (id <> null)  with log("No Identifier found in the Identifier Lookup Table for node " + name);
 
-	return IdentifierLookupTable->get(OPCUA_NAMESPACE_URI)->get(name);
+	return id;
 }
 
 

@@ -1,4 +1,4 @@
-library Blackbox;
+library Uml2OpcuaBlackbox;
 
 blackbox helper saySomething() : String;
 

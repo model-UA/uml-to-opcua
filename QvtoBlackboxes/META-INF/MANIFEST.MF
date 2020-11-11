@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: QvtoBlackboxes
-Bundle-SymbolicName: at.ac.tuwien.auto.modelua.uml2opcua.transformation.blackboxes
-Bundle-Version: 1.0.0.qualifier
-Automatic-Module-Name: at.ac.tuwien.auto.modelua.transformation.blackboxes
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.m2m.qvt.oml
