@@ -125,6 +125,7 @@ helper loadInternalNodeIds() {
 	y->put("FromState", "i=51");
 	y->put("ToState", "i=52");
 	y->put("HasCause", "i=53");
+	y->put("HasEffect", "i=54");
 	y->put("BaseObjectType", "i=58");
 	y->put("BaseDataVariableType", "i=63");
 	y->put("PropertyType", "i=68");
@@ -136,6 +137,7 @@ helper loadInternalNodeIds() {
 	y->put("Argument_Encoding_DefaultXml", "i=297");
 	y->put("StateType", "i=2037");
 	y->put("TransitionType", "i=2310");
+	y->put("TransitionEventType", "i=2311");
 	y->put("InitialStateType", "i=2039");
 	y->put("FiniteStateMachineType", "i=2771");
 	IdentifierLookupTable->put(OPCUA_NAMESPACE_URI, y);

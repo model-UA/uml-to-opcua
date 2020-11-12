@@ -96,11 +96,17 @@ mapping UML::Transition::transition2Transition(inout parent : OPCUA::UANode) : O
 	// add a reference from the parent node to this node
 	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId};
 	
-	// process the trigger(s)
-	_references.reference += self.trigger->map trigger2hasCause(result);
+	// process the trigger(s), if specified
+	_references.reference += self.trigger->map trigger2HasCause(result);
+	
+	// process the event, if specified
+	_references.reference += self.trigger->map trigger2HasCause(result);
+	if(CFG_GENERATE_TRANSITION_EVENTS) {
+		_references.reference += object OPCUA::Reference{referenceType := getId("HasEffect"); value := getId("TransitionEventType")};
+	}
 }
 
-mapping UML::Trigger::trigger2hasCause(inout parent : OPCUA::UANode) : OPCUA::Reference {
+mapping UML::Trigger::trigger2HasCause(inout parent : OPCUA::UANode) : OPCUA::Reference {
 	log("trigger2hasCause for UML element " + self.name);
 	
 	assert error (self.event.oclIsTypeOf(UML::CallEvent)) with log ("ERROR: Only UML Operations can be specified as triggering events");

@@ -3,5 +3,6 @@
  */
 library Configuration;
 
-property CFG_ENABLE_ALIAS_TABLE : Boolean = false;
+property CFG_ENABLE_ALIAS_TABLE : Boolean = true;
 property CFG_USE_BLACKBOX : Boolean = false;
+property CFG_GENERATE_TRANSITION_EVENTS : Boolean = true; // if enabled, a HasEvent reference to the TransitionEventType will be added for all transitions
