@@ -6,7 +6,6 @@
 library Helpers;
 import Configuration;
 import Constants;
-import emf.tools;
 import Blackbox.Uml2OpcuaBlackbox;
 modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
@@ -125,6 +124,7 @@ helper loadInternalNodeIds() {
 	y->put("HasComponent", "i=47");
 	y->put("FromState", "i=51");
 	y->put("ToState", "i=52");
+	y->put("HasCause", "i=53");
 	y->put("BaseObjectType", "i=58");
 	y->put("BaseDataVariableType", "i=63");
 	y->put("PropertyType", "i=68");
