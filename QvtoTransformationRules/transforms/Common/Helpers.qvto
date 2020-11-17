@@ -112,10 +112,12 @@ helper getNamespaceUri(namespaceIndex : Integer) : String {
 helper loadInternalNodeIds() {
 	// add NodeIds for Namespace 0
 	var y : Dict(String,String);
+	y->put("Boolean", "i=1");
 	y->put("Int32", "i=6");
 	y->put("Int32", "i=6");
 	y->put("Double", "i=11");
 	y->put("String", "i=12");
+	y->put("LocalizedText", "i=21");
 	y->put("NonHierarchicalReferences", "i=32");
 	y->put("HasModellingRule", "i=37");
 	y->put("HasTypeDefinition", "i=40");
@@ -140,6 +142,8 @@ helper loadInternalNodeIds() {
 	y->put("TransitionEventType", "i=2311");
 	y->put("InitialStateType", "i=2039");
 	y->put("FiniteStateMachineType", "i=2771");
+	y->put("HasGuard", "i=15112");
+	y->put("GuardVariableType", "i=15113");
 	IdentifierLookupTable->put(OPCUA_NAMESPACE_URI, y);
 }
 
