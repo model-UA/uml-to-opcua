@@ -5,6 +5,7 @@ import ClassDiagram.Operations;
 
 modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
+modeltype ECORE uses ecore('http://www.eclipse.org/emf/2002/Ecore');
 
 mapping UML::Class::class2OPCUAObjectType(inout nodeset : OPCUA::UANodeSetType) : OPCUA::UAObjectType {
 	log("class2OPCUAObjectType for UML element " + self.name);
@@ -24,8 +25,9 @@ mapping UML::Class::class2OPCUAObjectType(inout nodeset : OPCUA::UANodeSetType) 
 		_references.reference += object OPCUA::Reference{referenceType := getId("HasSubtype"); value := getId("BaseObjectType"); isForward := false};
 	};
 	
-	// transform variables of the class
-	nodeset.uAVariable += self.ownedElement->selectByType(UML::Property)->select(x|x.association = null)->map property2UAVariable(result)->asOrderedSet(); // variables do not have an association field
+	// transform primitive properties of the class
+	nodeset.uAVariable += self.ownedElement->selectByType(UML::Property)->select(x|x.association = null and x.type.oclIsKindOf(UML::PrimitiveType))->map property2UAVariable(result)->asOrderedSet(); // variables do not have an association field
+	nodeset.uAObject += self.ownedElement->selectByType(UML::Property)->select(x|x.association = null and not x.type.oclIsKindOf(UML::PrimitiveType))->map property2UAObject(result)->asOrderedSet(); // variables do not have an association field
 
 	// transform associations of the class
 	_references.reference += self.ownedElement->selectByType(UML::Property)->select(x|x.association <> null)->map property2Reference(result, nodeset)->asOrderedSet(); // associations do have an association field
@@ -61,13 +63,33 @@ mapping UML::Property::property2UAVariable(inout parent : OPCUA::UANode) : OPCUA
 		}
 	};
 		
-	// link the OPCUA::UAVariable to the parent
+	// link the OPCUA::UAVariable to the parent via a HasComponent reference
 	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := nodeId};
 	parentNodeId := parent.nodeId;
 	
 	// add references
 	_references := object OPCUA::ListOfReferences{};
 	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("BaseDataVariableType")};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+}
+
+// the property is more complex than a simple primitive type or variable, e.g., it represents some state machine
+mapping UML::Property::property2UAObject(inout parent : OPCUA::UANode) : OPCUA::UAObject {
+	log("property2UAObject for UML element " + self.name);
+
+	// set attributs of the OPCUA::UAObject
+	nodeId := self.createNodeId();
+	browseName := self.createBrowseName();
+	displayName := object OPCUA::LocalizedText{value := browseName};
+	
+	// link the OPCUA::UAVariable to the parent via a HasComponent reference
+	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := nodeId};
+	parentNodeId := parent.nodeId;
+            
+	// add references
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := self.type.createNodeId()}; // it is assumed that the corresponding type (e.g., the class or state machine) is transformed elsewhere
 	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
 	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
 }
