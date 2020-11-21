@@ -46,5 +46,35 @@
   		<version>1.0.0-SNAPSHOT</version>
   		<type>eclipse-plugin</type>
   	</dependency>
+  	<dependency>
+  		<groupId>
+  			at.ac.tuwien.auto.modelua.uml2opcua.qvto.transformation
+  		</groupId>
+  		<artifactId>
+  			at.ac.tuwien.auto.modelua.uml2opcua.qvto.transformation
+  		</artifactId>
+  		<version>1.0.0-SNAPSHOT</version>
+  		<type>eclipse-plugin</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>
+  			at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types
+  		</groupId>
+  		<artifactId>
+  			at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types
+  		</artifactId>
+  		<version>1.0.0-SNAPSHOT</version>
+  		<type>eclipse-plugin</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>
+  			at.ac.tuwien.auto.modelua.uml2opcua.emf.UANodeSet
+  		</groupId>
+  		<artifactId>
+  			at.ac.tuwien.auto.modelua.uml2opcua.emf.UANodeSet
+  		</artifactId>
+  		<version>1.0.0-SNAPSHOT</version>
+  		<type>eclipse-plugin</type>
+  	</dependency>
   </dependencies>
 </project>
