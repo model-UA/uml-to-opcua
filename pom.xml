@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>at.ac.tuwien.auto.modelua.uml2opcua</groupId>
+	<artifactId>at.ac.tuwien.auto.modelua.uml2opcua.parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+  
+	<properties>
+		<tycho.version>2.1.0</tycho.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<build>  
+		<pluginManagement>
+			<plugins>  
+				<plugin>  
+					<groupId>org.eclipse.tycho</groupId>  
+					<artifactId>tycho-maven-plugin</artifactId>  
+					<version>${tycho-version}</version>  
+					<extensions>true</extensions>  
+				</plugin>  
+			</plugins>  
+		</pluginManagement>
+	</build>
+  
+	<repositories>
+		<repository>
+			<id>eclipse-2020-06</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/2020-06/</url>
+		</repository>
+		<repository>  
+			<id>Papyrus-Nightly</id>  
+			<layout>p2</layout>  
+			<url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/master/</url>  
+	   	</repository> 
+	</repositories>
+  
+	<modules>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types
+		</module>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types.edit
+		</module>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types.editor
+		</module>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.emf.UANodeSet
+		</module>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.emf.UANodeSet.edit
+		</module>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.emf.UANodeSet.editor
+		</module>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.opcuaserializer
+		</module>
+		
+		
+		
+		
+		<module>QvtoTransformationRules</module>
+		<module>at.ac.tuwien.auto.modelua.uml2opcua.ui</module>
+		<module>at.ac.tuwien.auto.modelua.uml2opcua.qvto</module>
+		<module>at.ac.tuwien.auto.modelua.uml2opcua.qvto.ui</module>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.qvto.developer.ui
+		</module>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.qvto.feature
+		</module>
+		<module>at.ac.tuwien.auto.modelua.uml2opcua.feature</module>
+		<module>
+			at.ac.tuwien.auto.modelua.uml2opcua.qvto.developer.feature
+		</module>
+	</modules>
+</project>

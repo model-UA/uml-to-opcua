@@ -17,12 +17,9 @@
       [Enter License Description here.]
    </license>
 
-   <plugin
-         id="at.ac.tuwien.auto.modelua.uml2opcua.qvto"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   <requires>
+      <import feature="at.ac.tuwien.auto.modelua.uml2opcua.qvto.feature" version="1.0.0.qualifier"/>
+   </requires>
 
    <plugin
          id="at.ac.tuwien.auto.modelua.uml2opcua.qvto.developer.ui"
