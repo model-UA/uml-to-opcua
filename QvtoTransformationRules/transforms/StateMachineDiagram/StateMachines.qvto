@@ -24,8 +24,6 @@ mapping UML::StateMachine::statemachine2FiniteStateMachineType(inout nodeset : O
 	nodeset.uAObject += self.ownedElement->selectByType(UML::Region).ownedElement->selectByKind(UML::State)->map state2State(result);
 	nodeset.uAObject += self.ownedElement->selectByType(UML::Region).ownedElement->selectByKind(UML::Transition)->map transition2Transition(nodeset, result);
 	
-	// 
-	// create a OPCUA::StateType for each state
 }
 
 
@@ -72,11 +70,9 @@ mapping UML::State::state2State(inout parent : OPCUA::UANode) : OPCUA::UAObject 
 mapping UML::Transition::transition2Transition(inout nodeset : OPCUA::UANodeSetType, inout parent : OPCUA::UANode) : OPCUA::UAObject {
 	var transitionName : String;
 	if(self.name <> null) { // if the transition has a name, use it as name for the UAObject
-		// log("transition2Transition for UML element " + self.name);
 		transitionName := self.name;
 	}
 	else { // if the transition has a name, create a new name of the form sourceNode_to_targetNode
-		// log("transition2Transition for UML transition without name from " + self.source.name +  " to " + self.target.name);
 		transitionName := self.source.name + "_to_" + self.target.name;
 	};
 

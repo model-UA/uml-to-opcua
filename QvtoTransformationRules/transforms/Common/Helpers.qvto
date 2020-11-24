@@ -137,12 +137,16 @@ helper loadInternalNodeIds() {
 	y->put("ModellingRule_MandatoryPlaceholder", "i=11510");
 	y->put("Argument", "i=296");
 	y->put("Argument_Encoding_DefaultXml", "i=297");
+	y->put("ContentFilter", "i=586");
+	y->put("ContentFilter_Encoding_DefaultXml", "i=587");
+	y->put("StateType", "i=2307");
 	y->put("TransitionType", "i=2310");
 	y->put("TransitionEventType", "i=2311");
 	y->put("InitialStateType", "i=2039");
 	y->put("FiniteStateMachineType", "i=2771");
 	y->put("HasGuard", "i=15112");
 	y->put("GuardVariableType", "i=15113");
+	y->put("ExpressionGuardVariableType", "i=15128");
 	IdentifierLookupTable->put(OPCUA_NAMESPACE_URI, y);
 }
 
