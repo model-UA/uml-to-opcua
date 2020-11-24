@@ -137,7 +137,6 @@ helper loadInternalNodeIds() {
 	y->put("ModellingRule_MandatoryPlaceholder", "i=11510");
 	y->put("Argument", "i=296");
 	y->put("Argument_Encoding_DefaultXml", "i=297");
-	y->put("StateType", "i=2037");
 	y->put("TransitionType", "i=2310");
 	y->put("TransitionEventType", "i=2311");
 	y->put("InitialStateType", "i=2039");
