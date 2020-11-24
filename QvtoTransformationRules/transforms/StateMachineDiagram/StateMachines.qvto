@@ -136,7 +136,7 @@ mapping UML::Constraint::constraint2HasGuard(inout nodeset : OPCUA::UANodeSetTyp
 		log("Processing constraint/guard without specification/semantics");
 		guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("GuardVariableType")};
 	} else { // guard with semantics
-		log("Processing constraint/guard with specification/semantics is currently not supported. No guard will be added.");
+		log("Processing constraint/guard with specification/semantics is currently not supported. No guard semantics will be added.");
 
 	};
 
