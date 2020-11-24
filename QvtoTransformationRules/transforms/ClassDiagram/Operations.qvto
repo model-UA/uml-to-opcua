@@ -137,6 +137,10 @@ mapping UML::Parameter::parameter2ExtensionObject(inout method : OPCUA::UAMethod
 			argument.dataType := object TYPES::NodeId{identifier := getId("Double")};
 			argument.valueRank := -1;
 		}
+		case (self.type.toString().find("Float") > 0) {
+			argument.dataType := object TYPES::NodeId{identifier := getId("Double")};
+			argument.valueRank := -1;
+		}
 		case (self.type.toString().find("Boolean") > 0) {
 			argument.dataType := object TYPES::NodeId{identifier := getId("Boolean")};
 			argument.valueRank := -1;

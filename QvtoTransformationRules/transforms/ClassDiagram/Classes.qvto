@@ -55,6 +55,9 @@ mapping UML::Property::property2UAVariable(inout parent : OPCUA::UANode) : OPCUA
 		case (self.type.toString().find("Real") > 0) {
 			dataType := getId("Double"); // do not use getIdentifier here
 		}
+		case (self.type.toString().find("Float") > 0) {
+			dataType := getId("Double"); // do not use getIdentifier here
+		}
 		case (self.type.toString().find("Boolean") > 0) {
 			dataType := getId("Boolean"); // do not use getIdentifier here
 		}
