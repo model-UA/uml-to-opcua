@@ -1,74 +1,9 @@
-library StateMachines;
+library Transitions;
 
 import Common.Helpers;
 
 modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
-modeltype TYPES uses types('http://opcfoundation.org/UA/2008/02/Types.xsd');
-modeltype ecore "strict" uses 'http://www.eclipse.org/emf/2002/Ecore';
-
-
-// State machines in OPC UA are UAObjects of Supertype FiniteStateMachineType
-mapping UML::StateMachine::statemachine2FiniteStateMachineType(inout nodeset : OPCUA::UANodeSetType) : OPCUA::UAObjectType {
-	log("statemachine2FiniteStateMachineType for UML element " + self.name);
-
-	// set attributes of the OPCUA::UAObjectType
-	browseName := self.createBrowseName();
-	nodeId := self.createNodeId();
-	displayName := object OPCUA::LocalizedText{value := browseName};
-	
-	// create the list of references object and add FiniteStateMachineType as supertype
-	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasSubtype"); value := getId("FiniteStateMachineType"); isForward := false};
-	
-	// create an OPCUA::Object of type InitialStateType for each state
-	nodeset.uAObject += self.ownedElement->selectByType(UML::Region).ownedElement->selectByKind(UML::Pseudostate)->map pseudostate2InitialState(result);
-	nodeset.uAObject += self.ownedElement->selectByType(UML::Region).ownedElement->selectByKind(UML::State)->map state2State(result);
-	nodeset.uAObject += self.ownedElement->selectByType(UML::Region).ownedElement->selectByKind(UML::Transition)->map transition2Transition(nodeset, result);
-	
-	// 
-	// create a OPCUA::StateType for each state
-}
-
-
-mapping UML::Pseudostate::pseudostate2InitialState(inout parent : OPCUA::UANode) : OPCUA::UAObject {
-	log("pseudostate2InitialState for UML element " + self.name);
-
-	// set attributes of the OPCUA::UAObjectType
-	browseName := self.createBrowseName();
-	nodeId := self.createNodeId();
-	displayName := object OPCUA::LocalizedText{value := browseName};
-	parentNodeId := parent.nodeId;
-	
-	// create the list of references object 
-	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("InitialStateType")}; 
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
-
-	// add a reference from the parent node to this node
-	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId};
-}
-
-
-mapping UML::State::state2State(inout parent : OPCUA::UANode) : OPCUA::UAObject {
-	log("state2State for UML element " + self.name);
-
-	// set attributes of the OPCUA::UAObjectType
-	browseName := self.createBrowseName();
-	nodeId := self.createNodeId();
-	displayName := object OPCUA::LocalizedText{value := browseName};
-	parentNodeId := parent.nodeId;
-	
-	// create the list of references object 
-	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("StateType")};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
-
-	// add a reference from the parent node to this node
-	parent._references.reference += object OPCUA::Reference{referenceType := "HasComponent"; value := result.nodeId};
-}
 
 //parent should be a subtype of FiniteStateMachineType
 mapping UML::Transition::transition2Transition(inout nodeset : OPCUA::UANodeSetType, inout parent : OPCUA::UANode) : OPCUA::UAObject {
@@ -140,94 +75,11 @@ mapping UML::Constraint::constraint2HasGuard(inout nodeset : OPCUA::UANodeSetTyp
 
 	if(self.specification = null) { // guard without semantics
 		log("Processing constraint/guard without specification/semantics");
-		
 		guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("GuardVariableType")};
 
 	} else { // guard with semantics
-		log("Processing constraint/guard with specification/semantics");
-
-		guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("ExpressionGuardVariableType")};
-		
-		// create an expression property that holds the guard condition
-		var expression := object OPCUA::UAVariable{};
-		expression.nodeId := self.specification.createNodeId();
-		expression.dataType := getId("ContentFilter");
-		expression.parentNodeId := guardVariable.nodeId;
-		expression.browseName := "Expression"; // predefined by the OPC UA specification
-		expression._references := object OPCUA::ListOfReferences{};
-		expression._references.reference += object OPCUA::Reference{referenceType := getId("HasProperty"); value := guardVariable.nodeId; isForward := false};
-		expression._references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")};
-		expression._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("PropertyType")};
-
-		// connect the expression to the ExpressionGuardVariable
-		guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasProperty"); value := expression.nodeId};
-		
-		// add the expression variable to the UANodeSet
-		nodeset.uAVariable += expression;
-		
-		// now, generate the semantics		
-		assert fatal (self.specification.oclIsTypeOf(UML::OpaqueExpression)) with log ("ERROR: Currently only UML::OpaqueExpression is supported as specification type for guards");
-		assert fatal (self.specification.oclAsType(UML::OpaqueExpression).language->size() = 1 and self.specification.oclAsType(UML::OpaqueExpression).language->includes("OCL")) with log ("ERROR: Currently only a single definition of an UML::OpaqueExpression is supported and it has to be of language OCL");
-		var specificationInOcl := self.specification.oclAsType(UML::OpaqueExpression).body->first(); // as there is only a single specification provided, the first body must be our OCL expression
-		log("The specification is " + specificationInOcl.toString());
-		
-		// add a list of extension objects
-		var vt1 := object OPCUA::ValueType1{};
-		var loeo := object TYPES::ListOfExtensionObject{};
-		var listOfExtensionObjectFeature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("listOfExtensionObject");
-		vt1.oclAsType(EObject).eSet(listOfExtensionObjectFeature, loeo); // add the loeo as structural feature of type "TYPES::ListOfExtensionObject"
-		expression.value := vt1;
-
-		// add an extension object
-		var eo := object TYPES::ExtensionObject{};
-		loeo.extensionObject := eo;
-		eo.typeId := object TYPES::NodeId{identifier := getId("ContentFilter_Encoding_DefaultXml")};
-		eo.body := object TYPES::BodyType{};
-		
-		// add the contentFilter as body in the extension object
-		var contentFilter := object TYPES::ContentFilter{};
-		var contentFilterFeature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("contentFilter");
-		eo.body.oclAsType(EObject).eSet(contentFilterFeature, contentFilter); // add the argument as structural feature of type "TYPES::Argument"
-		
-		// add a contentFilterElement to the content filter
-		var contentFilterElement := object TYPES::ContentFilterElement{};
-		contentFilter.elements := object TYPES::ListOfContentFilterElement{};
-		contentFilter.elements.contentFilterElement += contentFilterElement;
-		
-		// TOODO: at this point we would actually need an interpreter to convert from OCL to ContentFilter structure
-		// For now, we create a simple example that supports only the GuardWithSemantics test model, which uses "MyGuardProperty=true" as OCL statement
-		contentFilterElement.filterOperator := TYPES::FilterOperator::Equals0; // FilterOperator is an enum
-		
-		// add two operators: MyGuardPropertyType and true
-		/*
-		var filterOperand1 := object TYPES::AttributeOperand{};
-		var filterOperand1eo := object TYPES::ExtensionObject{};
-		var filterOperand2 := object TYPES::LiteralOperand{};
-		var filterOperand2eo := object TYPES::ExtensionObject{};
-		
-		filterOperand2eo.typeId := object TYPES::NodeId{value := getId("String")};
-		filterOperand2.value := object TYPES::Variant{};
-		
-		var filterOperandsListOfExtensionObject := object TYPES::ListOfExtensionObject{};
-		filterOperandsListOfExtensionObject.extensionObject += filterOperand1eo;
-		filterOperandsListOfExtensionObject.extensionObject += filterOperand2eo;
-		
-		filterOperand2.value := object TYPES::Variant{value := object TYPES::ValueType{}};
-		contentFilterElement.filterOperands := object TYPES::ListOfExtensionObject{};
-		*/
-//		var filterOperand2eo := object TYPES::ExtensionObject{};
-//		filterOperand2eo.
-				
-//		filterOperand1 := "true";
-//		contentFilterElement.filterOperands := 
-	
-		// var filterOperator := object TYPES::FilterOperator{};
-		// OPC UA LiteralOperand
-		// OPC UA AttributeOperand
-		// var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("argument");
-		// log("feature: " + feature.toString());
-		// body.oclAsType(EObject).eSet(feature, argument); // add the argument as structural feature of type "TYPES::Argument"
-	
+		log("Processing constraint/guard with specification/semantics is currently not supported. No guard semantics will be added.");
+		guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("GuardVariableType")};
 	};
 
 	// the GuardVariable is added as a component of the stateMachineType
