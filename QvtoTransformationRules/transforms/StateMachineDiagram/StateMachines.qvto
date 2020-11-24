@@ -99,7 +99,6 @@ mapping UML::Transition::transition2Transition(inout nodeset : OPCUA::UANodeSetT
 	_references.reference += self.trigger->map trigger2HasCause(result);
 	
 	// process the event if specified
-	_references.reference += self.trigger->map trigger2HasCause(result);
 	if(CFG_GENERATE_TRANSITION_EVENTS) {
 		_references.reference += object OPCUA::Reference{referenceType := getId("HasEffect"); value := getId("TransitionEventType")};
 	};
@@ -120,22 +119,24 @@ mapping UML::Trigger::trigger2HasCause(inout parent : OPCUA::UANode) : OPCUA::Re
 mapping UML::Constraint::constraint2HasGuard(inout nodeset : OPCUA::UANodeSetType, inout parent : OPCUA::UANode, inout stateMachineType : OPCUA::UANode) : OPCUA::Reference {
 	log("constraint2HasGuard for UML element " + self.name);
 	
-	if(self.specification = null) {
-		log("Processing constraint/guard without specification");
+	// Create a GuardVariable
+	var guardVariable := object OPCUA::UAVariable{}; // either of type GuardVariableType or ExpressionGuardVariableType
+	guardVariable.browseName := self.name;
+	guardVariable.nodeId := self.createNodeId();
+	guardVariable.displayName := object OPCUA::LocalizedText{value := guardVariable.browseName};
+	guardVariable.dataType := getId("LocalizedText");
 		
-		// Create a GuardVariable
-		var guardVariable := object OPCUA::UAVariable{};
-		guardVariable.browseName := self.name;
-		guardVariable.nodeId := self.createNodeId();
-		guardVariable.displayName := object OPCUA::LocalizedText{value := guardVariable.browseName};
-		guardVariable.dataType := getId("LocalizedText");
-		
-		// add list of references
-		guardVariable._references := object OPCUA::ListOfReferences{};
+	// add list of references
+	guardVariable._references := object OPCUA::ListOfReferences{};
+	guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := stateMachineType.nodeId; isForward := false};
+	guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasGuard"); value := parent.nodeId; isForward := false};
+	guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+
+	if(self.specification = null) { // guard without semantics
+		log("Processing constraint/guard without specification/semantics");
 		guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("GuardVariableType")};
-		guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := stateMachineType.nodeId; isForward := false};
-		guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasGuard"); value := parent.nodeId; isForward := false};
-		guardVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+	} else { // guard with semantics
+		log("Processing constraint/guard with specification/semantics is currently not supported. No guard will be added.");
 
 		// the GuardVariable is added as a component of the stateMachineType
 		guardVariable.parentNodeId := stateMachineType.nodeId; 
@@ -149,4 +150,17 @@ mapping UML::Constraint::constraint2HasGuard(inout nodeset : OPCUA::UANodeSetTyp
 		referenceType := getId("HasGuard");
 		value := guardVariable.nodeId;
 	};
+
+	// the GuardVariable is added as a component of the stateMachineType
+	guardVariable.parentNodeId := stateMachineType.nodeId; 
+	
+	// add the new GuardVariable to the nodeset
+	nodeset.uAVariable += guardVariable;
+	
+	// add a HasComponent reference from the containing stateMachine to the new GuardVariable
+	stateMachineType._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := guardVariable.nodeId};
+
+	referenceType := getId("HasGuard");
+	value := guardVariable.nodeId;
+	
 }
