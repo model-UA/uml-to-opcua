@@ -138,17 +138,6 @@ mapping UML::Constraint::constraint2HasGuard(inout nodeset : OPCUA::UANodeSetTyp
 	} else { // guard with semantics
 		log("Processing constraint/guard with specification/semantics is currently not supported. No guard will be added.");
 
-		// the GuardVariable is added as a component of the stateMachineType
-		guardVariable.parentNodeId := stateMachineType.nodeId; 
-		
-		// add the new GuardVariable to the nodeset
-		nodeset.uAVariable += guardVariable;
-		
-		// add a HasComponent reference from the containing stateMachine to the new GuardVariable
-		stateMachineType._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := guardVariable.nodeId};
-
-		referenceType := getId("HasGuard");
-		value := guardVariable.nodeId;
 	};
 
 	// the GuardVariable is added as a component of the stateMachineType
