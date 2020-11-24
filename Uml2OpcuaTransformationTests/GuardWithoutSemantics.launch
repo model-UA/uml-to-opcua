@@ -9,7 +9,7 @@
     <booleanAttribute key="org.eclipse.m2m.qvt.oml.interpreter.isInrementalUpdate" value="false"/>
     <stringAttribute key="org.eclipse.m2m.qvt.oml.interpreter.module" value="platform:/resource/QvtoTransformationRules/transforms/Uml2Opcua.qvto"/>
     <stringAttribute key="org.eclipse.m2m.qvt.oml.interpreter.targetModel1" value="platform:/resource/Uml2OpcuaTransformationTests/GuardWithoutSemantics.uml"/>
-    <stringAttribute key="org.eclipse.m2m.qvt.oml.interpreter.targetModel2" value="platform:/resource/Uml2OpcuaTransformationTests/GuardWithoutSemantics.xml"/>
+    <stringAttribute key="org.eclipse.m2m.qvt.oml.interpreter.targetModel2" value="platform:/resource/Uml2OpcuaTransformationTests/GuardWithoutSemantics.set"/>
     <stringAttribute key="org.eclipse.m2m.qvt.oml.interpreter.targetType1" value="NEW_MODEL"/>
     <stringAttribute key="org.eclipse.m2m.qvt.oml.interpreter.targetType2" value="NEW_MODEL"/>
     <stringAttribute key="org.eclipse.m2m.qvt.oml.interpreter.traceFile" value="platform:/resource/Uml2OpcuaTransformationTests/GuardWithoutSemantics.UMLtoOPCUA.qvtotrace"/>

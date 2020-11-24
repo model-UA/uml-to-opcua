@@ -48,7 +48,7 @@ public interface SetPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "set";
+	String eNS_PREFIX = "";
 
 	/**
 	 * The singleton instance of the package.
