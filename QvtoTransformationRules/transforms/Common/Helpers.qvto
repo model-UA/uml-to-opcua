@@ -142,7 +142,7 @@ helper loadInternalNodeIds() {
 	y->put("StateType", "i=2307");
 	y->put("TransitionType", "i=2310");
 	y->put("TransitionEventType", "i=2311");
-	y->put("InitialStateType", "i=2039");
+	y->put("InitialStateType", "i=2309");
 	y->put("FiniteStateMachineType", "i=2771");
 	y->put("HasGuard", "i=15112");
 	y->put("GuardVariableType", "i=15113");
