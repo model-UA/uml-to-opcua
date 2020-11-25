@@ -10,13 +10,10 @@ modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
 modeltype TYPES uses types('http://opcfoundation.org/UA/2008/02/Types.xsd');
 modeltype ecore "strict" uses 'http://www.eclipse.org/emf/2002/Ecore';
 
-// TODO: Add support for packages and namespaces
-// TODO: Add an option to use or not use the alias table
-
 /*
  * UML to OPC UA Model Transformation using QVTo 
  * @param umlInputModel The UML input model.
- * @param opcuaOutputModel The OPC UA output model generated from the umlInputModel by means of model transformation.
+ * @param opcuaOutputModel The OPC UA output model that will be generated from the umlInputModel by means of model transformation.
  */
 transformation UMLtoOPCUA(in umlInputModel : UML, out opcuaOutputModel : OPCUA);
 
@@ -44,10 +41,6 @@ main() {
 	// TODO: verify what happens if the inputModel contains multiple UML::Model elements
 	var x := documentRoot.xMLNSPrefixMap;
 	documentRoot.uANodeSet += umlInputModel.rootObjects()->selectByType(UML::Model)->map model2OPCUANodeSetType();
-	/*
-	var y := object ecore::EStringToStringMapEntry{key := ""; value := OPCUA_NAMESPACE_URI};
-	documentRoot.xMLNSPrefixMap += y;
-	*/
 }
 
 /*
