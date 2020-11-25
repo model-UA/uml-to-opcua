@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>StateMachine</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="StateType">i=2307</Alias>
+    <Alias Alias="FiniteStateMachineType">i=2771</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="ModellingRule_Mandatory">i=78</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+  </Aliases>
+  <UAObject BrowseName="State1" NodeId="ns=1;s=State1" ParentNodeId="ns=1;s=StateMachine2Type">
+    <DisplayName>State1</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=StateMachine2Type</Reference>
+    </References>
+  </UAObject>
+  <UAObjectType BrowseName="StateMachine2Type" NodeId="ns=1;s=StateMachine2Type">
+    <DisplayName>StateMachine2Type</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">FiniteStateMachineType</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=State1</Reference>
+    </References>
+  </UAObjectType>
+</UANodeSet>

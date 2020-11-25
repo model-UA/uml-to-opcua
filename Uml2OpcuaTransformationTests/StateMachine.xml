@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>StateMachine</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="FiniteStateMachineType">i=2771</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+  </Aliases>
+  <UAObjectType BrowseName="StateMachine1Type" NodeId="ns=1;s=StateMachine1Type">
+    <DisplayName>StateMachine1Type</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">FiniteStateMachineType</Reference>
+    </References>
+  </UAObjectType>
+</UANodeSet>

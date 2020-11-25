@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_tvgz8OeeEeqjR_xlvLGirg" name="RobotsClassDiagram" URI="http://robots.auto.tuwien.ac.at">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_uKffwOeeEeqjR_xlvLGirg">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_g7wkQAoyEeurM_VmJbT_Ug" name="Robots" URI="http://robots.auto.tuwien.ac.at">
+    <packagedElement xmi:type="uml:Class" xmi:id="_lwoBcAoyEeurM_VmJbT_Ug" name="Robot">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_rEW10Ao7Eeu10fo7E1imQg" name="axis" type="_mkDTYAo7Eeu10fo7E1imQg" aggregation="composite" association="_rEOS8Ao7Eeu10fo7E1imQg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_rEYD8Ao7Eeu10fo7E1imQg" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_E06CwAo8Eeu10fo7E1imQg" name="number_of_axes">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_4QaVgAo9Eeu10fo7E1imQg" name="moveToPosition">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_Cy3AkAo-Eeu10fo7E1imQg" name="position">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_SsX28Ao-Eeu10fo7E1imQg" name="getCurrentPosition">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_XQJkIAo-Eeu10fo7E1imQg" name="currentPosition" direction="out">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_YEkqsAo-Eeu10fo7E1imQg" name="stopMovement"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_nL9XAAoyEeurM_VmJbT_Ug" name="RotaryRobot">
+      <generalization xmi:type="uml:Generalization" xmi:id="_reotIAoyEeurM_VmJbT_Ug" general="_lwoBcAoyEeurM_VmJbT_Ug"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_oVnGsAoyEeurM_VmJbT_Ug" name="CartesianRobot">
+      <generalization xmi:type="uml:Generalization" xmi:id="_qOGSUAoyEeurM_VmJbT_Ug" general="_lwoBcAoyEeurM_VmJbT_Ug"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_mkDTYAo7Eeu10fo7E1imQg" name="Axis">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_ZmyrYAo-Eeu10fo7E1imQg" name="stop"/>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_rEOS8Ao7Eeu10fo7E1imQg" memberEnd="_rEW10Ao7Eeu10fo7E1imQg _rEYD8Qo7Eeu10fo7E1imQg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_rETygAo7Eeu10fo7E1imQg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_rETygQo7Eeu10fo7E1imQg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_rEYD8Qo7Eeu10fo7E1imQg" name="robot" type="_lwoBcAoyEeurM_VmJbT_Ug" association="_rEOS8Ao7Eeu10fo7E1imQg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_BytCQA37EeuQ042lsnNw9A" name="RobotStateMachine">
+    <region xmi:type="uml:Region" xmi:id="_CyrRgA37EeuQ042lsnNw9A" name="Region1">
+      <transition xmi:type="uml:Transition" xmi:id="_KUigcA37EeuQ042lsnNw9A" source="_DuZS4A37EeuQ042lsnNw9A" target="_FCpJAA37EeuQ042lsnNw9A"/>
+      <transition xmi:type="uml:Transition" xmi:id="_LCqKsA37EeuQ042lsnNw9A" source="_FCpJAA37EeuQ042lsnNw9A" target="_G0IUwA37EeuQ042lsnNw9A"/>
+      <transition xmi:type="uml:Transition" xmi:id="_LhJdgA37EeuQ042lsnNw9A" source="_G0IUwA37EeuQ042lsnNw9A" target="_FCpJAA37EeuQ042lsnNw9A"/>
+      <subvertex xmi:type="uml:State" xmi:id="_FCpJAA37EeuQ042lsnNw9A" name="Stopped"/>
+      <subvertex xmi:type="uml:State" xmi:id="_G0IUwA37EeuQ042lsnNw9A" name="Moving"/>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_DuZS4A37EeuQ042lsnNw9A" name="InitialState"/>
+    </region>
+  </packagedElement>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="__GRE8Ao7Eeu10fo7E1imQg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="__GThMAo7Eeu10fo7E1imQg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
+</uml:Model>

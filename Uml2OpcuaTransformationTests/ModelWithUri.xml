@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet.xsd:UANodeSet xmlns:UANodeSet.xsd="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <UANodeSet.xsd:NamespaceUris>
+    <UANodeSet.xsd:Uri>http://auto.tuwien.ac.at/ModelWithUri</UANodeSet.xsd:Uri>
+  </UANodeSet.xsd:NamespaceUris>
+  <UANodeSet.xsd:Aliases>
+    <UANodeSet.xsd:Alias Alias="HasSubtype">i=45</UANodeSet.xsd:Alias>
+    <UANodeSet.xsd:Alias Alias="BaseObjectType">i=58</UANodeSet.xsd:Alias>
+  </UANodeSet.xsd:Aliases>
+  <UANodeSet.xsd:UAObjectType BrowseName="Class4Type" NodeId="ns=1;s=Class4Type">
+    <UANodeSet.xsd:DisplayName>Class4Type</UANodeSet.xsd:DisplayName>
+    <UANodeSet.xsd:References>
+      <UANodeSet.xsd:Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</UANodeSet.xsd:Reference>
+    </UANodeSet.xsd:References>
+  </UANodeSet.xsd:UAObjectType>
+</UANodeSet.xsd:UANodeSet>

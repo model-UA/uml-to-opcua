@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>http://auto.tuwien.ac.at/Package5</Uri>
+    <Uri>http://auto.tuwien.ac.at/Package6</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="BaseObjectType">i=58</Alias>
+  </Aliases>
+  <UAObjectType BrowseName="Class6Type" NodeId="ns=1;s=Class6Type">
+    <DisplayName>Class6Type</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
+    </References>
+  </UAObjectType>
+  <UAObjectType BrowseName="Class5Type" NodeId="ns=2;s=Class5Type">
+    <DisplayName>Class5Type</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
+    </References>
+  </UAObjectType>
+</UANodeSet>

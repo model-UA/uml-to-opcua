@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_tvgz8OeeEeqjR_xlvLGirg" name="Operation">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_uKffwOeeEeqjR_xlvLGirg">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_xmRqIOeeEeqjR_xlvLGirg" name="Calculator">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_0K7_QOeeEeqjR_xlvLGirg" name="AddNumbers">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_EuzaMOefEeqjR_xlvLGirg" name="in1">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_AXyDsP2lEeqtk8EiRXAc9A" name="in2">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_HangMOefEeqjR_xlvLGirg" name="out1" direction="out">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+</uml:Model>

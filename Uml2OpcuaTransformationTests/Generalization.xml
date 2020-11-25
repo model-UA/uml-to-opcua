@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>Generalization</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="BaseObjectType">i=58</Alias>
+  </Aliases>
+  <UAObjectType BrowseName="Class3Type" NodeId="ns=1;s=Class3Type">
+    <DisplayName>Class3Type</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
+    </References>
+  </UAObjectType>
+  <UAObjectType BrowseName="Class2Type" NodeId="ns=1;s=Class2Type">
+    <DisplayName>Class2Type</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">ns=1;s=Class3Type</Reference>
+    </References>
+  </UAObjectType>
+</UANodeSet>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_Z9FNMP5FEeqcH6exUiFZNQ" name="DirectedNamedAssociation">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_aBXQQP5FEeqcH6exUiFZNQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_bjo7UP5FEeqcH6exUiFZNQ" name="Class2">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_6u2vQP5HEeqcH6exUiFZNQ" type="_cGH9UP5FEeqcH6exUiFZNQ" association="_6uzE4P5HEeqcH6exUiFZNQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_cGH9UP5FEeqcH6exUiFZNQ" name="Class3"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_6uzE4P5HEeqcH6exUiFZNQ" name="myAssociation" memberEnd="_6u2vQP5HEeqcH6exUiFZNQ _6u3WUP5HEeqcH6exUiFZNQ">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6u2IMP5HEeqcH6exUiFZNQ" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6u2IMf5HEeqcH6exUiFZNQ" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_6u3WUP5HEeqcH6exUiFZNQ" type="_bjo7UP5FEeqcH6exUiFZNQ" association="_6uzE4P5HEeqcH6exUiFZNQ"/>
+  </packagedElement>
+</uml:Model>

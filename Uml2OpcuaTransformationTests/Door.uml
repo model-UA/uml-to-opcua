@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_B_Nf0BuGEeuu781B4oZnsw" name="door">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_CF_dQBuGEeuu781B4oZnsw">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_CC0NcBuGEeuu781B4oZnsw" name="Door Statemachine">
+    <region xmi:type="uml:Region" xmi:id="_CDWY8BuGEeuu781B4oZnsw" name="Region1">
+      <transition xmi:type="uml:Transition" xmi:id="_ZsvFEBuGEeuu781B4oZnsw" guard="_sE5V4BuLEeuu781B4oZnsw" source="_LLm98BuGEeuu781B4oZnsw" target="_RVJIABuGEeuu781B4oZnsw">
+        <ownedRule xmi:type="uml:Constraint" xmi:id="_sE5V4BuLEeuu781B4oZnsw" name="dooor is not locked" constrainedElement="_laCAYBuLEeuu781B4oZnsw">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_sE7LEBuLEeuu781B4oZnsw" name="constraintSpec">
+            <language>OCL</language>
+            <body> locked = false</body>
+          </specification>
+        </ownedRule>
+        <effect xmi:type="uml:Activity" xmi:id="_OlOdwBuJEeuu781B4oZnsw" name="open door" specification="_rXOw4BuGEeuu781B4oZnsw"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_0PSWsBuGEeuu781B4oZnsw" name="open door called" event="_0C1PEBuGEeuu781B4oZnsw"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_aY19IBuGEeuu781B4oZnsw" source="_RVJIABuGEeuu781B4oZnsw" target="_JcH9UBuGEeuu781B4oZnsw">
+        <effect xmi:type="uml:Activity" xmi:id="_-cY8gBuJEeuu781B4oZnsw" name="stop door motor" specification="_0x2J0BuJEeuu781B4oZnsw"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_bMGwoBuHEeuu781B4oZnsw" event="_bAO30BuHEeuu781B4oZnsw"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_bKv7MBuGEeuu781B4oZnsw" source="_JcH9UBuGEeuu781B4oZnsw" target="_VHFIkBuGEeuu781B4oZnsw">
+        <effect xmi:type="uml:Activity" xmi:id="_Vy2iEBuJEeuu781B4oZnsw" name="close door" specification="_uUWCQBuGEeuu781B4oZnsw"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_5v_mMBuGEeuu781B4oZnsw" event="_5hoaEBuGEeuu781B4oZnsw"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_b5ZJ4BuGEeuu781B4oZnsw" source="_VHFIkBuGEeuu781B4oZnsw" target="_LLm98BuGEeuu781B4oZnsw">
+        <effect xmi:type="uml:Activity" xmi:id="_ET8lwBuKEeuu781B4oZnsw" name="stop door motor" specification="_0x2J0BuJEeuu781B4oZnsw"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_ApQkEBuHEeuu781B4oZnsw" event="_Ae68UBuHEeuu781B4oZnsw"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_cl0LABuGEeuu781B4oZnsw" source="_I5WAYBuGEeuu781B4oZnsw" target="_LLm98BuGEeuu781B4oZnsw"/>
+      <transition xmi:type="uml:Transition" xmi:id="_gVRfUBuGEeuu781B4oZnsw" source="_RVJIABuGEeuu781B4oZnsw" target="_OviXsBuGEeuu781B4oZnsw">
+        <effect xmi:type="uml:Activity" xmi:id="_omE7EBuKEeuu781B4oZnsw" name="stop door motor" specification="_0x2J0BuJEeuu781B4oZnsw"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_5UPo4BuHEeuu781B4oZnsw" event="_wFgBYBuHEeuu781B4oZnsw"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_hEmDcBuGEeuu781B4oZnsw" source="_VHFIkBuGEeuu781B4oZnsw" target="_OviXsBuGEeuu781B4oZnsw">
+        <effect xmi:type="uml:Activity" xmi:id="_d5VrkBuKEeuu781B4oZnsw" name="stop door motor" specification="_0x2J0BuJEeuu781B4oZnsw"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_wLacIBuHEeuu781B4oZnsw" event="_wFgBYBuHEeuu781B4oZnsw"/>
+      </transition>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_I5WAYBuGEeuu781B4oZnsw" name="Initial1"/>
+      <subvertex xmi:type="uml:State" xmi:id="_JcH9UBuGEeuu781B4oZnsw" name="Open"/>
+      <subvertex xmi:type="uml:State" xmi:id="_LLm98BuGEeuu781B4oZnsw" name="Closed"/>
+      <subvertex xmi:type="uml:State" xmi:id="_OviXsBuGEeuu781B4oZnsw" name="Blocked"/>
+      <subvertex xmi:type="uml:State" xmi:id="_RVJIABuGEeuu781B4oZnsw" name="Opening"/>
+      <subvertex xmi:type="uml:State" xmi:id="_VHFIkBuGEeuu781B4oZnsw" name="Closing"/>
+    </region>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_GT1WsBuGEeuu781B4oZnsw" name="door">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_laCAYBuLEeuu781B4oZnsw" name="locked">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_rXOw4BuGEeuu781B4oZnsw" name="open" visibility="public" method="_OlOdwBuJEeuu781B4oZnsw"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_uUWCQBuGEeuu781B4oZnsw" name="close" method="_Vy2iEBuJEeuu781B4oZnsw"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_0x2J0BuJEeuu781B4oZnsw" name="stop" method="_-cY8gBuJEeuu781B4oZnsw _ET8lwBuKEeuu781B4oZnsw _d5VrkBuKEeuu781B4oZnsw _omE7EBuKEeuu781B4oZnsw"/>
+    <nestedClassifier xmi:type="uml:Signal" xmi:id="_AVALUBuHEeuu781B4oZnsw" name="door_closed"/>
+    <nestedClassifier xmi:type="uml:Signal" xmi:id="_azHo4BuHEeuu781B4oZnsw" name="door_opened"/>
+    <nestedClassifier xmi:type="uml:Signal" xmi:id="_vySKcBuHEeuu781B4oZnsw" name="obstacle_detected"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:CallEvent" xmi:id="_0C1PEBuGEeuu781B4oZnsw" name="open_called" operation="_rXOw4BuGEeuu781B4oZnsw"/>
+  <packagedElement xmi:type="uml:CallEvent" xmi:id="_5hoaEBuGEeuu781B4oZnsw" name="close_called" operation="_uUWCQBuGEeuu781B4oZnsw"/>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_Ae68UBuHEeuu781B4oZnsw" name="door_closed_signal" signal="_AVALUBuHEeuu781B4oZnsw"/>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_bAO30BuHEeuu781B4oZnsw" name="door_open_signal" signal="_azHo4BuHEeuu781B4oZnsw"/>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_wFgBYBuHEeuu781B4oZnsw" name="obstacle_detected_signal" signal="_vySKcBuHEeuu781B4oZnsw"/>
+  <packagedElement xmi:type="uml:Duration" xmi:id="_xjNt0BuNEeuu781B4oZnsw">
+    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    <expr xmi:type="uml:LiteralReal" xmi:id="_xjNt0RuNEeuu781B4oZnsw" value="10.0"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:TimeEvent" xmi:id="_yu-9YBuNEeuu781B4oZnsw" name="open time ended">
+    <when xmi:type="uml:TimeExpression" xmi:id="_yu-9YRuNEeuu781B4oZnsw" name="door open" type="_GT1WsBuGEeuu781B4oZnsw">
+      <expr xmi:type="uml:DurationInterval" xmi:id="_yu-9YhuNEeuu781B4oZnsw" max="_xjNt0BuNEeuu781B4oZnsw" min="_xjNt0BuNEeuu781B4oZnsw"/>
+    </when>
+  </packagedElement>
+</uml:Model>

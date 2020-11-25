@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_Z9FNMP5FEeqcH6exUiFZNQ" name="CompositionWithMemberName">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_aBXQQP5FEeqcH6exUiFZNQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_bjo7UP5FEeqcH6exUiFZNQ" name="Robot">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_iUI-wP5FEeqcH6exUiFZNQ" name="ControllerX" type="_cGH9UP5FEeqcH6exUiFZNQ" aggregation="composite" association="_iUAb4P5FEeqcH6exUiFZNQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_cGH9UP5FEeqcH6exUiFZNQ" name="Controller"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_iUAb4P5FEeqcH6exUiFZNQ" visibility="public" memberEnd="_iUI-wP5FEeqcH6exUiFZNQ _iUNQMf5FEeqcH6exUiFZNQ">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_iUDfMP5FEeqcH6exUiFZNQ" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_iUEGQP5FEeqcH6exUiFZNQ" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_iUNQMf5FEeqcH6exUiFZNQ" type="_bjo7UP5FEeqcH6exUiFZNQ" association="_iUAb4P5FEeqcH6exUiFZNQ"/>
+  </packagedElement>
+</uml:Model>

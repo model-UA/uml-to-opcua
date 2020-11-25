@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>StateMachine</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="ToState">i=52</Alias>
+    <Alias Alias="ModellingRule_Mandatory">i=78</Alias>
+    <Alias Alias="GuardVariableType">i=15113</Alias>
+    <Alias Alias="TransitionEventType">i=2311</Alias>
+    <Alias Alias="LocalizedText">i=21</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="FiniteStateMachineType">i=2771</Alias>
+    <Alias Alias="HasEffect">i=54</Alias>
+    <Alias Alias="HasGuard">i=15112</Alias>
+    <Alias Alias="FromState">i=51</Alias>
+    <Alias Alias="StateType">i=2307</Alias>
+    <Alias Alias="TransitionType">i=2310</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+  </Aliases>
+  <UAObject BrowseName="State2" NodeId="ns=1;s=State2" ParentNodeId="ns=1;s=GuardWithoutSemanticsStateMachineType">
+    <DisplayName>State2</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=GuardWithoutSemanticsStateMachineType</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="State3" NodeId="ns=1;s=State3" ParentNodeId="ns=1;s=GuardWithoutSemanticsStateMachineType">
+    <DisplayName>State3</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=GuardWithoutSemanticsStateMachineType</Reference>
+    </References>
+  </UAObject>
+  <UAVariable BrowseName="MyGuard" NodeId="ns=1;s=MyGuard" ParentNodeId="ns=1;s=GuardWithoutSemanticsStateMachineType" DataType="LocalizedText">
+    <DisplayName>MyGuard</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=GuardWithoutSemanticsStateMachineType</Reference>
+      <Reference IsForward="false" ReferenceType="HasGuard">ns=1;s=myTransition</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference ReferenceType="HasTypeDefinition">GuardVariableType</Reference>
+    </References>
+  </UAVariable>
+  <UAObject BrowseName="myTransition" NodeId="ns=1;s=myTransition" ParentNodeId="ns=1;s=GuardWithoutSemanticsStateMachineType">
+    <DisplayName>myTransition</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">TransitionType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=GuardWithoutSemanticsStateMachineType</Reference>
+      <Reference ReferenceType="FromState">ns=1;s=State2</Reference>
+      <Reference ReferenceType="ToState">ns=1;s=State3</Reference>
+      <Reference ReferenceType="HasEffect">TransitionEventType</Reference>
+      <Reference ReferenceType="HasGuard">ns=1;s=MyGuard</Reference>
+    </References>
+  </UAObject>
+  <UAObjectType BrowseName="GuardWithoutSemanticsStateMachineType" NodeId="ns=1;s=GuardWithoutSemanticsStateMachineType">
+    <DisplayName>GuardWithoutSemanticsStateMachineType</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">FiniteStateMachineType</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=State3</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=State2</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=myTransition</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=MyGuard</Reference>
+    </References>
+  </UAObjectType>
+</UANodeSet>

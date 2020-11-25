@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>04_Composition</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="BaseObjectType">i=58</Alias>
+    <Alias Alias="NonHierarchicalReferences">i=32</Alias>
+  </Aliases>
+  <UAReferenceType>
+    <DisplayName/>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">NonHierarchicalReferences</Reference>
+    </References>
+  </UAReferenceType>
+  <UAObjectType BrowseName="Class4Type" NodeId="ns=1;s=Class4Type">
+    <DisplayName>Class4Type</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
+      <Reference>ns=1;s=Class5</Reference>
+    </References>
+  </UAObjectType>
+  <UAObjectType BrowseName="Class5Type" NodeId="ns=1;s=Class5Type">
+    <DisplayName>Class5Type</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
+    </References>
+  </UAObjectType>
+</UANodeSet>

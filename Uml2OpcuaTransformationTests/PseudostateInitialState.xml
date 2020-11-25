@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>StateMachine</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="InitialStateType">i=2309</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="ToState">i=52</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="TransitionEventType">i=2311</Alias>
+    <Alias Alias="ModellingRule_Mandatory">i=78</Alias>
+    <Alias Alias="FromState">i=51</Alias>
+    <Alias Alias="FiniteStateMachineType">i=2771</Alias>
+    <Alias Alias="TransitionType">i=2310</Alias>
+    <Alias Alias="StateType">i=2307</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasEffect">i=54</Alias>
+  </Aliases>
+  <UAObject BrowseName="Initial1" NodeId="ns=1;s=Initial1" ParentNodeId="ns=1;s=StateMachine3Type">
+    <DisplayName>Initial1</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">InitialStateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=StateMachine3Type</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="State2" NodeId="ns=1;s=State2" ParentNodeId="ns=1;s=StateMachine3Type">
+    <DisplayName>State2</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=StateMachine3Type</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="Initial1_to_State2" NodeId="ns=1;s=Initial1_to_State2" ParentNodeId="ns=1;s=StateMachine3Type">
+    <DisplayName>Initial1_to_State2</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">TransitionType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=StateMachine3Type</Reference>
+      <Reference ReferenceType="FromState">ns=1;s=Initial1</Reference>
+      <Reference ReferenceType="ToState">ns=1;s=State2</Reference>
+      <Reference ReferenceType="HasEffect">TransitionEventType</Reference>
+    </References>
+  </UAObject>
+  <UAObjectType BrowseName="StateMachine3Type" NodeId="ns=1;s=StateMachine3Type">
+    <DisplayName>StateMachine3Type</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">FiniteStateMachineType</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=Initial1</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=State2</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=Initial1_to_State2</Reference>
+    </References>
+  </UAObjectType>
+</UANodeSet>
