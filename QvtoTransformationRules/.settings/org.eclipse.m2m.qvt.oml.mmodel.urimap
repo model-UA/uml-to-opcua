@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<uriMap:MappingContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:uriMap="http:///www.eclipse.org/m2m/qvt/oml/MModelUriMap/1.0.0"/>
+<uriMap:MappingContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:uriMap="http:///www.eclipse.org/m2m/qvt/oml/MModelUriMap/1.0.0">
+  <mapping sourceURI="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd" targetURI="platform:/resource/QvtoTransformationRules/metamodels/set.ecore"/>
+  <mapping sourceURI="http://opcfoundation.org/UA/2008/02/Types.xsd" targetURI="platform:/resource/QvtoTransformationRules/metamodels/types.ecore"/>
+</uriMap:MappingContainer>
