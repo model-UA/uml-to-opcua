@@ -18,6 +18,13 @@
 				<extensions>true</extensions>
 			</plugin>
 		</plugins>
+		<resources>
+	      <resource>
+	        <directory>NodeIds</directory>
+	        <includes>
+	        	<include>*</include></includes>
+	      </resource>
+	    </resources>
 	</build>
   <dependencies>
   	<dependency>

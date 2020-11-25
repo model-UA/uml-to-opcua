@@ -12,6 +12,18 @@
 				<extensions>true</extensions>
 			</plugin>
 		</plugins>
+		<resources>
+	      <resource>
+	        <directory>metamodels</directory>
+	        <includes>
+	        	<include>*</include></includes>
+	      </resource>
+	      <resource>
+	        <directory>transforms</directory>
+	        <includes>
+	        	<include>*</include></includes>
+	      </resource>
+	    </resources>
 	</build>
   <parent>
   	<groupId>at.ac.tuwien.auto.modelua.uml2opcua</groupId>
