@@ -19,7 +19,11 @@ mapping UML::Generalization::generalization2UAReference() : OPCUA::Reference {
 
 // TODO: check what happens if the source object and the target object are in different namespaces
 mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout nodeset : OPCUA::UANodeSetType) : OPCUA::Reference {
-	log("property2Reference for UML element " + self.name);
+	if(self.name <> null) {
+		log("property2Reference for UML property " + self.name);
+	} else {
+		log("property2Reference for unnamed UML property");
+	};
 	var targetClassName := self.type.name;
 	var targetObjectTypeNodeId := self.type.createNodeId();
 	switch {
@@ -30,9 +34,15 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 			
 			// if A isComposedOf B, OPC UA requires to create an UAObject of B and add it to A via a reference
 			// note that this object is only created specifically for the OPC UA model but is not present in the UML model
+			var targetObjectName : String;
+			if(self.name <> null) {
+				targetObjectName := self.name.toString();
+			} else {
+				targetObjectName := targetClassName;
+			};
+			
 			var targetObject := object OPCUA::UAObject{
-				// "1" is appended to the ClassName to identify the result as OPC UA Object
-				nodeId := self.createNodeId(targetClassName + "1");
+				nodeId := self.createNodeId(targetObjectName);
 				parentNodeId := parent.nodeId;
 			};
 			
@@ -47,23 +57,23 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 			// define modelling rule; note that -1 means infitiy (*); therefore, for 0..* the limits are lower=0 and upper=-1
 			var modelingRuleReference := object OPCUA::Reference{referenceType := getId("HasModellingRule")};
 			if(self.lower = 0 and self.upper = 1) {
-				targetObject.displayName += object OPCUA::LocalizedText{value := targetClassName + "1"};
-				targetObject.browseName := targetClassName + "1";
+				targetObject.browseName := targetObjectName;
+				targetObject.displayName += object OPCUA::LocalizedText{value := targetObject.browseName};
 				modelingRuleReference.value := getId("ModellingRule_Optional");
 			}
 			else if(self.lower = 1 and self.upper = 1) {
-				targetObject.displayName += object OPCUA::LocalizedText{value := targetClassName + "1"};
-				targetObject.browseName := targetClassName + "1";
+				targetObject.browseName := targetObjectName;
+				targetObject.displayName += object OPCUA::LocalizedText{value := targetObject.browseName};
 				modelingRuleReference.value := getId("ModellingRule_Mandatory");
 			}
 			else if(self.lower = 0 and self.upper = -1) {
-				targetObject.displayName += object OPCUA::LocalizedText{value := targetClassName + "1"};
-				targetObject.browseName := targetClassName + "1";
+				targetObject.browseName := targetObjectName;
+				targetObject.displayName += object OPCUA::LocalizedText{value := targetObject.browseName};
 			 	modelingRuleReference.value := getId("ModellingRule_OptionalPlaceholder");
 		 	}
 		 	else if(self.lower = 1 and self.upper = -1) {
-				targetObject.displayName += object OPCUA::LocalizedText{value := targetClassName + "1"};
-				targetObject.browseName := targetClassName + "1";
+				targetObject.browseName := targetObjectName;
+				targetObject.displayName += object OPCUA::LocalizedText{value := targetObject.browseName};
 		 		modelingRuleReference.value := getId("ModellingRule_MandatoryPlaceholder");
 		 	}
 			else {
@@ -78,6 +88,9 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 		case(self.aggregation = UML::AggregationKind::none) { // neither coposition, nor aggregation
 			// create a new UAReferenceType if not available yet
 			// TODO: check if the reference type has already been created
+
+			assert error (self.association.name <> null) with log ("Unnamed associations are not supported!");
+			
 			log("Creating new reference type " + self.association.name);
 			var newReferenceType := object OPCUA::UAReferenceType {
 				nodeId := self.createNodeId(self.association.name);
