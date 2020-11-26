@@ -24,10 +24,11 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 	} else {
 		log("property2Reference for unnamed UML property");
 	};
-	var targetClassName := self.type.name;
-	var targetObjectTypeNodeId := self.type.createNodeId();
 	switch {
 		case(self.aggregation = UML::AggregationKind::composite or self.aggregation = UML::AggregationKind::shared) {
+			var targetClassName := self.type.name;
+			var targetObjectTypeNodeId := self.type.createNodeId();
+
 			// Composition or Aggregation are both handled the same way
 			// use HasComponent reference for compositions
 			referenceType := getId("HasComponent");
@@ -105,9 +106,8 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 			// add the new reference type to the nodeset
 			nodeset.uAReferenceType += newReferenceType;
 			
-			
-			value := self.createNodeId(targetClassName);
-			referenceType := self.association.name;
+			value := self.type.createNodeId();
+			referenceType := newReferenceType.nodeId; // use the nodeId for now, TODO: add an entry to the alias table
 		}
 		else {
 			raise Exception("Unkown aggregation for property " + self.name + ": " + self.aggregation.toString());

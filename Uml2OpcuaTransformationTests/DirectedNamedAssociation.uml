@@ -7,7 +7,7 @@
     <ownedAttribute xmi:type="uml:Property" xmi:id="_6u2vQP5HEeqcH6exUiFZNQ" type="_cGH9UP5FEeqcH6exUiFZNQ" association="_6uzE4P5HEeqcH6exUiFZNQ"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_cGH9UP5FEeqcH6exUiFZNQ" name="Class3"/>
-  <packagedElement xmi:type="uml:Association" xmi:id="_6uzE4P5HEeqcH6exUiFZNQ" name="myAssociation" memberEnd="_6u2vQP5HEeqcH6exUiFZNQ _6u3WUP5HEeqcH6exUiFZNQ">
+  <packagedElement xmi:type="uml:Association" xmi:id="_6uzE4P5HEeqcH6exUiFZNQ" name="MyAssociation" memberEnd="_6u2vQP5HEeqcH6exUiFZNQ _6u3WUP5HEeqcH6exUiFZNQ">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6u2IMP5HEeqcH6exUiFZNQ" source="org.eclipse.papyrus">
       <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6u2IMf5HEeqcH6exUiFZNQ" key="nature" value="UML_Nature"/>
     </eAnnotations>
