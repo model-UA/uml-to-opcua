@@ -14,6 +14,10 @@
               <element xmi:type="uml:Property" href="Robots.uml#_E06CwAo8Eeu10fo7E1imQg"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_E1bnMQo8Eeu10fo7E1imQg"/>
             </children>
+            <children xmi:type="notation:Shape" xmi:id="_od_tUC_nEeufivA6H7ZsGQ" type="Property_ClassAttributeLabel">
+              <element xmi:type="uml:Property" href="Robots.uml#_odW0IC_nEeufivA6H7ZsGQ"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_od_tUS_nEeufivA6H7ZsGQ"/>
+            </children>
             <styles xmi:type="notation:TitleStyle" xmi:id="_lw2q9AoyEeurM_VmJbT_Ug"/>
             <styles xmi:type="notation:SortingStyle" xmi:id="_lw2q9QoyEeurM_VmJbT_Ug"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_lw2q9goyEeurM_VmJbT_Ug"/>
@@ -44,7 +48,7 @@
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lw3SBAoyEeurM_VmJbT_Ug"/>
           </children>
           <element xmi:type="uml:Class" href="Robots.uml#_lwoBcAoyEeurM_VmJbT_Ug"/>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lw2D4QoyEeurM_VmJbT_Ug" x="214" y="85" width="361" height="137"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lw2D4QoyEeurM_VmJbT_Ug" x="214" y="85" width="361" height="157"/>
         </children>
         <children xmi:type="notation:Shape" xmi:id="_nMKyYAoyEeurM_VmJbT_Ug" type="Class_Shape_CN">
           <children xmi:type="notation:DecorationNode" xmi:id="_nMLZcAoyEeurM_VmJbT_Ug" type="Class_NameLabel_CN"/>
@@ -149,7 +153,7 @@
       <element xmi:type="uml:Generalization" href="Robots.uml#_qOGSUAoyEeurM_VmJbT_Ug"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_qOZ0UgoyEeurM_VmJbT_Ug" points="[401, 400, -643984, -643984]$[550, 320, -643984, -643984]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_qQ02MAoyEeurM_VmJbT_Ug" id="(1.0,0.36)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_qQ02MQoyEeurM_VmJbT_Ug" id="(0.0,0.5547445255474452)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_qQ02MQoyEeurM_VmJbT_Ug" id="(0.0,0.4840764331210191)"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_re5y4AoyEeurM_VmJbT_Ug" type="Generalization_Edge" source="_nMKyYAoyEeurM_VmJbT_Ug" target="_lw2D4AoyEeurM_VmJbT_Ug">
       <children xmi:type="notation:DecorationNode" xmi:id="_re6Z8goyEeurM_VmJbT_Ug" type="Generalization_StereotypeLabel">
@@ -160,7 +164,7 @@
       <element xmi:type="uml:Generalization" href="Robots.uml#_reotIAoyEeurM_VmJbT_Ug"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_re6Z8QoyEeurM_VmJbT_Ug" points="[425, 200, -643984, -643984]$[600, 272, -643984, -643984]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_rfhd8AoyEeurM_VmJbT_Ug" id="(1.0,0.56)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_rfhd8QoyEeurM_VmJbT_Ug" id="(0.0,0.26277372262773724)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_rfhd8QoyEeurM_VmJbT_Ug" id="(0.0,0.22929936305732485)"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_rE-g4Ao7Eeu10fo7E1imQg" type="Association_Edge" source="_lw2D4AoyEeurM_VmJbT_Ug" target="_mknUEAo7Eeu10fo7E1imQg">
       <children xmi:type="notation:DecorationNode" xmi:id="_rFBkMAo7Eeu10fo7E1imQg" type="Association_StereotypeLabel">
@@ -190,7 +194,7 @@
       <styles xmi:type="notation:FontStyle" xmi:id="_rE-g4Qo7Eeu10fo7E1imQg"/>
       <element xmi:type="uml:Association" href="Robots.uml#_rEOS8Ao7Eeu10fo7E1imQg"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_rE-g4go7Eeu10fo7E1imQg" points="[650, 320, -643984, -643984]$[782, 300, -643984, -643984]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_rG8PwAo7Eeu10fo7E1imQg" id="(1.0,0.40875912408759124)"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_rG8PwAo7Eeu10fo7E1imQg" id="(1.0,0.35668789808917195)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_rG820Ao7Eeu10fo7E1imQg" id="(0.0,0.38461538461538464)"/>
     </edges>
   </notation:Diagram>
