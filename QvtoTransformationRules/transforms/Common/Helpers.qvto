@@ -133,6 +133,7 @@ helper loadInternalNodeIds() {
 	y->put("PropertyType", "i=68");
 	y->put("ModellingRule_Mandatory", "i=78");
 	y->put("ModellingRule_Optional", "i=80");
+	y->put("HasSubStateMachine", "i=117");
 	y->put("ModellingRule_OptionalPlaceholder", "i=11508");
 	y->put("ModellingRule_MandatoryPlaceholder", "i=11510");
 	y->put("Argument", "i=296");

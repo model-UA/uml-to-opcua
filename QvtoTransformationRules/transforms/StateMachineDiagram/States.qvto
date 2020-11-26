@@ -41,4 +41,10 @@ mapping UML::State::state2State(inout parent : OPCUA::UANode) : OPCUA::UAObject 
 
 	// add a reference from the parent node to this node
 	parent._references.reference += object OPCUA::Reference{referenceType := "HasComponent"; value := result.nodeId};
+	
+	// check if the state contains a sub state machine
+	if(self.isSubmachineState = true and self.submachine <> null) {
+		// add the the referenced sub state machine via a OPCUA::HasSubStateMachine reference
+		_references.reference += object OPCUA::Reference{referenceType := getId("HasSubStateMachine"); value := self.submachine.createNodeId()};
+	}
 }

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>StateMachine</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="ToState">i=52</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="HasSubStateMachine">i=117</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="TransitionEventType">i=2311</Alias>
+    <Alias Alias="HasEffect">i=54</Alias>
+    <Alias Alias="FiniteStateMachineType">i=2771</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="StateType">i=2307</Alias>
+    <Alias Alias="ModellingRule_Mandatory">i=78</Alias>
+    <Alias Alias="TransitionType">i=2310</Alias>
+    <Alias Alias="FromState">i=51</Alias>
+  </Aliases>
+  <UAObject BrowseName="StateWithSubStateMachine" NodeId="ns=1;s=StateWithSubStateMachine" ParentNodeId="ns=1;s=SuperStateMachineType">
+    <DisplayName>StateWithSubStateMachine</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SuperStateMachineType</Reference>
+      <Reference ReferenceType="HasSubStateMachine">ns=1;s=SubStateMachineType</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="State1" NodeId="ns=1;s=State1" ParentNodeId="ns=1;s=SuperStateMachineType">
+    <DisplayName>State1</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SuperStateMachineType</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="State1_to_StateWithSubStateMachine" NodeId="ns=1;s=State1_to_StateWithSubStateMachine" ParentNodeId="ns=1;s=SuperStateMachineType">
+    <DisplayName>State1_to_StateWithSubStateMachine</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">TransitionType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SuperStateMachineType</Reference>
+      <Reference ReferenceType="FromState">ns=1;s=State1</Reference>
+      <Reference ReferenceType="ToState">ns=1;s=StateWithSubStateMachine</Reference>
+      <Reference ReferenceType="HasEffect">TransitionEventType</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="State3" NodeId="ns=1;s=State3" ParentNodeId="ns=1;s=SubStateMachineType">
+    <DisplayName>State3</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SubStateMachineType</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="State2" NodeId="ns=1;s=State2" ParentNodeId="ns=1;s=SubStateMachineType">
+    <DisplayName>State2</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SubStateMachineType</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="State2_to_State3" NodeId="ns=1;s=State2_to_State3" ParentNodeId="ns=1;s=SubStateMachineType">
+    <DisplayName>State2_to_State3</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">TransitionType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SubStateMachineType</Reference>
+      <Reference ReferenceType="FromState">ns=1;s=State2</Reference>
+      <Reference ReferenceType="ToState">ns=1;s=State3</Reference>
+      <Reference ReferenceType="HasEffect">TransitionEventType</Reference>
+    </References>
+  </UAObject>
+  <UAObjectType BrowseName="SuperStateMachineType" NodeId="ns=1;s=SuperStateMachineType">
+    <DisplayName>SuperStateMachineType</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">FiniteStateMachineType</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=State1</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=StateWithSubStateMachine</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=State1_to_StateWithSubStateMachine</Reference>
+    </References>
+  </UAObjectType>
+  <UAObjectType BrowseName="SubStateMachineType" NodeId="ns=1;s=SubStateMachineType">
+    <DisplayName>SubStateMachineType</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">FiniteStateMachineType</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=State3</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=State2</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=State2_to_State3</Reference>
+    </References>
+  </UAObjectType>
+</UANodeSet>

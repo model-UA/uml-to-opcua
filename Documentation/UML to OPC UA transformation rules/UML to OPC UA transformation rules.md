@@ -852,3 +852,120 @@ The Browsename is always equal to the Displayname. Both are derived from the UML
 </UAObjectType>
 ```
 
+#### UML::Submachine
+
+###### Notes
+
+- A UML::State provides the UML::isSubmachineState and UML::submachine elements, which can be used to define the internal structure of a UML::State using another sate machine, typically called the SubMachine or SubStateMachine.
+- In OPC UA, the OPCUA::HasSubStateMachine refernce type is used to connect an OPCUA::State to its corresponding OPCUA::StateMachineType.
+- Note that the SubStateMachine needs to be modeled explicitly as another StateMachine.
+- In the example illustrated below, the StateWithSubStateMachine has its UML::isSubmachineState set to true and its UML::submachine references the SubStateMachine.
+
+###### Graphical representation
+
+|                             UML                              |                            OPC UA                            |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![](figures/State_Machine_SuperStateMachine_Super_State_Machine_Diagram.SVG)<br />![](figures/State_Machine_SubStateMachine_Sub_State_Machine_Diagram.SVG) | ![](figures/UANodeSetType_Model_SubStateMachine_NodeSetDiagram.SVG) |
+
+###### UML
+
+```xml
+<packagedElement xmi:type="uml:StateMachine" xmi:id="_bS7-AAJEEeuH6ovpu80iPw" name="SuperStateMachine">
+  <region xmi:type="uml:Region" xmi:id="_bTdicAJEEeuH6ovpu80iPw" name="Region1">
+    <transition xmi:type="uml:Transition" xmi:id="_-0B20C_JEeuLiNXw6tGqUA" source="_gwaBgC8hEeuNUsVP4bhZkg" target="_1rHxkC_JEeuLiNXw6tGqUA"/>
+    <subvertex xmi:type="uml:State" xmi:id="_gwaBgC8hEeuNUsVP4bhZkg" name="State1"/>
+    <subvertex xmi:type="uml:State" xmi:id="_1rHxkC_JEeuLiNXw6tGqUA" name="StateWithSubStateMachine" submachine="_bh4s8C_LEeuLiNXw6tGqUA">
+      <region xmi:type="uml:Region" xmi:id="_2spgAi_JEeuLiNXw6tGqUA" name="Region1"/>
+    </subvertex>
+  </region>
+</packagedElement>
+<packagedElement xmi:type="uml:StateMachine" xmi:id="_bh4s8C_LEeuLiNXw6tGqUA" name="SubStateMachine" submachineState="_1rHxkC_JEeuLiNXw6tGqUA">
+  <region xmi:type="uml:Region" xmi:id="_dVL2kC_LEeuLiNXw6tGqUA" name="Region1">
+    <transition xmi:type="uml:Transition" xmi:id="_PFm9AC_MEeuLiNXw6tGqUA" source="_MkH3sC_MEeuLiNXw6tGqUA" target="_NiKNQC_MEeuLiNXw6tGqUA"/>
+    <subvertex xmi:type="uml:State" xmi:id="_MkH3sC_MEeuLiNXw6tGqUA" name="State2"/>
+    <subvertex xmi:type="uml:State" xmi:id="_NiKNQC_MEeuLiNXw6tGqUA" name="State3"/>
+  </region>
+</packagedElement>
+```
+
+###### OPC UA
+
+```xml
+<UAObject BrowseName="StateWithSubStateMachine" NodeId="ns=1;s=StateWithSubStateMachine" ParentNodeId="ns=1;s=SuperStateMachineType">
+  <DisplayName>StateWithSubStateMachine</DisplayName>
+  <References>
+    <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+    <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+    <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SuperStateMachineType</Reference>
+    <Reference ReferenceType="HasSubStateMachine">ns=1;s=SubStateMachineType</Reference>
+  </References>
+</UAObject>
+<UAObject BrowseName="State1" NodeId="ns=1;s=State1" ParentNodeId="ns=1;s=SuperStateMachineType">
+  <DisplayName>State1</DisplayName>
+  <References>
+    <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+    <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+    <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SuperStateMachineType</Reference>
+  </References>
+</UAObject>
+<UAObject BrowseName="State1_to_StateWithSubStateMachine" NodeId="ns=1;s=State1_to_StateWithSubStateMachine" ParentNodeId="ns=1;s=SuperStateMachineType">
+  <DisplayName>State1_to_StateWithSubStateMachine</DisplayName>
+  <References>
+    <Reference ReferenceType="HasTypeDefinition">TransitionType</Reference>
+    <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+    <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SuperStateMachineType</Reference>
+    <Reference ReferenceType="FromState">ns=1;s=State1</Reference>
+    <Reference ReferenceType="ToState">ns=1;s=StateWithSubStateMachine</Reference>
+    <Reference ReferenceType="HasEffect">TransitionEventType</Reference>
+  </References>
+</UAObject>
+<UAObject BrowseName="State3" NodeId="ns=1;s=State3" ParentNodeId="ns=1;s=SubStateMachineType">
+  <DisplayName>State3</DisplayName>
+  <References>
+    <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+    <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+    <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SubStateMachineType</Reference>
+  </References>
+</UAObject>
+<UAObject BrowseName="State2" NodeId="ns=1;s=State2" ParentNodeId="ns=1;s=SubStateMachineType">
+  <DisplayName>State2</DisplayName>
+  <References>
+    <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+    <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+    <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SubStateMachineType</Reference>
+  </References>
+</UAObject>
+<UAObject BrowseName="State2_to_State3" NodeId="ns=1;s=State2_to_State3" ParentNodeId="ns=1;s=SubStateMachineType">
+  <DisplayName>State2_to_State3</DisplayName>
+  <References>
+    <Reference ReferenceType="HasTypeDefinition">TransitionType</Reference>
+    <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+    <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=SubStateMachineType</Reference>
+    <Reference ReferenceType="FromState">ns=1;s=State2</Reference>
+    <Reference ReferenceType="ToState">ns=1;s=State3</Reference>
+    <Reference ReferenceType="HasEffect">TransitionEventType</Reference>
+  </References>
+</UAObject>
+<UAObjectType BrowseName="SuperStateMachineType" NodeId="ns=1;s=SuperStateMachineType">
+  <DisplayName>SuperStateMachineType</DisplayName>
+  <References>
+    <Reference IsForward="false" ReferenceType="HasSubtype">FiniteStateMachineType</Reference>
+    <Reference ReferenceType="HasComponent">ns=1;s=State1</Reference>
+    <Reference ReferenceType="HasComponent">ns=1;s=StateWithSubStateMachine</Reference>
+    <Reference ReferenceType="HasComponent">ns=1;s=State1_to_StateWithSubStateMachine</Reference>
+  </References>
+</UAObjectType>
+<UAObjectType BrowseName="SubStateMachineType" NodeId="ns=1;s=SubStateMachineType">
+  <DisplayName>SubStateMachineType</DisplayName>
+  <References>
+    <Reference IsForward="false" ReferenceType="HasSubtype">FiniteStateMachineType</Reference>
+    <Reference ReferenceType="HasComponent">ns=1;s=State3</Reference>
+    <Reference ReferenceType="HasComponent">ns=1;s=State2</Reference>
+    <Reference ReferenceType="HasComponent">ns=1;s=State2_to_State3</Reference>
+  </References>
+</UAObjectType>
+```
+
+
+
+#### 
