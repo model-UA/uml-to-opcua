@@ -1,7 +1,5 @@
 package at.ac.tuwien.auto.modelua.uml2opcua.qvto.ui.handlers;
 
-import java.io.InputStream;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -62,12 +60,6 @@ public class TransformWithQvtHandler extends AbstractHandler {
     	
     	if(selection.size() > 1) // Error, only a single file can be transformed at the moment 
     		return null;
-
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("/transformations/Uml2Opcua.qvto");
-        if(inputStream == null)
-        	System.out.println("X Could not find resource");
-        
         
     	if (! (selection instanceof IStructuredSelection)) // cannot be transformed
     		return null;

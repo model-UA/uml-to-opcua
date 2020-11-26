@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Map;
 import opcuaserializer.OpcuaSerializer;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -65,20 +63,10 @@ public class Uml2OpcuaTransformer {
 			    // System.out.println("p.getNsURI(): " + p.getNsURI() );
 			    EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
 			}
-
-			// register blackbox class
-			// TransformationExecutor.BlackboxRegistry.INSTANCE.registerModule(MyBlackbox.class);
 			
 			// set uri for qvto transformation file
 			qvtoTransformationFileUri = URI.createURI("platform:/plugin/at.ac.tuwien.auto.modelua.uml2opcua.qvto.transformation/transforms/Uml2Opcua.qvto");
-			
-	        ClassLoader cl = ClassLoader.getSystemClassLoader();
 
-	        URL[] urls = ((URLClassLoader)cl).getURLs();
-
-	        for(URL url: urls){
-	        	System.out.println(url.getFile());
-	        }
 		}
 		
 		PrintWriter informationOutputStreamWriter;
@@ -142,6 +130,8 @@ public class Uml2OpcuaTransformer {
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put("xml", new SetResourceFactoryImpl());
+        // Object setFactory = m.get("set"); 
+        // m.put("xml", setFactory);
 
         // Obtain a new resource set
         ResourceSet resSet = new ResourceSetImpl();
