@@ -1,38 +1,134 @@
-# UML to OPC UA Model Transformation
+# uml-to-opcua: UML to OPC UA Model Transformation
 
-Modeling tools for OPC UA (model-UA) is an open source project supporting developers in creating OPC UA information models. OPC UA – the successor of the well-known OPC standard – allows to access information and functions based on virtual representations of physical objects, ranging from simple temperature sensors to complex manufacturing machines. Generating OPC UA information models is a highly complex task. Therefore, model-UA provides a collection of Eclipse Plugins to generate OPC UA information models from UML diagrams by means of model transformation.
+Modeling tools for OPC UA (model-UA) is an open source project supporting developers in creating OPC UA Information Models. OPC UA – the successor of the well-known OPC standard – allows to access information and functions based on virtual representations of physical objects, ranging from simple temperature sensors to complex manufacturing machines. Generating OPC UA information models is a highly complex task. model-UA tries to simplify OPC UA information modeling by providing a collection of Eclipse Plugins: 
+
+* papyrus-opcua-plugin: An extension to the Papyrus Modeling Environment enabling the creation of OPC UA Information Models available at https://github.com/model-UA/papyrus-opcua-plugin .
+* uml-to-opcua: A set of Eclipse plugins that allow to generate OPC UA Information Models from UML diagrams by means of model transformation available at https://github.com/model-UA/uml-to-opcua . uml-to-opcua can also be used as a plugin in the Papyrus Modeling Environment.
+
+
 
 ## Related work
 
 The overall workflow is defined in 
 
-F. Pauker, T. Fruhwirth, B. Kittl, and W. Kastner, “A systematic approach
-to OPC UA information model design,” in Proceedings of the 49th CIRP
-Conference on Manufacturing Systems, Stuttgart, Germany, May 2016,
-pp. 321–326.
+F. Pauker, T. Fruhwirth, B. Kittl, and W. Kastner, “A systematic approach to OPC UA information model design,” in Proceedings of the 49th CIRP Conference on Manufacturing Systems, Stuttgart, Germany, May 2016, pp. 321–326.
 
-A proof of concept implementation for UML to OPC UA transformation (cf. Section [uml-to-opcua-standalone](#uml-to-opcua-standalone)) is described in
+A proof of concept implementation for UML to OPC UA transformation (cf. Section [uml-to-opcua-standalone](#uml-to-opcua-standalone)) is described in S. Wiedemann, “model-UA: Ein Open Source Tool zur Transformation von UML zu OPC UA Modellen,” November 2018, Bachelor’s Thesis
 
-S. Wiedemann, “model-UA: Ein Open Source Tool zur Transformation
-von UML zu OPC UA Modellen,” November 2018, Bachelor’s Thesis
+
 
 ## Prerequisites
+
+### Java Version
+
+The Plugin requires at least Java version 11.
 
 ### Install Papyrus Modeling Environment
 
 It is suggested to use Papyrus (cf. https://www.eclipse.org/papyrus/) to design UML models, which are then transformed to OPC UA Nodesets using the Plugins provided by the model-UA project.
 
-## Contents of this Repository
 
-### UML to OPC UA Model Transformation Plugin
 
-The main content of this repository is an Eclipse Plugin that contributes to the Eclipse UI. It provides menu contributions, but no actual model transformation functionality. E.g., the Plugin provides the "Transform to OPC UA" menu entry when right-clicking on a file in the Eclipse Project Explorer, but the user cannot execute this command. Instead, it is only a hook for other Plugins to add their functionality via sub-entries to the "Transform to OPC UA" menu entry. An example for such a Plugin is the model-UA/uml-to-opcua-qvto Plugin. Note that the "Transform to OPC UA" menu contribution is only visible if it contains at least one sub-entry.
+## Installation
+
+### Adding Update-Site
+
+The Plugin is provided via the model-ua update site :  https://model-ua.auto.tuwien.ac.at/updates/releases/ 
+
+Open Papyrus and go to Help-->Install New Software, click on Add and enter the link. Check the "UML to OPC UA Model Transformation" category, click "Next" and follow the instructions to install the uml-to-opcua plugins. You might also want to install the "OPC UA Modeling Tools" (cf. https://github.com/model-UA/papyrus-opcua-plugin). When the installation is done restart Papyrus.
+
+![](/doc/img/add_update_site.png)
+
+
+### Adding Archive as Update-Site
+
+Alternatively the releases can be downloaded here as archives : https://github.com/model-UA/papyrus-opcua-plugin/releases/ 
+
+Open Papyrus and go to Help-->Install New Software, click on Add and then on Local or Archive depending if you extracted the archive or not.
+
+
+
+## Usage
+
+### Creating a Class Diagram or State Machine Diagram
+
+The uml-to-opcua plugin supports transformation of UML Class Diagrams or UML State Machine Diagrams (or a combination thereof) to OPC UA information models. You may want to start with a simple UML Class Diagram. Open Papyrus and got to "File" --> "New" --> "Papyrus Project". In the dialog shown below, select the "UML" Model and click "Next". 
+
+![](/doc/img/create_new_project_1.png)
+
+
+
+Enter a Project name, e.g. MyFirstProject" as shown below and click "Next".
+
+![](/doc/img/create_new_project_2.png)
+
+
+
+Select the diagram types you need. At the moment, the UML Class Diagram and the UML State Machine Diagram can be transformed to OPC UA. As a first starting point, you may want to select the "Class Diagram" and click "Finish".
+
+![](/doc/img/create_new_project_3.png)
+
+
+
+The UML model editor opens and you can start modeling by dragging and dropping Nodes and Edges from the Palette. Create a simple UML Class Diagram like the one shown below. The little asterisk on the top left indicates that you should save your diagram before continuing.
+
+![](/doc/img/simple_class_diagram.png)
+
+
+
+The next step is to initiate the UML to OPC UA model transformation for this simple UML Class Diagram. Expand your project in the Project Explorer until you see the a file called "uml". Right-click on this file and click on "Transform to OPC UA" --> "Transform with QVTo".
+
+![](/doc/img/transform_class_diagram_1.png)
+
+
+
+Depending on the size of your diagram, the transformation may take a while. After is has been completed, a new file called "xml" will appear in the Project Explorer. This is the OPC UA Information Model stored as Nodeset XML file. You can take this file and do some useful things like
+
+* Check its contents by right-clicking on the file --> "Show In" --> "Text Editor"
+* Load it into the papyrus-opcua-plugin https://github.com/model-UA/papyrus-opcua-plugin to visualize the Information Model and possibly add changes
+* Use the OPC UA stack of your choice to load the Nodeset XML file and create your custom OPC UA server
+
+![](/doc/img/transform_class_diagram_2.png)
+
+
+
+Information about the transformation is provided via the "Console". This may be useful, in particular, if the transformation produces a result different from what you expect. To open the "Console", select "Window" --> "Show View" --> "Other..." --> search for "Console" and click "Open". The "Console" view will now be available at the bottom of Papyrus. If no output is shown in the "Console", you may have to start the transformation again or select a different console via the GUI element highlighted by the red arrow in the figure below.
+
+![](/doc/img/transform_class_diagram_3.png)
+
+
+
+## Create your own transformation rules
+
+You may have noticed the "Transform with custom QVTo" option above. The uml-to-opcua plugin comes with predefined transformation rules that cannot be changed by the user. "Transform with QVTo" always uses these internal transformation rules. More experienced users may, however, want to change the outcome of the transformation, e.g., because they do not want the "Vehicle" of the above diagram get the "Type" suffix. For this purpose, you can install QVTo via the QVTo update site https://download.eclipse.org/mmt/qvto/updates/releases/latest/ .
+
+Next, you need to create a new QVTo project named "QvtoTransformationRules" with a subfolder "transforms" and the file "Uml2Opcua.qvto" containing your transformation. Note that you have use exactly this naming scheme. You can use the QVTo project provided at https://github.com/model-UA/uml-to-opcua/tree/master/QvtoTransformationRules as a starting point to create your own transformation rules.
+
+![](/doc/img/transform_with_custom_qvto_1.png)
+
+## Additional contents of this Repository
+
+### QVToTransformationRules
+
+The QVTo project specifying the transformation rules is available under "QvtoTransformationRules".
+
+### Transformation rules documentation
+
+Documentation of the transformation rules is provided under "Documentation/UML to OPC UA transformation rules". You may want to have a look there to get some indication which UML modeling concepts are supported by the transformation.
+
+### Transformation examples
+
+The transformation has been tested and documented using the examples provided under "Uml2OpcuaTransformationTests". It contains a Papyrus project with many different models, each corresponding to a very specific UML modeling concept.
 
 ### uml-to-opcua-standalone
 
-Furthermore, this repository contains a standalone UML to OPC UA model transformation approach. Standalone, in this context, means that it is currently not implemented as Eclipse Plugin but can only be executed via command line. The software uses a programmatic approach to read a UML Model and generate an OPC UA Nodeset. Additional information is provided in ./uml-to-opcua-standalone.
+Furthermore, this repository contains a standalone UML to OPC UA model transformation approach. Standalone, in this context, means that it is currently not implemented as Eclipse Plugin but can only be executed via command line. The software uses a programmatic approach to read a UML Model and generate an OPC UA Nodeset. Additional information is provided in ./uml-to-opcua-standalone/.
 
-## Using the Plugin
+## Contributing
+
+A way to contribute to this project is by testing the transformation and submitting an issue if you encounter some unexpected behavior or error in the UML to OPC UA transformation.
+
+Instructions on how to clone this repository and contribute to underlying software (Eclipse plugins, etc.) the will be added some time in the future. The instructions below are not up-to-date but may serve as a starting point for the time being.
 
 ### Adding the Plugin to your Workspace
 
@@ -49,37 +145,5 @@ The Plugin is implemented as an Eclipse Plugin Project. To execute the Plugin yo
 
 To gain knowledge about Eclipse Plugins in general you may want to visit https://www.vogella.com/tutorials/EclipsePlugin/article.html .
 
-### Installing via Update Site
 
-Coming soon.
-
-# UML to OPC UA Model Transformation using QVTo
-
-This repository contains an Eclipse Plugin that allows to trigger UML to OPC UA model transformations. Transformation rules are specified in QVTo.
-
-## Prerequisites
-
-### Install QVTo Eclipse Plugins
-
-This Plugin uses QVTo for UML to OPC UA transformations (cf. https://wiki.eclipse.org/QVTo). Therefore, the QVTo Eclipse Plugins are required and can be installed via the Eclipse Update Site https://download.eclipse.org/mmt/qvto/updates/releases/ via "Help" --> "Install New Software...".
-
-### Install UML to OPC UA Transformation Feature
-
-This Plugin extends the "UML to OPC UA Transformation" Feature, which is provided via the model-UA/uml-to-opcua repository. Follow the instructions in model-UA/uml-to-opcua/README.md to install the "UML to OPC UA Transformation" Feature.
-
-## Using the Plugin 
-
-Have a look at "Adding the Plugin to your Workspace" in model-UA/uml-to-opcua/README.md for information about how to install this Plugin.
-
-### Using the Plugin with pre-defined QVTo transformation rules
-
-This Plugin adds the "Transform with QVTo" menu entry under "Transform to OPC UA" (cf. model-UA/uml-to-opcua). The model transformation can be triggered by right-clicking on a UML file and selecting "Transform to OPC UA" --> "Transform with QVTo". The QVTo files that specify the transformation rules are embedded in the Plugin and should not be changed by the user.
-
-### Using the Plugin to define custom QVTo transformation rules
-
-To enable users to adapt the QVTo transformation rules to their needs, the repository also provides a developer version of the QVTo transformation plugin. When installed, it adds the menu entry "Transform to OPC UA" --> "Transform with custom QVTo". This command will search the user's workspace for a QVTo Project (cf. https://wiki.eclipse.org/QVTo), which has to contain a subfolder "transformations" and a file named "Uml2Opcua.qvto". The transformation available at "model-UA/uml-to-opcua-qvto/at.ac.tuwien.auto.modelua.uml2opcua.qvto/transformations" may serve as a starting point for your customized transformation rules.
-
-### Installing via Update Site
-
-Coming soon.
 
