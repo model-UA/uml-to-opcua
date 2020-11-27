@@ -110,19 +110,19 @@ Next, you need to create a new QVTo project named "QvtoTransformationRules" with
 
 ### QVToTransformationRules
 
-The QVTo project specifying the transformation rules is available under "QvtoTransformationRules".
+The QVTo project specifying the transformation rules is available under "QvtoTransformationRules" [here](https://github.com/model-UA/uml-to-opcua/tree/master/QvtoTransformationRules).
 
 ### Transformation rules documentation
 
-Documentation of the transformation rules is provided under "Documentation/UML to OPC UA transformation rules". You may want to have a look there to get some indication which UML modeling concepts are supported by the transformation.
+Documentation of the transformation rules is provided under "Documentation/UML to OPC UA transformation rules" [here](https://github.com/model-UA/uml-to-opcua/blob/master/Documentation/UML%20to%20OPC%20UA%20transformation%20rules/UML%20to%20OPC%20UA%20transformation%20rules.md). You may want to have a look there to get some indication which UML modeling concepts are supported by the transformation.
 
-### Transformation examples
+### Transformation examples and tests
 
-The transformation has been tested and documented using the examples provided under "Uml2OpcuaTransformationTests". It contains a Papyrus project with many different models, each corresponding to a very specific UML modeling concept.
+The transformation has been tested and documented using the examples provided under "Uml2OpcuaTransformationTests" [here](https://github.com/model-UA/uml-to-opcua/tree/master/Uml2OpcuaTransformationTests). It contains a Papyrus project with many different models, each corresponding to a very specific UML modeling concept.
 
 ### uml-to-opcua-standalone
 
-Furthermore, this repository contains a standalone UML to OPC UA model transformation approach. Standalone, in this context, means that it is currently not implemented as Eclipse Plugin but can only be executed via command line. The software uses a programmatic approach to read a UML Model and generate an OPC UA Nodeset. Additional information is provided in ./uml-to-opcua-standalone/.
+Furthermore, this repository contains a standalone UML to OPC UA model transformation approach. Standalone, in this context, means that it is currently not implemented as Eclipse Plugin but can only be executed via command line. The software uses a programmatic approach to read a UML Model and generate an OPC UA Nodeset. Additional information is provided under "uml-to-opcua-standalone" [here](https://github.com/model-UA/uml-to-opcua/tree/master/uml-to-opcua-standalone).
 
 ## Contributing
 
