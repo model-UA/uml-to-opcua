@@ -50,7 +50,7 @@ Open Papyrus and go to Help-->Install New Software, click on Add and then on Loc
 
 ## Usage
 
-### Creating a Class Diagram or State Machine Diagram
+### Transforming a Class Diagram or State Machine Diagram to OPC UA
 
 The uml-to-opcua plugin supports transformation of UML Class Diagrams or UML State Machine Diagrams (or a combination thereof) to OPC UA information models. You may want to start with a simple UML Class Diagram. Open Papyrus and got to "File" --> "New" --> "Papyrus Project". In the dialog shown below, select the "UML" Model and click "Next". 
 
