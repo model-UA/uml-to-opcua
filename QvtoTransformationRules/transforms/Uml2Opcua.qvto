@@ -21,7 +21,7 @@ transformation UMLtoOPCUA(in umlInputModel : UML, out opcuaOutputModel : OPCUA);
  * The main entry point of the transformation.
  */
 main() {
-	log("Starting UML 2 OPC UA transformation with external QVTo file");
+	log("Starting UML 2 OPC UA transformation using QVTo");
 	
 	// initilize internal datastructures
 	addNamespace(0, OPCUA_NAMESPACE_URI); // this Namespace Uri always needs to be added
