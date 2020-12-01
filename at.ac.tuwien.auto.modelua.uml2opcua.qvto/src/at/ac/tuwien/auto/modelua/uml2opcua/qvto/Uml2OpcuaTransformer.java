@@ -126,13 +126,6 @@ public class Uml2OpcuaTransformer {
 		else
 			informationOutputStreamWriter = new PrintWriter(System.out);
 		
-		// Register the SetResourceFactory resource factory  (the OPC UA nodeset resource factory) for the .xml extension
-        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-        Map<String, Object> m = reg.getExtensionToFactoryMap();
-        m.put("xml", new SetResourceFactoryImpl());
-        // Object setFactory = m.get("set"); 
-        // m.put("xml", setFactory);
-
         // Obtain a new resource set
         ResourceSet resSet = new ResourceSetImpl();
 

@@ -19,6 +19,9 @@
       <parser
             type="set"
             class="org.opcfoundation.ua._2011._03.ua.node.set.util.SetResourceFactoryImpl"/>
+      <parser
+            type="xml"
+            class="org.opcfoundation.ua._2011._03.ua.node.set.util.SetResourceFactoryImpl"/>
    </extension>
 
 </plugin>

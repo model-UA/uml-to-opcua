@@ -6,7 +6,7 @@
     complianceLevel="5.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
   <foreignModel>file:/C:/Users/user1/Desktop/model-UA/UANodeSet.xsd</foreignModel>
   <genPackages prefix="Set" basePackage="org.opcfoundation.ua._2011._03.ua.node" resource="XML"
-      disposableProviderFactory="true" ecorePackage="set.ecore#/">
+      disposableProviderFactory="true" fileExtensions="set,xml" ecorePackage="set.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="set.ecore#//DataTypePurpose">
       <genEnumLiterals ecoreEnumLiteral="set.ecore#//DataTypePurpose/Normal"/>
       <genEnumLiterals ecoreEnumLiteral="set.ecore#//DataTypePurpose/ServicesOnly"/>

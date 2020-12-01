@@ -28,7 +28,7 @@
             id="org.opcfoundation.ua._2011._03.ua.node.set.presentation.SetEditorID"
             name="%_UI_SetEditor_label"
             icon="icons/full/obj16/SetModelFile.gif"
-            extensions="set"
+            extensions="set,xml"
             class="org.opcfoundation.ua._2011._03.ua.node.set.presentation.SetEditor"
             contributorClass="org.opcfoundation.ua._2011._03.ua.node.set.presentation.SetActionBarContributor">
       </editor>
