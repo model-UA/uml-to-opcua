@@ -55,6 +55,9 @@ mapping UML::Model::model2OPCUANodeSetType() : OPCUA::UANodeSetType {
 	// map UML::Classes to OPCUA::UAObjectTypes that are not included in any namspeace
 	uAObjectType += self.ownedElement->selectByType(UML::Class)->map class2OPCUAObjectType(result);
 
+	// map UML::InstanceSpecification to OPCUA::UAObject that are not included in any namspeace
+	uAObject += self.ownedElement->selectByType(UML::InstanceSpecification)->map instanceSpecification2OPCUAObject(result);
+
 	// map UML::StateMachines to OPCUA::UAObjectTypes that are not included in any namspeace
 	uAObjectType += self.ownedElement->selectByType(UML::StateMachine)->map statemachine2FiniteStateMachineType(result);
 	
@@ -72,10 +75,13 @@ mapping UML::Model::model2OPCUANodeSetType() : OPCUA::UANodeSetType {
 }
 
 helper UML::Package::package2Namespace(inout nodeset : OPCUA::UANodeSetType) {
-	// map all UML::Classes in this package to OPCUA::UAObjectTypes and collect them in a set
+	// map all UML::Class in this package to OPCUA::UAObjectTypes and collect them in a set
 	nodeset.uAObjectType += self.ownedElement->selectByType(UML::Class)->map class2OPCUAObjectType(nodeset);
 
-	// map UML::StateMachines to OPCUA::UAObjectTypes that are not included in any namspeace
+	// map all UML::InstanceSpecification in this package to OPCUA::UAObject and collect them in a set
+	nodeset.uAObject += self.ownedElement->selectByType(UML::InstanceSpecification)->map instanceSpecification2OPCUAObject(nodeset);
+
+	// map all UML::StateMachine in this package to OPCUA::FinitStateMachineType and collect them in a set
 	nodeset.uAObjectType += self.ownedElement->selectByType(UML::StateMachine)->map statemachine2FiniteStateMachineType(nodeset);
 }
 

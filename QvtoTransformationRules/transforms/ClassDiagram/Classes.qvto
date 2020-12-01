@@ -2,6 +2,7 @@ library Classes;
 
 import ClassDiagram.References;
 import ClassDiagram.Operations;
+import ClassDiagram.Instances;
 
 modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
