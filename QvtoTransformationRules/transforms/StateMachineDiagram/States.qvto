@@ -16,12 +16,12 @@ mapping UML::Pseudostate::pseudostate2InitialState(inout parent : OPCUA::UANode)
 	
 	// create the list of references object 
 	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("InitialStateType")}; 
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := getIdOrAlias("InitialStateType")}; 
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
 
 	// add a reference from the parent node to this node
-	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId};
+	parent._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := result.nodeId};
 }
 
 mapping UML::State::state2State(inout parent : OPCUA::UANode) : OPCUA::UAObject {
@@ -35,9 +35,9 @@ mapping UML::State::state2State(inout parent : OPCUA::UANode) : OPCUA::UAObject 
 	
 	// create the list of references object 
 	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("StateType")};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := getIdOrAlias("StateType")};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
 
 	// add a reference from the parent node to this node
 	parent._references.reference += object OPCUA::Reference{referenceType := "HasComponent"; value := result.nodeId};
@@ -45,6 +45,6 @@ mapping UML::State::state2State(inout parent : OPCUA::UANode) : OPCUA::UAObject 
 	// check if the state contains a sub state machine
 	if(self.isSubmachineState = true and self.submachine <> null) {
 		// add the the referenced sub state machine via a OPCUA::HasSubStateMachine reference
-		_references.reference += object OPCUA::Reference{referenceType := getId("HasSubStateMachine"); value := self.submachine.createNodeId()};
+		_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasSubStateMachine"); value := self.submachine.createNodeId()};
 	}
 }

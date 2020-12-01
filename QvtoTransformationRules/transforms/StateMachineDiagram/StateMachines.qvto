@@ -19,7 +19,7 @@ mapping UML::StateMachine::statemachine2FiniteStateMachineType(inout nodeset : O
 	
 	// create the list of references object and add FiniteStateMachineType as supertype
 	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasSubtype"); value := getId("FiniteStateMachineType"); isForward := false};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasSubtype"); value := getIdOrAlias("FiniteStateMachineType"); isForward := false};
 	
 	// create an OPCUA::Object of type InitialStateType for each state
 	nodeset.uAObject += self.ownedElement->selectByType(UML::Region).ownedElement->selectByKind(UML::Pseudostate)->map pseudostate2InitialState(result);

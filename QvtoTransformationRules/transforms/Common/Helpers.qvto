@@ -166,9 +166,9 @@ helper fillUriTable(inout uriTable : OPCUA::UriTable) {
 	uriTable.uri += NamespaceUri2NamespaceIndex->keys()->asSequence()->excluding(OPCUA_NAMESPACE_URI);
 }
 
-// returns something like i=256, or s=someString
+// returns something like i=12 / s=someString or the Alias, like String
 // this is only valid for namespace 0
-helper getId(name : String) : String {
+helper getIdOrAlias(name : String) : String {
 	// add the name to the AliasesForAliasTable
 	// this means, it is used and needs to be added to the alias table after the transformation has finished
 	if(CFG_ENABLE_ALIAS_TABLE)
@@ -177,6 +177,16 @@ helper getId(name : String) : String {
 	if(CFG_ENABLE_ALIAS_TABLE)
 		return name; // just use the human-readable name as identifier if ALIAS_TABLE is enabled
 		
+	var id := IdentifierLookupTable->get(OPCUA_NAMESPACE_URI)->get(name);
+	
+	assert fatal (id <> null)  with log("No Identifier found in the Identifier Lookup Table for node " + name);
+
+	return id;
+}
+
+// returns something like i=12 / s=someString
+// this is only valid for namespace 0
+helper getId(name : String) : String {
 	var id := IdentifierLookupTable->get(OPCUA_NAMESPACE_URI)->get(name);
 	
 	assert fatal (id <> null)  with log("No Identifier found in the Identifier Lookup Table for node " + name);

@@ -26,13 +26,13 @@ mapping UML::Operation::operation2UAMethod(inout parent : OPCUA::UANode, inout n
 	displayName := displayName := object OPCUA::LocalizedText{value := browseName};
 	
 	// link the OPCUA::UAVariable to the parent
-	parent._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := nodeId};
+	parent._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := nodeId};
 	parentNodeId := parent.nodeId;
 
 	// add references
 	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")};
-	_references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
 	
 	if (self.ownedElement->selectByType(UML::Parameter)->select(direction = UML::ParameterDirectionKind::_'in')->size() > 0){ // if the operation has input parameters
 		// create a UAVariable for input arguments
@@ -40,7 +40,7 @@ mapping UML::Operation::operation2UAMethod(inout parent : OPCUA::UANode, inout n
 			nodeId := self.createNodeId() + "InputArguments";
 			browseName := "InputArguments";
 			displayName := object OPCUA::LocalizedText{value := "InputArguments"};
-			dataType := getId("Argument");
+			dataType := getIdOrAlias("Argument");
 			parentNodeId := result.nodeId; // result.nodeId refers to the nodeId of the UAMethod
 			valueRank := 1; // the Value is an array with the specified 1 dimensions.
 			arrayDimensions := self.ownedElement->selectByType(UML::Parameter)->size().toString(); // defines the number of arguments
@@ -50,13 +50,13 @@ mapping UML::Operation::operation2UAMethod(inout parent : OPCUA::UANode, inout n
 		nodeset.uAVariable += inputArgumentsVariable;
 		
 		// add a reference from the method to the variable
-		_references.reference += object OPCUA::Reference{referenceType := getId("HasProperty"); value := inputArgumentsVariable.nodeId};
+		_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasProperty"); value := inputArgumentsVariable.nodeId};
 		
 		// add references to the variable
 		inputArgumentsVariable._references := object OPCUA::ListOfReferences{};
-		inputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")};
-		inputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId; isForward := false}; // result.nodeId refers to the nodeId of the UAMethod
-		inputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("PropertyType")};
+		inputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")};
+		inputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := result.nodeId; isForward := false}; // result.nodeId refers to the nodeId of the UAMethod
+		inputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := getIdOrAlias("PropertyType")};
 		
 		// add a list of extension objects
 		var vt1 := object OPCUA::ValueType1{};
@@ -85,13 +85,13 @@ mapping UML::Operation::operation2UAMethod(inout parent : OPCUA::UANode, inout n
 		nodeset.uAVariable += outputArgumentsVariable;
 		
 		// add a reference from the method to the variable
-		_references.reference += object OPCUA::Reference{referenceType := getId("HasProperty"); value := outputArgumentsVariable.nodeId};
+		_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasProperty"); value := outputArgumentsVariable.nodeId};
 		
 		// add references to the variable
 		outputArgumentsVariable._references := object OPCUA::ListOfReferences{};
-		outputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasModellingRule"); value := getId("ModellingRule_Mandatory")};
-		outputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := result.nodeId; isForward := false}; // result.nodeId refers to the nodeId of the UAMethod
-		outputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := getId("PropertyType")};
+		outputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")};
+		outputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := result.nodeId; isForward := false}; // result.nodeId refers to the nodeId of the UAMethod
+		outputArgumentsVariable._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := getIdOrAlias("PropertyType")};
 		
 		// add a list of extension objects
 		var vt1 := object OPCUA::ValueType1{};
@@ -117,7 +117,7 @@ mapping UML::Operation::operation2UAMethod(inout parent : OPCUA::UANode, inout n
 mapping UML::Parameter::parameter2ExtensionObject(inout method : OPCUA::UAMethod, inout nodeset : OPCUA::UANodeSetType) : TYPES::ExtensionObject {
 	log("parameter2ExtensionObject for UML element " + self.name);
 	
-	typeId := object TYPES::NodeId{identifier := getId("Argument_Encoding_DefaultXml")};
+	typeId := object TYPES::NodeId{identifier := getId("Argument_Encoding_DefaultXml")}; // use the id and not the alias here
 	body := object TYPES::BodyType{};
 	var argument := object TYPES::Argument{
 		name := self.name;
@@ -151,6 +151,5 @@ mapping UML::Parameter::parameter2ExtensionObject(inout method : OPCUA::UAMethod
 	};
 
 	var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("argument");
-	log("feature: " + feature.toString());
 	body.oclAsType(EObject).eSet(feature, argument); // add the argument as structural feature of type "TYPES::Argument"
 }

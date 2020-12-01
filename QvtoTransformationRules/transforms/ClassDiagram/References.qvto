@@ -13,7 +13,7 @@ mapping UML::Generalization::generalization2UAReference() : OPCUA::Reference {
 
 	// set attributes of the OPCUA::Reference, self.target should only contain 1 element
 	value := self.target->any(0=0).oclAsType(NamedElement).createNodeId();
-	referenceType := getId("HasSubtype");
+	referenceType := getIdOrAlias("HasSubtype");
 	isForward := false;
 }
 
@@ -31,7 +31,7 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 
 			// Composition or Aggregation are both handled the same way
 			// use HasComponent reference for compositions
-			referenceType := getId("HasComponent");
+			referenceType := getIdOrAlias("HasComponent");
 			
 			// if A isComposedOf B, OPC UA requires to create an UAObject of B and add it to A via a reference
 			// note that this object is only created specifically for the OPC UA model but is not present in the UML model
@@ -52,33 +52,33 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 
 			// add the list of references
 			targetObject._references := object OPCUA::ListOfReferences{};
-			targetObject._references.reference += object OPCUA::Reference{referenceType := getId("HasTypeDefinition"); value := targetObjectTypeNodeId};
-			targetObject._references.reference += object OPCUA::Reference{referenceType := getId("HasComponent"); value := parent.nodeId; isForward := false};
+			targetObject._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := targetObjectTypeNodeId};
+			targetObject._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
 
 			// define modelling rule; note that -1 means infitiy (*); therefore, for 0..* the limits are lower=0 and upper=-1
-			var modelingRuleReference := object OPCUA::Reference{referenceType := getId("HasModellingRule")};
+			var modelingRuleReference := object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule")};
 			if(self.lower = 0 and self.upper = 1) {
 				targetObject.browseName := targetObjectName;
 				targetObject.displayName += object OPCUA::LocalizedText{value := targetObject.browseName};
-				modelingRuleReference.value := getId("ModellingRule_Optional");
+				modelingRuleReference.value := getIdOrAlias("ModellingRule_Optional");
 			}
 			else if(self.lower = 1 and self.upper = 1) {
 				targetObject.browseName := targetObjectName;
 				targetObject.displayName += object OPCUA::LocalizedText{value := targetObject.browseName};
-				modelingRuleReference.value := getId("ModellingRule_Mandatory");
+				modelingRuleReference.value := getIdOrAlias("ModellingRule_Mandatory");
 			}
 			else if(self.lower = 0 and self.upper = -1) {
 				targetObject.browseName := targetObjectName;
 				targetObject.displayName += object OPCUA::LocalizedText{value := targetObject.browseName};
-			 	modelingRuleReference.value := getId("ModellingRule_OptionalPlaceholder");
+			 	modelingRuleReference.value := getIdOrAlias("ModellingRule_OptionalPlaceholder");
 		 	}
 		 	else if(self.lower = 1 and self.upper = -1) {
 				targetObject.browseName := targetObjectName;
 				targetObject.displayName += object OPCUA::LocalizedText{value := targetObject.browseName};
-		 		modelingRuleReference.value := getId("ModellingRule_MandatoryPlaceholder");
+		 		modelingRuleReference.value := getIdOrAlias("ModellingRule_MandatoryPlaceholder");
 		 	}
 			else {
-				modelingRuleReference.value := getId("ModellingRule_MandatoryPlaceholder");
+				modelingRuleReference.value := getIdOrAlias("ModellingRule_MandatoryPlaceholder");
 			};
 			targetObject._references.reference += modelingRuleReference;
 			
@@ -101,7 +101,7 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 
 			// add the list of references
 			newReferenceType._references := object OPCUA::ListOfReferences{};
-			newReferenceType._references.reference += object OPCUA::Reference{referenceType := "HasSubtype"; value := getId("NonHierarchicalReferences"); isForward := false};
+			newReferenceType._references.reference += object OPCUA::Reference{referenceType := "HasSubtype"; value := getIdOrAlias("NonHierarchicalReferences"); isForward := false};
 
 			// add the new reference type to the nodeset
 			nodeset.uAReferenceType += newReferenceType;
