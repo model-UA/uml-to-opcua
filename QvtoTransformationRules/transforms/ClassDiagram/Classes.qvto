@@ -5,6 +5,7 @@ import ClassDiagram.Operations;
 
 modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
+modeltype TYPES uses types('http://opcfoundation.org/UA/2008/02/Types.xsd');
 modeltype ECORE uses ecore('http://www.eclipse.org/emf/2002/Ecore');
 
 mapping UML::Class::class2OPCUAObjectType(inout nodeset : OPCUA::UANodeSetType) : OPCUA::UAObjectType {
@@ -44,26 +45,51 @@ mapping UML::Property::property2UAVariable(inout parent : OPCUA::UANode) : OPCUA
 	browseName := self.createBrowseName();
 	displayName := object OPCUA::LocalizedText{value := browseName};
 	
-	// set the datatype of the UA::Variable
-	switch {
-		case (self.type.toString().find("Integer") > 0) {
-			dataType := getIdOrAlias("Int32"); // do not use getIdentifier here
-		}
-		case (self.type.toString().find("String") > 0) {
-			dataType := getIdOrAlias("String"); // do not use getIdentifier here
-		}
-		case (self.type.toString().find("Real") > 0) {
-			dataType := getIdOrAlias("Double"); // do not use getIdentifier here
-		}
-		case (self.type.toString().find("Float") > 0) {
-			dataType := getIdOrAlias("Double"); // do not use getIdentifier here
-		}
-		case (self.type.toString().find("Boolean") > 0) {
-			dataType := getIdOrAlias("Boolean"); // do not use getIdentifier here
-		}
-		else {
-			raise Exception("Unkown datatype for parameter " + self.name + ": " + self.type.toString());
-		}
+	// set the datatype and maybe the value of the UA::Variable
+	if(self.type.toString().find("Int") > 0) {
+		dataType := getIdOrAlias("Int32");
+		if(self.defaultValue <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("int32");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralInteger).value);
+		};		
+	} else if (self.type.toString().find("String") > 0) {
+		dataType := getIdOrAlias("String");
+		if(self.defaultValue <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("string");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralString).value);
+		};		
+	} else if (self.type.toString().find("Real") > 0) {
+		dataType := getIdOrAlias("Double");
+		if(self.defaultValue <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("double");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralReal).value);
+		};		
+	} else if (self.type.toString().find("Double") > 0) {
+		dataType := getIdOrAlias("Double");
+		if(self.defaultValue <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("double");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralReal).value);
+		};		
+	} else if (self.type.toString().find("Float") > 0) {
+		dataType := getIdOrAlias("Double");
+		if(self.defaultValue <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("double");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralReal).value);
+		};		
+	} else if (self.type.toString().find("Boolean") > 0) {
+		dataType := getIdOrAlias("Boolean");
+		if(self.defaultValue <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("boolean");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralBoolean).value);
+		};		
+	} else {
+		raise Exception("Unkown datatype for parameter " + self.name + ": " + self.type.toString());
 	};
 		
 	// link the OPCUA::UAVariable to the parent via a HasComponent reference
