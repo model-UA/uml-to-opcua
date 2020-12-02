@@ -4,7 +4,17 @@ import Common.Helpers;
 
 modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
-modeltype ECORE uses ecore('http://www.eclipse.org/emf/2002/Ecore');
+modeltype TYPES uses types('http://opcfoundation.org/UA/2008/02/Types.xsd');
+modeltype ecore "strict" uses 'http://www.eclipse.org/emf/2002/Ecore';
+
+/*
+ * Transforms an UML::InstanceSpecification to an OPCUA::UAObject
+ * In many cases, it would be cumbersome to also add instances for all Properties, Operations, Compositions manually
+ * Therefore, if not manually specified, the elements defined by the class corresponding to the UML::InstanceSpecification
+ * will be used to generated the relevant OPC UA objects, variables, etc.
+ * @param umlInputModel The UML input model.
+ * @param opcuaOutputModel The OPC UA output model that will be generated from the umlInputModel by means of model transformation.
+ */
 
 mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout nodeset : OPCUA::UANodeSetType) : OPCUA::UAObject {
 	log("instanceSpecification2OPCUAObject for UML element " + self.name);
@@ -12,4 +22,106 @@ mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout node
 	browseName := self.createBrowseName();
 	nodeId := self.createNodeId();
 	displayName := (object OPCUA::LocalizedText {value := browseName})->asOrderedSet();
+	
+	// transform property slots of the Instance
+	nodeset.uAVariable += self.ownedElement->selectByType(UML::Slot)->select(slot | slot.definingFeature.oclIsTypeOf(UML::Property))->map transformPropertySlot2UAVariable(result);
+	
+	// TODO: transform properties of the class that are not defined as slot
+
+	assert warning (self.classifier->size() <= 1) with log("Element specifies more than one classifier. Only the first value is used");
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := self.classifier->any(true).createNodeId()}; // should only have one classifier
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("Organizes"); value := getIdOrAlias("ObjectsFolder"); isForward := false};
 }
+
+mapping UML::Slot::transformPropertySlot2UAVariable(inout parent : OPCUA::UANode) : OPCUA::UAVariable {
+	var definingFeature := self.definingFeature.oclAsType(UML::Property);
+
+	// set attributs of the OPCUA::UAVariable
+	nodeId := self.createNodeId();
+	browseName := definingFeature.createBrowseName(); // a slot does not have a name, so use the name of its defining feature
+	displayName := object OPCUA::LocalizedText{value := browseName};
+	
+	assert warning (self.value->size() <= 1) with log("Element specifies more than one value. Only the first value is used");
+
+	// set the datatype and maybe the value of the UA::Variable
+	if(definingFeature.type.toString().find("Int") > 0) {
+		dataType := getIdOrAlias("Int32");
+		var v : UML::LiteralInteger = null;
+		if(self.value->size() > 0) {
+			v := self.value->first().oclAsType(UML::LiteralInteger);
+		} else if(definingFeature.defaultValue <> null) { // set the value to the difininigFeature.defaultValue if specified
+			v := definingFeature.defaultValue.oclAsType(UML::LiteralInteger);
+		};
+		
+		if(v <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("int32");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, v.value); // the slot should only have a single value
+		};		
+	} else if (definingFeature.type.toString().find("String") > 0) {
+		dataType := getIdOrAlias("String");
+		var v : UML::LiteralString = null;
+		if(self.value->size() > 0) {
+			v := self.value->first().oclAsType(UML::LiteralString);
+		} else if(definingFeature.defaultValue <> null) { // set the value to the difininigFeature.defaultValue if specified
+			v := definingFeature.defaultValue.oclAsType(UML::LiteralString);
+		};
+		
+		if(v <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("string");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, v.value); // the slot should only have a single value
+		};
+	} else if (definingFeature.type.toString().find("Real") > 0  or definingFeature.type.toString().find("Double") > 0  or definingFeature.type.toString().find("Float") > 0) {
+		dataType := getIdOrAlias("Double");
+		var v : UML::LiteralReal = null;
+		if(self.value->size() > 0) {
+			v := self.value->first().oclAsType(UML::LiteralReal);
+		} else if(definingFeature.defaultValue <> null) { // set the value to the difininigFeature.defaultValue if specified
+			v := definingFeature.defaultValue.oclAsType(UML::LiteralReal);
+		};
+		
+		if(v <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("double");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, v.value); // the slot should only have a single value
+		};		
+	} else if (definingFeature.type.toString().find("Boolean") > 0) {
+		var v : UML::LiteralBoolean = null;
+		if(self.value->size() > 0) {
+			v := self.value->first().oclAsType(UML::LiteralBoolean);
+		} else if(definingFeature.defaultValue <> null) { // set the value to the difininigFeature.defaultValue if specified
+			v := definingFeature.defaultValue.oclAsType(UML::LiteralBoolean);
+		};
+		
+		if(v <> null) {
+			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("boolean");
+			value := object OPCUA::ValueType1{};
+			value.oclAsType(EObject).eSet(feature, v.value); // the slot should only have a single value
+		};	
+	} else {
+		raise Exception("Unkown datatype for slot of instace declation " + self.owner.oclAsType(UML::InstanceSpecification).name);
+	};
+		
+	// link the OPCUA::UAVariable to the parent via a HasComponent reference
+	parent._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := nodeId};
+	parentNodeId := parent.nodeId;
+	
+	// add references
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := getIdOrAlias("BaseDataVariableType")};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
+
+}
+
+/*
+helper UML::Slot::transformPropertySlot2UAVariable(inout nodeset: OPCUA::UANodeSetType) : OPCUA::UAVariable{
+	log("transformPropertySlot for UML element " + self.toString());
+	// transform slots of the InstanceSpecification, i.e., 
+	// nodeset.uAVariable += self.ownedElement->selectByType(UML::Property)->select(x|x.association = null and x.type.oclIsKindOf(UML::PrimitiveType))->map property2UAVariable(result)->asOrderedSet(); // variables do not have an association field
+	var p := self.definingFeature.oclAsType(UML::Property);
+	log("p: " + p.toString());
+}
+*/

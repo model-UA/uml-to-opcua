@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_n7J9AMdPEeqBwPQ5-6UCwg" name="Instance">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_oCcQwMdPEeqBwPQ5-6UCwg">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_punesMdPEeqBwPQ5-6UCwg" name="Class5">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Q-UhQDPhEeusqo4eorF9lg" name="Manufacturer">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EString"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_5jal4DS4EeuvtL-cjTXdxg" value="ABB"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_FevlsDSIEeuvtL-cjTXdxg" name="Axes">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_RlIvwDSIEeuvtL-cjTXdxg" name="SN">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_V_olIDSIEeuvtL-cjTXdxg" value="#000000"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_vxgR0DS2EeuvtL-cjTXdxg" name="Description">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_KYJegDPhEeusqo4eorF9lg" name="Class5Instance" classifier="_punesMdPEeqBwPQ5-6UCwg">
+    <slot xmi:type="uml:Slot" xmi:id="_J7neEDPiEeusqo4eorF9lg" definingFeature="_Q-UhQDPhEeusqo4eorF9lg"/>
+    <slot xmi:type="uml:Slot" xmi:id="_XqlEADSIEeuvtL-cjTXdxg" definingFeature="_RlIvwDSIEeuvtL-cjTXdxg">
+      <value xmi:type="uml:LiteralString" xmi:id="_bvo04DSIEeuvtL-cjTXdxg" value="#005001"/>
+    </slot>
+    <slot xmi:type="uml:Slot" xmi:id="_8IbyQDS2EeuvtL-cjTXdxg" definingFeature="_vxgR0DS2EeuvtL-cjTXdxg"/>
+  </packagedElement>
+</uml:Model>
