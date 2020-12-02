@@ -63,21 +63,7 @@ mapping UML::Property::property2UAVariable(inout parent : OPCUA::UANode) : OPCUA
 			value := object OPCUA::ValueType1{};
 			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralString).value);
 		};		
-	} else if (self.type.toString().find("Real") > 0) {
-		dataType := getIdOrAlias("Double");
-		if(self.defaultValue <> null) {
-			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("double");
-			value := object OPCUA::ValueType1{};
-			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralReal).value);
-		};		
-	} else if (self.type.toString().find("Double") > 0) {
-		dataType := getIdOrAlias("Double");
-		if(self.defaultValue <> null) {
-			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("double");
-			value := object OPCUA::ValueType1{};
-			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralReal).value);
-		};		
-	} else if (self.type.toString().find("Float") > 0) {
+	} else if (self.type.toString().find("Real") > 0 or self.type.toString().find("Double") > 0 or self.type.toString().find("Float") > 0) {
 		dataType := getIdOrAlias("Double");
 		if(self.defaultValue <> null) {
 			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("double");
