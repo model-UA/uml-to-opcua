@@ -95,7 +95,7 @@ helper addNamespace(namespaceIndex : Integer, namespaceUri : String) {
 	NamespaceUri2NamespaceIndex->put(namespaceUri, namespaceIndex);
 }
 
-// TODO: Support loading the NodeIds for the same Namespace from difference CSV files
+// TODO: Support loading the NodeIds for the same Namespace from different CSV files
 helper loadExternalNodeIds(namespaceUri : String, filename : String ) {
 	var y : Dict(String,String) := readNodeIdsCsv(filename);
 	IdentifierLookupTable->put(namespaceUri, y);
