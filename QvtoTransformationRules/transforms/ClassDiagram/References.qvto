@@ -43,7 +43,7 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 			};
 			
 			var targetObject := object OPCUA::UAObject{
-				nodeId := self.createNodeId(targetObjectName);
+				nodeId := self.createNodeId(false);
 				parentNodeId := parent.nodeId;
 			};
 			
@@ -94,7 +94,7 @@ mapping UML::Property::property2Reference(inout parent : OPCUA::UANode, inout no
 			
 			log("Creating new reference type " + self.association.name);
 			var newReferenceType := object OPCUA::UAReferenceType {
-				nodeId := self.createNodeId(self.association.name);
+				nodeId := self.association.createNodeId();
 				browseName := self.association.name;
 				displayName := object OPCUA::LocalizedText{value := self.association.name};
 			};

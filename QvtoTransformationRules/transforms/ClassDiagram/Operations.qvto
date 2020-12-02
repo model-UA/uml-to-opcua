@@ -6,8 +6,6 @@ modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
 modeltype TYPES uses types('http://opcfoundation.org/UA/2008/02/Types.xsd');
 modeltype ecore "strict" uses 'http://www.eclipse.org/emf/2002/Ecore';
-modeltype UMLTYPES uses types('http://www.eclipse.org/uml2/5.0.0/Types');
-modeltype UMLPARAMETER uses umlParameter('http://www.eclipse.org/papyrus/uml/textedit/parameter/xtext/UmlParameter');
 
 /*
  * Transforming UML Operations to OPC UA Methods requires an UAMethod node and, possibly,
@@ -37,7 +35,7 @@ mapping UML::Operation::operation2UAMethod(inout parent : OPCUA::UANode, inout n
 	if (self.ownedElement->selectByType(UML::Parameter)->select(direction = UML::ParameterDirectionKind::_'in')->size() > 0){ // if the operation has input parameters
 		// create a UAVariable for input arguments
 		var inputArgumentsVariable := object OPCUA::UAVariable{
-			nodeId := self.createNodeId() + "InputArguments";
+			nodeId := self.createNodeId(false);
 			browseName := "InputArguments";
 			displayName := object OPCUA::LocalizedText{value := "InputArguments"};
 			dataType := getIdOrAlias("Argument");
@@ -72,7 +70,7 @@ mapping UML::Operation::operation2UAMethod(inout parent : OPCUA::UANode, inout n
 	if (self.ownedElement->selectByType(UML::Parameter)->select(direction = UML::ParameterDirectionKind::_'out')->size() > 0){ // if the operation has output parameters
 		// create a UAVariable for output arguments
 		var outputArgumentsVariable := object OPCUA::UAVariable{
-			nodeId := self.createNodeId() + "OutputArguments";
+			nodeId := self.createNodeId(false);
 			browseName := "OutputArguments";
 			displayName := object OPCUA::LocalizedText{value := "OutputArguments"};
 			dataType := "Argument";

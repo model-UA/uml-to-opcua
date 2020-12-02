@@ -14,6 +14,9 @@ modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
 // identifier have the form i=256
 // nodeIds have the form ns=2;s=someString
 
+property nodeIdCount : Integer = 1000;
+property nodeIdLookupTable : Dict(UML::Element, String); // used to ensure that a nodeId is reused if it is generated for the same UML::Element twice
+
 // entries are of the form "http://opcfoundation.org/UA/","NonHierarchicalReferences","i=32"
 property IdentifierLookupTable : Dict(String,Dict(String,String)); 
 
@@ -65,9 +68,9 @@ helper UML::Element::getUri() : String {
 	return uri;
 }
 
-helper UML::NamedElement::getNodeIdPrefix() : String {
+helper UML::Element::getNodeIdPrefix() : String {
 	var ns := self.getUri();
-	return "ns=" + NamespaceUri2NamespaceIndex->get(ns).toString() + ";s=";
+	return "ns=" + NamespaceUri2NamespaceIndex->get(ns).toString() + ";i=";
 }
 
 helper UML::NamedElement::getNamePostfix() : String {
@@ -78,13 +81,31 @@ helper UML::NamedElement::getNamePostfix() : String {
 	};
 }
 
-helper UML::NamedElement::createNodeId() : String {
-	return self.getNodeIdPrefix() + self.name + self.getNamePostfix();
+helper UML::Element::createNodeId() : String {
+	// check if there has already been generated a nodeId for this UML::Element and if so, reuse that node id;
+	var nodeId := "";
+	if(nodeIdLookupTable->keys()->includes(self)) {
+		nodeId := nodeIdLookupTable->get(self);
+	} else {
+		nodeId := self.getNodeIdPrefix() + nodeIdCount.toString();
+		nodeIdLookupTable->put(self, nodeId);
+		nodeIdCount := nodeIdCount + 1;
+	};
+	return nodeId;
 }
 
-helper UML::NamedElement::createNodeId(nodeName : String) : String {
-	return self.getNodeIdPrefix() + nodeName + self.getNamePostfix();
+helper UML::Element::createNodeId(canReuseExistingNode : Boolean) : String {
+	var nodeId := "";
+	if(canReuseExistingNode) {
+		nodeId := self.createNodeId();
+	} else {
+		nodeId := self.getNodeIdPrefix() + nodeIdCount.toString();
+		nodeIdLookupTable->put(self, nodeId);
+		nodeIdCount := nodeIdCount + 1;
+	};
+	return nodeId;
 }
+
 
 helper UML::NamedElement::createBrowseName() : String {
 	return self.name + self.getNamePostfix();
@@ -119,6 +140,7 @@ helper loadInternalNodeIds() {
 	y->put("String", "i=12");
 	y->put("LocalizedText", "i=21");
 	y->put("NonHierarchicalReferences", "i=32");
+	y->put("Organizes", "i=35");
 	y->put("HasModellingRule", "i=37");
 	y->put("HasTypeDefinition", "i=40");
 	y->put("HasSubtype", "i=45");
@@ -133,6 +155,7 @@ helper loadInternalNodeIds() {
 	y->put("PropertyType", "i=68");
 	y->put("ModellingRule_Mandatory", "i=78");
 	y->put("ModellingRule_Optional", "i=80");
+	y->put("ObjectsFolder", "i=85");
 	y->put("HasSubStateMachine", "i=117");
 	y->put("ModellingRule_OptionalPlaceholder", "i=11508");
 	y->put("ModellingRule_MandatoryPlaceholder", "i=11510");

@@ -21,7 +21,7 @@ mapping UML::Transition::transition2Transition(inout nodeset : OPCUA::UANodeSetT
 
 	// set attributes of the OPCUA::UAObjectType
 	browseName := transitionName;
-	nodeId := self.createNodeId(transitionName);
+	nodeId := self.createNodeId();
 	displayName := displayName := object OPCUA::LocalizedText{value := browseName};
 	parentNodeId := parent.nodeId;
 
