@@ -32,11 +32,15 @@ mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout node
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := classifier.createNodeId()}; 
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("Organizes"); value := getIdOrAlias("ObjectsFolder"); isForward := false};
 
-	// transform property slots of the Instance
-	nodeset.uAVariable += self.ownedElement->selectByType(UML::Slot)->select(slot | slot.definingFeature.oclIsTypeOf(UML::Property))->map propertySlot2UAVariable(result);
+	// transform property slots with primitive types of the Instance
+	nodeset.uAVariable += self.ownedElement->selectByType(UML::Slot)->select(
+		slot | slot.definingFeature.oclIsTypeOf(UML::Property) and slot.definingFeature.type.oclIsKindOf(UML::PrimitiveType)
+		)->map propertySlot2UAVariable(result);
 	
-	// TODO: transform properties of the class that are not defined as slot
-	nodeset.uAVariable += classifier.ownedElement->selectByType(UML::Property)->select(p | self.slot.definingFeature->excludes(p))->map property2UAVariable(result);
+	// transform properties with primitive types of the class that are not defined as slot
+	nodeset.uAVariable += classifier.ownedElement->selectByType(UML::Property)->select(
+		p | p.type.oclIsKindOf(UML::PrimitiveType) and self.slot.definingFeature->excludes(p)
+		)->map property2UAVariable(result);
 
 }
 
