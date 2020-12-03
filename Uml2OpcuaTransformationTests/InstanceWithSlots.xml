@@ -4,30 +4,19 @@
     <Uri>InstanceWithSlots</Uri>
   </NamespaceUris>
   <Aliases>
-    <Alias Alias="ObjectsFolder">i=85</Alias>
-    <Alias Alias="Organizes">i=35</Alias>
-    <Alias Alias="String">i=12</Alias>
-    <Alias Alias="ModellingRule_Mandatory">i=78</Alias>
-    <Alias Alias="HasComponent">i=47</Alias>
-    <Alias Alias="BaseObjectType">i=58</Alias>
     <Alias Alias="HasTypeDefinition">i=40</Alias>
     <Alias Alias="BaseDataVariableType">i=63</Alias>
-    <Alias Alias="HasModellingRule">i=37</Alias>
     <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="String">i=12</Alias>
+    <Alias Alias="ModellingRule_Mandatory">i=78</Alias>
     <Alias Alias="Int32">i=6</Alias>
+    <Alias Alias="Organizes">i=35</Alias>
+    <Alias Alias="BaseObjectType">i=58</Alias>
+    <Alias Alias="ObjectsFolder">i=85</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
   </Aliases>
-  <UAVariable BrowseName="SN" NodeId="ns=1;i=1002" ParentNodeId="ns=1;i=1000" DataType="String">
-    <DisplayName>SN</DisplayName>
-    <References>
-      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
-      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1000</Reference>
-    </References>
-    <Value>
-      <types:String>#000000</types:String>
-    </Value>
-  </UAVariable>
-  <UAVariable BrowseName="Manufacturer" NodeId="ns=1;i=1003" ParentNodeId="ns=1;i=1000" DataType="String">
+  <UAVariable BrowseName="Manufacturer" NodeId="ns=1;i=1002" ParentNodeId="ns=1;i=1000" DataType="String">
     <DisplayName>Manufacturer</DisplayName>
     <References>
       <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
@@ -38,15 +27,7 @@
       <types:String>ABB</types:String>
     </Value>
   </UAVariable>
-  <UAVariable BrowseName="Description" NodeId="ns=1;i=1001" ParentNodeId="ns=1;i=1000" DataType="String">
-    <DisplayName>Description</DisplayName>
-    <References>
-      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
-      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1000</Reference>
-    </References>
-  </UAVariable>
-  <UAVariable BrowseName="Axes" NodeId="ns=1;i=1004" ParentNodeId="ns=1;i=1000" DataType="Int32">
+  <UAVariable BrowseName="Axes" NodeId="ns=1;i=1003" ParentNodeId="ns=1;i=1000" DataType="Int32">
     <DisplayName>Axes</DisplayName>
     <References>
       <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
@@ -55,6 +36,25 @@
     </References>
     <Value>
       <types:Int32>6</types:Int32>
+    </Value>
+  </UAVariable>
+  <UAVariable BrowseName="Description" NodeId="ns=1;i=1001" ParentNodeId="ns=1;i=1000" DataType="String">
+    <DisplayName>Description</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1000</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable BrowseName="SN" NodeId="ns=1;i=1004" ParentNodeId="ns=1;i=1000" DataType="String">
+    <DisplayName>SN</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1000</Reference>
+    </References>
+    <Value>
+      <types:String>#000000</types:String>
     </Value>
   </UAVariable>
   <UAObjectType BrowseName="RobotType" NodeId="ns=1;i=1000">
@@ -67,17 +67,6 @@
       <Reference ReferenceType="HasComponent">ns=1;i=1004</Reference>
     </References>
   </UAObjectType>
-  <UAVariable BrowseName="Manufacturer" NodeId="ns=1;i=1006" ParentNodeId="ns=1;i=1005" DataType="String">
-    <DisplayName>Manufacturer</DisplayName>
-    <References>
-      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
-      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1005</Reference>
-    </References>
-    <Value>
-      <types:String>ABB</types:String>
-    </Value>
-  </UAVariable>
   <UAVariable BrowseName="Description" NodeId="ns=1;i=1008" ParentNodeId="ns=1;i=1005" DataType="String">
     <DisplayName>Description</DisplayName>
     <References>
@@ -86,7 +75,7 @@
       <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1005</Reference>
     </References>
   </UAVariable>
-  <UAVariable BrowseName="SN" NodeId="ns=1;i=1007" ParentNodeId="ns=1;i=1005" DataType="String">
+  <UAVariable BrowseName="SN" NodeId="ns=1;i=1006" ParentNodeId="ns=1;i=1005" DataType="String">
     <DisplayName>SN</DisplayName>
     <References>
       <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
@@ -95,6 +84,17 @@
     </References>
     <Value>
       <types:String>#005001</types:String>
+    </Value>
+  </UAVariable>
+  <UAVariable BrowseName="Manufacturer" NodeId="ns=1;i=1007" ParentNodeId="ns=1;i=1005" DataType="String">
+    <DisplayName>Manufacturer</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1005</Reference>
+    </References>
+    <Value>
+      <types:String>ABB</types:String>
     </Value>
   </UAVariable>
   <UAVariable BrowseName="Axes" NodeId="ns=1;i=1009" ParentNodeId="ns=1;i=1005" DataType="Int32">
@@ -113,6 +113,10 @@
     <References>
       <Reference ReferenceType="HasTypeDefinition">ns=1;i=1000</Reference>
       <Reference IsForward="false" ReferenceType="Organizes">ObjectsFolder</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1006</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1007</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1008</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1009</Reference>
     </References>
   </UAObject>
 </UANodeSet>

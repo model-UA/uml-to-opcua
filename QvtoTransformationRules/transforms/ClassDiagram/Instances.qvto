@@ -25,6 +25,11 @@ mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout node
 
 	var classifier := self.classifier->any(true); // should only have one classifier
 	
+	assert warning (self.classifier->size() <= 1) with log("Element specifies more than one classifier. Only the first value is used");
+	_references := object OPCUA::ListOfReferences{};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := classifier.createNodeId()}; 
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("Organizes"); value := getIdOrAlias("ObjectsFolder"); isForward := false};
+
 	// transform property slots of the Instance
 	nodeset.uAVariable += self.ownedElement->selectByType(UML::Slot)->select(slot | slot.definingFeature.oclIsTypeOf(UML::Property))->map transformPropertySlot2UAVariable(result);
 	
@@ -32,10 +37,6 @@ mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout node
 	log("number of slots not defined in the instance: " + classifier.ownedElement->selectByType(UML::Property)->select(p | self.slot.definingFeature->excludes(p))->size().toString());
 	nodeset.uAVariable += classifier.ownedElement->selectByType(UML::Property)->select(p | self.slot.definingFeature->excludes(p))->map transformClassifierProperty2UAVariable(result);
 
-	assert warning (self.classifier->size() <= 1) with log("Element specifies more than one classifier. Only the first value is used");
-	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := classifier.createNodeId()}; 
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("Organizes"); value := getIdOrAlias("ObjectsFolder"); isForward := false};
 }
 
 mapping UML::Slot::transformPropertySlot2UAVariable(inout parent : OPCUA::UANode) : OPCUA::UAVariable {
