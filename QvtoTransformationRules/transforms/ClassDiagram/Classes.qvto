@@ -1,5 +1,6 @@
 library Classes;
 
+import ClassDiagram.Properties;
 import ClassDiagram.References;
 import ClassDiagram.Operations;
 import ClassDiagram.Instances;
@@ -40,74 +41,3 @@ mapping UML::Class::class2OPCUAObjectType(inout nodeset : OPCUA::UANodeSetType) 
 	nodeset.uAMethod += self.ownedElement->selectByType(UML::Operation)->map operation2UAMethod(result, nodeset)->asOrderedSet();
 }
 
-mapping UML::Property::property2UAVariable(inout parent : OPCUA::UANode) : OPCUA::UAVariable {
-	log("property2UAVariable for UML element " + self.name);
-
-	// set attributs of the OPCUA::UAVariable
-	nodeId := self.createNodeId();
-	browseName := self.createBrowseName();
-	displayName := object OPCUA::LocalizedText{value := browseName};
-	
-	// set the datatype and maybe the value of the UA::Variable
-	if(self.type.toString().find("Int") > 0) {
-		dataType := getIdOrAlias("Int32");
-		if(self.defaultValue <> null) {
-			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("int32");
-			value := object OPCUA::ValueType1{};
-			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralInteger).value);
-		};		
-	} else if (self.type.toString().find("String") > 0) {
-		dataType := getIdOrAlias("String");
-		if(self.defaultValue <> null) {
-			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("string");
-			value := object OPCUA::ValueType1{};
-			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralString).value);
-		};		
-	} else if (self.type.toString().find("Real") > 0 or self.type.toString().find("Double") > 0 or self.type.toString().find("Float") > 0) {
-		dataType := getIdOrAlias("Double");
-		if(self.defaultValue <> null) {
-			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("double");
-			value := object OPCUA::ValueType1{};
-			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralReal).value);
-		};		
-	} else if (self.type.toString().find("Boolean") > 0) {
-		dataType := getIdOrAlias("Boolean");
-		if(self.defaultValue <> null) {
-			var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("boolean");
-			value := object OPCUA::ValueType1{};
-			value.oclAsType(EObject).eSet(feature, self.defaultValue.oclAsType(UML::LiteralBoolean).value);
-		};		
-	} else {
-		raise Exception("Unkown datatype for parameter " + self.name + ": " + self.type.toString());
-	};
-		
-	// link the OPCUA::UAVariable to the parent via a HasComponent reference
-	parent._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := nodeId};
-	parentNodeId := parent.nodeId;
-	
-	// add references
-	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := getIdOrAlias("BaseDataVariableType")};
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
-}
-
-// the property is more complex than a simple primitive type or variable, e.g., it represents some state machine
-mapping UML::Property::property2UAObject(inout parent : OPCUA::UANode) : OPCUA::UAObject {
-	log("property2UAObject for UML element " + self.name);
-
-	// set attributs of the OPCUA::UAObject
-	nodeId := self.createNodeId();
-	browseName := self.createBrowseName();
-	displayName := object OPCUA::LocalizedText{value := browseName};
-	
-	// link the OPCUA::UAVariable to the parent via a HasComponent reference
-	parent._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := nodeId};
-	parentNodeId := parent.nodeId;
-            
-	// add references
-	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := self.type.createNodeId()}; // it is assumed that the corresponding type (e.g., the class or state machine) is transformed elsewhere
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
-}
