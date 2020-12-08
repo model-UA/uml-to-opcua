@@ -124,4 +124,10 @@ mapping UML::Property::property2UAObject(inout parent : OPCUA::UANode, inout nod
  	}; 	
  	_references.reference += modelingRuleReference;
  	
+ 	// if the property refers to a class, not only the UAObject that is created from the class by this transformation rule is required
+ 	// but also nodes for all methods, variables, etc. need to be created, possibly recursively
+ 	if(self.type.oclIsTypeOf(UML::Class)) {
+ 		self.type.oclAsType(UML::Class).transformPropertiesAndLinkToUANode(result, nodeset);
+		nodeset.uAMethod += self.ownedElement->selectByType(UML::Operation)->map operation2UAMethod(result, nodeset);
+ 	};
 }

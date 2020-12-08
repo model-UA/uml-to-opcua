@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_Z9FNMP5FEeqcH6exUiFZNQ" name="ChainedComposition">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_aBXQQP5FEeqcH6exUiFZNQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_bjo7UP5FEeqcH6exUiFZNQ" name="Robot">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_iUI-wP5FEeqcH6exUiFZNQ" type="_cGH9UP5FEeqcH6exUiFZNQ" aggregation="composite" association="_iUAb4P5FEeqcH6exUiFZNQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_cGH9UP5FEeqcH6exUiFZNQ" name="Controller">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_04ta0TlZEeuSk7aEnW8xTw" type="_x1Q38DlZEeuSk7aEnW8xTw" aggregation="composite" association="_04kQ4DlZEeuSk7aEnW8xTw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_04ta0jlZEeuSk7aEnW8xTw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_04ta0zlZEeuSk7aEnW8xTw" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_iUAb4P5FEeqcH6exUiFZNQ" visibility="public" memberEnd="_iUI-wP5FEeqcH6exUiFZNQ _iUNQMf5FEeqcH6exUiFZNQ">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_iUDfMP5FEeqcH6exUiFZNQ" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_iUEGQP5FEeqcH6exUiFZNQ" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_iUNQMf5FEeqcH6exUiFZNQ" type="_bjo7UP5FEeqcH6exUiFZNQ" association="_iUAb4P5FEeqcH6exUiFZNQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_x1Q38DlZEeuSk7aEnW8xTw" name="Program"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_04kQ4DlZEeuSk7aEnW8xTw" memberEnd="_04ta0TlZEeuSk7aEnW8xTw _04ta1DlZEeuSk7aEnW8xTw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_04kQ4TlZEeuSk7aEnW8xTw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_04ta0DlZEeuSk7aEnW8xTw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_04ta1DlZEeuSk7aEnW8xTw" name="controller" type="_cGH9UP5FEeqcH6exUiFZNQ" association="_04kQ4DlZEeuSk7aEnW8xTw"/>
+  </packagedElement>
+</uml:Model>
