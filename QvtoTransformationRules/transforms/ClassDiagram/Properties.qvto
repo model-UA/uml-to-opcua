@@ -1,12 +1,34 @@
-library properties;
+library Properties;
 
 import Common.Helpers;
+import ClassDiagram.References;
+import ClassDiagram.Operations;
 
 modeltype UML uses uml('http://www.eclipse.org/uml2/5.0.0/UML');
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
 modeltype TYPES uses types('http://opcfoundation.org/UA/2008/02/Types.xsd');
 modeltype ecore "strict" uses 'http://www.eclipse.org/emf/2002/Ecore';
 
+helper UML::Class::transformPropertiesAndLinkToUANode(inout uanode : OPCUA::UANode, inout nodeset : OPCUA::UANodeSetType) {
+	// transform primitive properties of the class
+	nodeset.uAVariable += self.ownedElement->selectByType(UML::Property)->select(x| x.type.oclIsKindOf(UML::PrimitiveType))->map property2UAVariable(uanode)->asOrderedSet();
+	
+	// transform non-primitive properties of the class
+	// case 1a: property that represents an instance of a class --> property2UAObject
+	nodeset.uAObject += self.ownedElement->selectByType(UML::Property)->select(x| x.association = null and x.type.oclIsTypeOf(UML::Class))->map property2UAObject(uanode, nodeset);
+
+	// case 1b: property that represents an instance of a state machine --> property2UAObject
+	nodeset.uAObject += self.ownedElement->selectByType(UML::Property)->select(x| x.association = null and x.type.oclIsTypeOf(UML::StateMachine))->map property2UAObject(uanode, nodeset);
+
+	// case 2a: aggregation --> property2UAObject
+	nodeset.uAObject += self.ownedElement->selectByType(UML::Property)->select(x| x.association <> null and x.aggregation = UML::AggregationKind::composite)->map property2UAObject(uanode, nodeset);
+
+	// case 2b: composition --> property2UAObject
+	nodeset.uAObject += self.ownedElement->selectByType(UML::Property)->select(x| x.association <> null and x.aggregation = UML::AggregationKind::shared)->map property2UAObject(uanode, nodeset);
+
+	// case 3: association --> property2UAReference
+	uanode._references.reference += self.ownedElement->selectByType(UML::Property)->select(x| x.association <> null and x.aggregation = UML::AggregationKind::none)->map property2UAReference(nodeset);
+}
 
 mapping UML::Property::property2UAVariable(inout parent : OPCUA::UANode) : OPCUA::UAVariable {
 	log("property2UAVariable for UML element " + self.name);
@@ -60,22 +82,46 @@ mapping UML::Property::property2UAVariable(inout parent : OPCUA::UANode) : OPCUA
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
 }
 
-// the property is more complex than a simple primitive type or variable, e.g., it represents some state machine
-mapping UML::Property::property2UAObject(inout parent : OPCUA::UANode) : OPCUA::UAObject {
-	log("property2UAObject for UML element " + self.name);
+// the property is more complex than a simple primitive type or variable, e.g., it represents some class, state machine, composition or aggregation
+mapping UML::Property::property2UAObject(inout parent : OPCUA::UANode, inout nodeset : OPCUA::UANodeSetType) : OPCUA::UAObject {
+	if(self.name <> null) {
+		log("property2UAObject for UML element " + self.name);
+	} else {
+		log("property2UAObject for unnamed UML element " + self.toString());
+	};
 
 	// set attributs of the OPCUA::UAObject
 	nodeId := self.createNodeId(false);
-	browseName := self.createBrowseName();
+	if(self.name <> null) { // compositions and aggregations possibly are not named, use the name of the referenced class instead
+		browseName := self.createBrowseName();
+	} else {
+		browseName := self.type.name;
+	};
 	displayName := object OPCUA::LocalizedText{value := browseName};
 	
-	// link the OPCUA::UAVariable to the parent via a HasComponent reference
+	// link the OPCUA::UAObject to the parent via a HasComponent reference
 	parent._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := nodeId};
 	parentNodeId := parent.nodeId;
             
 	// add references
 	_references := object OPCUA::ListOfReferences{};
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := self.type.createNodeId()}; // it is assumed that the corresponding type (e.g., the class or state machine) is transformed elsewhere
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
+
+	// set the modelling rule; note that -1 means infitiy (*); therefore, for 0..* the limits are lower=0 and upper=-1
+	var modelingRuleReference := object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule")};
+	if(self.lower = 0 and self.upper = 1) {
+		modelingRuleReference.value := getIdOrAlias("ModellingRule_Optional");
+	}
+	else if(self.lower = 1 and self.upper = 1) {
+		modelingRuleReference.value := getIdOrAlias("ModellingRule_Mandatory");
+	}
+	else if(self.lower = 0 and self.upper = -1) {
+	 	modelingRuleReference.value := getIdOrAlias("ModellingRule_OptionalPlaceholder");
+ 	}
+ 	else if(self.lower = 1 and self.upper = -1) {
+ 		modelingRuleReference.value := getIdOrAlias("ModellingRule_MandatoryPlaceholder");
+ 	}; 	
+ 	_references.reference += modelingRuleReference;
+ 	
 }

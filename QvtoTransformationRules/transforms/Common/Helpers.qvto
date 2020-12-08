@@ -108,6 +108,7 @@ helper UML::Element::createNodeId(canReuseExistingNode : Boolean) : String {
 
 
 helper UML::NamedElement::createBrowseName() : String {
+	assert error (self.name <> null) with log ("Cannot create browseName because the UML::Element does not have a name: " + self.toString());
 	return self.name + self.getNamePostfix();
 }
 
