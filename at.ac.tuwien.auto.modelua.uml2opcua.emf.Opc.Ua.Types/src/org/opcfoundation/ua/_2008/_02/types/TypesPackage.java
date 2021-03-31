@@ -48,7 +48,7 @@ public interface TypesPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "types";
+	String eNS_PREFIX = "uax";
 
 	/**
 	 * The singleton instance of the package.

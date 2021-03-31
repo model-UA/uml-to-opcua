@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="types" nsURI="http://opcfoundation.org/UA/2008/02/Types.xsd"
-    nsPrefix="types">
+    nsPrefix="uax">
   <eClassifiers xsi:type="ecore:EDataType" name="AccessLevelExType" instanceClassName="long">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="AccessLevelExType"/>
