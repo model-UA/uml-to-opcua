@@ -81,6 +81,7 @@ helper UML::NamedElement::getNamePostfix() : String {
 	};
 }
 
+// the same as createNodeId(true)
 helper UML::Element::createNodeId() : String {
 	// check if there has already been generated a nodeId for this UML::Element and if so, reuse that node id;
 	var nodeId := "";
@@ -218,4 +219,32 @@ helper getId(name : String) : String {
 	return id;
 }
 
+
+// checks if an InstanceSpecification is itself used in a slot of another instance delcaration
+helper UML::InstanceSpecification::isItselfASlot() : Boolean {
+	// TODO: check type
+	var model = self.owner.oclAsType(UML::Model);
+	var found := false;
+	
+	// check the slots of all InstanceSpecifications
+	var element := self;
+	var uri : String;
+	
+	// collect all slots of all InstanceSpecifications in a set
+	var setOfAllSlots := model.ownedElement->selectByType(UML::InstanceSpecification)->slot->flatten()->asSet();
+	
+	// assert that all slots only have a single value and throw a warning otherwise
+	setOfAllSlots->forEach(slot) {
+		assert warning (slot->value->size() <= 1) with log("Slot " + slot.toString() + " specifies more than one value. Only the first value is used.");
+	};
+	
+	// check if at least on of the slots matches this InstanceSpecification
+	var numberOfMatchingSlots := setOfAllSlots->value->first()->selectByType(UML::InstanceValue).instance->count(self);
+	if(numberOfMatchingSlots >= 1) {
+		// log(self.toString() + " is itself a slot ");
+		return true;
+	};
+	// log(self.toString() + " is itself NOT a slot ");
+	return false;
+}
 

@@ -14,8 +14,7 @@ modeltype ecore "strict" uses 'http://www.eclipse.org/emf/2002/Ecore';
  * In many cases, it would be cumbersome to also add instances for all Properties, Operations, Compositions manually
  * Therefore, if not manually specified, the elements defined by the class corresponding to the UML::InstanceSpecification
  * will be used to generated the relevant OPC UA objects, variables, etc.
- * @param umlInputModel The UML input model.
- * @param opcuaOutputModel The OPC UA output model that will be generated from the umlInputModel by means of model transformation.
+ * @param nodeset The OPC UA nodeset.
  */
 
 mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout nodeset : OPCUA::UANodeSetType) : OPCUA::UAObject {
@@ -25,27 +24,42 @@ mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout node
 	nodeId := self.createNodeId();
 	displayName := (object OPCUA::LocalizedText {value := browseName})->asOrderedSet();
 
-	var classifier := self.classifier->any(true); // should only have one classifier
-	
 	assert warning (self.classifier->size() <= 1) with log("Element specifies more than one classifier. Only the first value is used");
+	var classifier := self.classifier->any(true); // should only have one classifier; classifier is the class of the instance
+	
+	assert fatal (classifier != null) with log("Element does not specify a classifier");
 	_references := object OPCUA::ListOfReferences{};
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := classifier.createNodeId()}; 
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("Organizes"); value := getIdOrAlias("ObjectsFolder"); isForward := false};
+	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := classifier.createNodeId()};
+	// TODO: if this InstanceSpecification is itself a slot of another InstanceSpecification, it shall not be referenced from the ObjectsFolder via Organizes
+	if(not self.isItselfASlot()) {
+		_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("Organizes"); value := getIdOrAlias("ObjectsFolder"); isForward := false};
+	};
 
-	// transform property slots with primitive types of the Instance
+	// transform primitive-type-property-slots of the Instance
 	nodeset.uAVariable += self.ownedElement->selectByType(UML::Slot)->select(
 		slot | slot.definingFeature.oclIsTypeOf(UML::Property) and slot.definingFeature.type.oclIsKindOf(UML::PrimitiveType)
 		)->map propertySlot2UAVariable(result);
 	
-	// transform properties with primitive types of the class that are not defined as slot
+	// transform primitive-type-properties of the corresponding class that are not defined as slots
 	nodeset.uAVariable += classifier.ownedElement->selectByType(UML::Property)->select(
 		p | p.type.oclIsKindOf(UML::PrimitiveType) and self.slot.definingFeature->excludes(p)
 		)->map property2UAVariable(result);
+		
+	// transform non-primitive-type-property-slots of the Instance. This non-primitive-type-property is itself defined by an InstanceSpecification
+	_references.reference += self.ownedElement->selectByType(UML::Slot)->select(
+		slot | slot.definingFeature.oclIsTypeOf(UML::Property) and (not slot.definingFeature.type.oclIsKindOf(UML::PrimitiveType))
+		)->map propertySlot2UAReference(result);
 
+	// transform non-primitive-type-properties of the corresponding class that are not defined as slots
+	nodeset.uAObject += classifier.ownedElement->selectByType(UML::Property)->select(
+		p | (not p.type.oclIsKindOf(UML::PrimitiveType)) and self.slot.definingFeature->excludes(p)
+		and p.lower >= 1 // mandatory or mandatory placeholder
+		)->map property2UAObject(result, nodeset);
 }
 
 mapping UML::Slot::propertySlot2UAVariable(inout parent : OPCUA::UANode) : OPCUA::UAVariable {
 	var definingFeature := self.definingFeature.oclAsType(UML::Property);
+	log("propertySlot2UAVariable for UML element " + definingFeature.name);
 
 	// set attributs of the OPCUA::UAVariable
 	nodeId := self.createNodeId();
@@ -125,3 +139,15 @@ mapping UML::Slot::propertySlot2UAVariable(inout parent : OPCUA::UANode) : OPCUA
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
 }
 
+// note that the value of the porpertySlot is itself an instance
+// therefore, no additional UAObject is created but only the required references between the containing instance (parent) and this instance are added
+mapping UML::Slot::propertySlot2UAReference(inout parent : OPCUA::UANode) : OPCUA::Reference {
+	var definingFeature := self.definingFeature.oclAsType(UML::Property);
+	log("propertySlot2UAReference for UML element " + definingFeature.name);
+
+	assert warning (self.value->size() <= 1) with log("Element specifies more than one value. Only the first value is used");
+	var referencedInstanceSpecification = self.value->first().oclAsType(UML::InstanceValue).instance;
+	
+	referenceType := getIdOrAlias("HasComponent");
+	value := referencedInstanceSpecification.createNodeId();
+}
