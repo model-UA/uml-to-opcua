@@ -19,6 +19,7 @@
     <ownedAttribute xmi:type="uml:Property" xmi:id="_vxgR0DS2EeuvtL-cjTXdxg" name="Description">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Kx7GwDVdEeuvtL-cjTXdxg" name="RobotController" type="_JZZNkDVdEeuvtL-cjTXdxg"/>
   </packagedElement>
   <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_KYJegDPhEeusqo4eorF9lg" name="MyRobotInstance" classifier="_punesMdPEeqBwPQ5-6UCwg">
     <slot xmi:type="uml:Slot" xmi:id="_J7neEDPiEeusqo4eorF9lg" definingFeature="_Q-UhQDPhEeusqo4eorF9lg"/>
@@ -26,5 +27,10 @@
       <value xmi:type="uml:LiteralString" xmi:id="_bvo04DSIEeuvtL-cjTXdxg" value="#005001"/>
     </slot>
     <slot xmi:type="uml:Slot" xmi:id="_8IbyQDS2EeuvtL-cjTXdxg" definingFeature="_vxgR0DS2EeuvtL-cjTXdxg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JZZNkDVdEeuvtL-cjTXdxg" name="Controller">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Oh7NoDVdEeuvtL-cjTXdxg" name="Version">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
   </packagedElement>
 </uml:Model>

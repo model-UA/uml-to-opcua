@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_n7J9AMdPEeqBwPQ5-6UCwg" name="InstanceWithInstanceValueSlot">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_oCcQwMdPEeqBwPQ5-6UCwg">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_punesMdPEeqBwPQ5-6UCwg" name="Robot">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Kx7GwDVdEeuvtL-cjTXdxg" name="RobotController" type="_JZZNkDVdEeuvtL-cjTXdxg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JZZNkDVdEeuvtL-cjTXdxg" name="Controller">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Oh7NoDVdEeuvtL-cjTXdxg" name="Version">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_F0oxsJCUEeueMsP4aHboUw" name="MyRobotInstance" classifier="_punesMdPEeqBwPQ5-6UCwg">
+    <slot xmi:type="uml:Slot" xmi:id="_nIafgJCUEeueMsP4aHboUw" definingFeature="_Kx7GwDVdEeuvtL-cjTXdxg">
+      <value xmi:type="uml:InstanceValue" xmi:id="_5HfUMJCUEeueMsP4aHboUw" instance="_h4s5YJCUEeueMsP4aHboUw"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_h4s5YJCUEeueMsP4aHboUw" name="MyControllerInstance" classifier="_JZZNkDVdEeuvtL-cjTXdxg">
+    <slot xmi:type="uml:Slot" xmi:id="_7oZxwJCUEeueMsP4aHboUw" definingFeature="_Oh7NoDVdEeuvtL-cjTXdxg">
+      <value xmi:type="uml:LiteralString" xmi:id="_AsNp4JCVEeueMsP4aHboUw" value="#006002"/>
+    </slot>
+  </packagedElement>
+</uml:Model>

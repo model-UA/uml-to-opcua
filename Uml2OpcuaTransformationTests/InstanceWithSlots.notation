@@ -25,6 +25,10 @@
         <element xmi:type="uml:Property" href="InstanceWithSlots.uml#_vxgR0DS2EeuvtL-cjTXdxg"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_vxpbwTS2EeuvtL-cjTXdxg"/>
       </children>
+      <children xmi:type="notation:Shape" xmi:id="_Kx7GwTVdEeuvtL-cjTXdxg" type="Property_ClassAttributeLabel">
+        <element xmi:type="uml:Property" href="InstanceWithSlots.uml#_Kx7GwDVdEeuvtL-cjTXdxg"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_Kx7GwjVdEeuvtL-cjTXdxg"/>
+      </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_pvN7ocdPEeqBwPQ5-6UCwg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_pvN7osdPEeqBwPQ5-6UCwg"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_pvN7o8dPEeqBwPQ5-6UCwg"/>
@@ -46,7 +50,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pvN7rsdPEeqBwPQ5-6UCwg"/>
     </children>
     <element xmi:type="uml:Class" href="InstanceWithSlots.uml#_punesMdPEeqBwPQ5-6UCwg"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pu7AscdPEeqBwPQ5-6UCwg" x="160" y="80"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pu7AscdPEeqBwPQ5-6UCwg" x="360" y="100"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_KYTPgDPhEeusqo4eorF9lg" type="InstanceSpecification_Shape">
     <children xmi:type="notation:DecorationNode" xmi:id="_KYTPgjPhEeusqo4eorF9lg" type="InstanceSpecification_NameLabel">
@@ -76,7 +80,37 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KYTPiTPhEeusqo4eorF9lg"/>
     </children>
     <element xmi:type="uml:InstanceSpecification" href="InstanceWithSlots.uml#_KYJegDPhEeusqo4eorF9lg"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KYTPgTPhEeusqo4eorF9lg" x="460" y="80"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KYTPgTPhEeusqo4eorF9lg" x="780" y="120"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_JZi-kDVdEeuvtL-cjTXdxg" type="Class_Shape">
+    <children xmi:type="notation:DecorationNode" xmi:id="_JZi-kjVdEeuvtL-cjTXdxg" type="Class_NameLabel"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_JZi-kzVdEeuvtL-cjTXdxg" type="Class_FloatingNameLabel">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_JZi-lDVdEeuvtL-cjTXdxg" y="15"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_JZi-lTVdEeuvtL-cjTXdxg" type="Class_AttributeCompartment">
+      <children xmi:type="notation:Shape" xmi:id="_OiEXkDVdEeuvtL-cjTXdxg" type="Property_ClassAttributeLabel">
+        <element xmi:type="uml:Property" href="InstanceWithSlots.uml#_Oh7NoDVdEeuvtL-cjTXdxg"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_OiEXkTVdEeuvtL-cjTXdxg"/>
+      </children>
+      <styles xmi:type="notation:TitleStyle" xmi:id="_JZi-ljVdEeuvtL-cjTXdxg"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_JZi-lzVdEeuvtL-cjTXdxg"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_JZi-mDVdEeuvtL-cjTXdxg"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JZi-mTVdEeuvtL-cjTXdxg"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_JZi-mjVdEeuvtL-cjTXdxg" type="Class_OperationCompartment">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_JZi-mzVdEeuvtL-cjTXdxg"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_JZi-nDVdEeuvtL-cjTXdxg"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_JZi-nTVdEeuvtL-cjTXdxg"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JZi-njVdEeuvtL-cjTXdxg"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_JZi-nzVdEeuvtL-cjTXdxg" type="Class_NestedClassifierCompartment">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_JZi-oDVdEeuvtL-cjTXdxg"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_JZi-oTVdEeuvtL-cjTXdxg"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_JZi-ojVdEeuvtL-cjTXdxg"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JZi-ozVdEeuvtL-cjTXdxg"/>
+    </children>
+    <element xmi:type="uml:Class" href="InstanceWithSlots.uml#_JZZNkDVdEeuvtL-cjTXdxg"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JZi-kTVdEeuvtL-cjTXdxg" x="380" y="380"/>
   </children>
   <styles xmi:type="notation:StringValueStyle" xmi:id="_n9rskcdPEeqBwPQ5-6UCwg" name="diagram_compatibility_version" stringValue="1.4.0"/>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_n9rsksdPEeqBwPQ5-6UCwg"/>
