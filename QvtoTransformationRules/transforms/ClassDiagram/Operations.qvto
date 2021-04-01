@@ -126,27 +126,34 @@ mapping UML::Parameter::parameter2ExtensionObject(inout method : OPCUA::UAMethod
 		case (self.type.toString().find("Integer") > 0) {
 			argument.dataType := object TYPES::NodeId{identifier := getId("Int32")};
 			argument.valueRank := -1;
+			argument.arrayDimensions := null; // required for compatibility with open62541 nodeset generator
 		}
 		case (self.type.toString().find("String") > 0) {
 			argument.dataType := object TYPES::NodeId{identifier := getId("String")};
 			argument.valueRank := -1;
+			argument.arrayDimensions := null; // required for compatibility with open62541 nodeset generator
 		}
 		case (self.type.toString().find("Real") > 0) {
 			argument.dataType := object TYPES::NodeId{identifier := getId("Double")};
 			argument.valueRank := -1;
+			argument.arrayDimensions := null; // required for compatibility with open62541 nodeset generator
 		}
 		case (self.type.toString().find("Float") > 0) {
 			argument.dataType := object TYPES::NodeId{identifier := getId("Double")};
 			argument.valueRank := -1;
+			argument.arrayDimensions := null; // required for compatibility with open62541 nodeset generator
 		}
 		case (self.type.toString().find("Boolean") > 0) {
 			argument.dataType := object TYPES::NodeId{identifier := getId("Boolean")};
 			argument.valueRank := -1;
+			argument.arrayDimensions := null; // required for compatibility with open62541 nodeset generator
 		}
 		else {
 			raise Exception("Unkown datatype for parameter " + self.name + ": " + self.type.toString());
 		}
 	};
+	
+	
 
 	var feature := TYPES::DocumentRoot.oclAsType(EClass).getEStructuralFeature("argument");
 	body.oclAsType(EObject).eSet(feature, argument); // add the argument as structural feature of type "TYPES::Argument"
