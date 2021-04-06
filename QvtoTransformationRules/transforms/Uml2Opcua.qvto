@@ -71,7 +71,10 @@ mapping UML::Model::model2OPCUANodeSetType() : OPCUA::UANodeSetType {
 	if(CFG_ENABLE_ALIAS_TABLE) {
 		aliases := object OPCUA::AliasTable{};
 		fillAliasTable(aliases);
-	}
+	};
+	
+	// create NodeIdCsv
+	log("NodeIdsCsv:\n" + result.createNodeIdsCsv());
 }
 
 helper UML::Package::package2Namespace(inout nodeset : OPCUA::UANodeSetType) {

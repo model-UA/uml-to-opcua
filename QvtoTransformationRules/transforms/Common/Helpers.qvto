@@ -219,9 +219,9 @@ helper getId(name : String) : String {
 	return id;
 }
 
-
-// checks if an InstanceSpecification is itself used in a slot of another instance delcaration
-helper UML::InstanceSpecification::isItselfASlot() : Boolean {
+// checks if an InstanceSpecification is itself used in a slot of another instance specification
+// @return the instance specification that contains this instance specification or null
+helper UML::InstanceSpecification::getContainingInstanceSpecification() : UML::InstanceSpecification {
 	// TODO: check type
 	var model = self.owner.oclAsType(UML::Model);
 	var found := false;
@@ -230,21 +230,96 @@ helper UML::InstanceSpecification::isItselfASlot() : Boolean {
 	var element := self;
 	var uri : String;
 	
-	// collect all slots of all InstanceSpecifications in a set
-	var setOfAllSlots := model.ownedElement->selectByType(UML::InstanceSpecification)->slot->flatten()->asSet();
+	var containingInstanceSpecification : UML::InstanceSpecification := null; // the instance specification that contains self as slot
+	var setOfAllInstanceSpecifications := model.ownedElement->selectByType(UML::InstanceSpecification);
 	
-	// assert that all slots only have a single value and throw a warning otherwise
-	setOfAllSlots->forEach(slot) {
-		assert warning (slot->value->size() <= 1) with log("Slot " + slot.toString() + " specifies more than one value. Only the first value is used.");
+	setOfAllInstanceSpecifications->forEach(instanceSpecification){
+		instanceSpecification.slot->forEach(slot) {
+			slot.value->forEach(slotValue) {
+				if(slotValue.oclIsTypeOf(UML::InstanceValue) and slotValue.oclAsType(UML::InstanceValue).instance = self) {
+					assert warning (containingInstanceSpecification = null) with log("InstanceSpecification " + self.toString() + " is used by more than one slot. This is generally not supported and may result in errors.");
+					containingInstanceSpecification := instanceSpecification;
+				};
+			};
+		};
 	};
 	
-	// check if at least on of the slots matches this InstanceSpecification
-	var numberOfMatchingSlots := setOfAllSlots->value->first()->selectByType(UML::InstanceValue).instance->count(self);
-	if(numberOfMatchingSlots >= 1) {
-		// log(self.toString() + " is itself a slot ");
+	return containingInstanceSpecification
+}
+
+// checks if an InstanceSpecification is itself used in a slot of another instance specification
+helper UML::InstanceSpecification::isItselfASlot() : Boolean {
+	if(self.getContainingInstanceSpecification() <> null) {
 		return true;
 	};
-	// log(self.toString() + " is itself NOT a slot ");
 	return false;
 }
 
+/*
+ * Creates a unique symbol for a node; to be used in the node id csv 
+ * The standard suggests to distinguish between UAType and UAInstance nodes
+ */
+helper OPCUA::UANode::createNodeIdsCsvLine(setOfAllNodes : Set(OPCUA::UANode)) : String {
+	log("createNodeIdsCsvLine for " + self.browseName);
+	var nodeIdSymbolName : String = "";
+	var nodeIdIdentifier : String = self.nodeId.substringAfter(";i=");
+	var nodeIdNodeClass : String = "";
+	if(self.oclIsKindOf(OPCUA::UAInstance)) {
+		var instance := self.oclAsType(OPCUA::UAInstance);
+		nodeIdSymbolName := nodeIdSymbolName + instance.browseName;
+
+		if(self.oclAsType(OPCUA::UAInstance).parentNodeId <> null){
+			var parentNodes := setOfAllNodes->select(node | node.nodeId = instance.parentNodeId);
+			assert fatal (parentNodes->size() >= 1) with log("No node matches nodeId " + instance.parentNodeId);
+			assert warning (parentNodes->size() <= 1) with log("More than one node matches nodeId " + instance.parentNodeId);
+			var parentNode := parentNodes->asList()->first();
+			
+			while(parentNode <> null) {
+				// log("parentNode: " + parentNode.toString());
+				nodeIdSymbolName := parentNode.browseName + "_" + nodeIdSymbolName;
+				if(parentNode.oclIsKindOf(OPCUA::UAInstance) and parentNode.oclAsType(OPCUA::UAInstance).parentNodeId <> null) {
+					var parentNodeInstance := parentNode.oclAsType(OPCUA::UAInstance);
+					parentNodes := setOfAllNodes->select(node | node.nodeId = parentNodeInstance.parentNodeId);
+					assert fatal (parentNodes->size() >= 1) with log("No node matches nodeId " + parentNodeInstance.parentNodeId);
+					assert warning (parentNodes->size() <= 1) with log("More than one node matches nodeId " + parentNodeInstance.parentNodeId);
+					parentNode := parentNodes->asList()->first();
+				} else {
+					parentNode := null;
+				};
+			};
+		};
+	} else if(self.oclIsKindOf(OPCUA::UAType)) {
+		nodeIdSymbolName := self.browseName;
+	} else {
+		log("not creating a node id csv entry for node " + self.nodeId + " because it is neither of kind UAInstance nor UAType");
+	}; 
+	
+	switch {
+		case(self.oclIsTypeOf(OPCUA::UAObjectType)) nodeIdNodeClass := "ObjectType";
+		case(self.oclIsTypeOf(OPCUA::UAObject)) nodeIdNodeClass := "Object";
+		case(self.oclIsTypeOf(OPCUA::UAVariableType)) nodeIdNodeClass := "VariableType";
+		case(self.oclIsTypeOf(OPCUA::UAVariable)) nodeIdNodeClass := "Variable";
+		case(self.oclIsTypeOf(OPCUA::UADataType)) nodeIdNodeClass := "DataType";
+		case(self.oclIsTypeOf(OPCUA::UAReferenceType)) nodeIdNodeClass := "ReferenceType";
+		case(self.oclIsTypeOf(OPCUA::UAMethod)) nodeIdNodeClass := "Method";
+		case(self.oclIsTypeOf(OPCUA::UAView)) nodeIdNodeClass := "View";
+		else raise Exception("Could not determine the OPCUA Node Class of node " + self.nodeId + " : " + self.browseName);
+	};
+	
+	return nodeIdSymbolName + "," + nodeIdIdentifier + "," + nodeIdNodeClass;	
+}
+
+/*
+ * Creates the contents of the node id csv:  https://reference.opcfoundation.org/v104/CNC/v100/docs/A.1/
+ * Each line of the CSV file is of the form <SymbolName>, <Identifier>, <NodeClass>
+ */
+helper OPCUA::UANodeSetType::createNodeIdsCsv() : String {
+	var nodeIdsCsv : String = "";
+	var setOfAllNodes : Set(OPCUA::UANode) := self.allSubobjectsOfKind(OPCUA::UAType);
+	setOfAllNodes := setOfAllNodes->union(self.allSubobjectsOfKind(OPCUA::UAInstance));
+	setOfAllNodes->forEach(node) {
+		var nodeIdsCsvLine := node.createNodeIdsCsvLine(setOfAllNodes);
+		nodeIdsCsv := nodeIdsCsv + nodeIdsCsvLine + "\n";
+	};
+	return nodeIdsCsv;
+}

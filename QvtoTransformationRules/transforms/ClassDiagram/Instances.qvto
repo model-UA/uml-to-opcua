@@ -23,6 +23,12 @@ mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout node
 	browseName := self.createBrowseName();
 	nodeId := self.createNodeId();
 	displayName := (object OPCUA::LocalizedText {value := browseName})->asOrderedSet();
+	
+	var containingInstanceSpecification := self.getContainingInstanceSpecification();
+	if(containingInstanceSpecification <> null) {
+		log("containingInstanceSpecification of " + self.toString() + " is " + containingInstanceSpecification.toString());
+		parentNodeId := containingInstanceSpecification.createNodeId();
+	};
 
 	assert warning (self.classifier->size() <= 1) with log("Element specifies more than one classifier. Only the first value is used");
 	var classifier := self.classifier->any(true); // should only have one classifier; classifier is the class of the instance
@@ -30,7 +36,7 @@ mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout node
 	assert fatal (classifier != null) with log("Element does not specify a classifier");
 	_references := object OPCUA::ListOfReferences{};
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := classifier.createNodeId()};
-	// TODO: if this InstanceSpecification is itself a slot of another InstanceSpecification, it shall not be referenced from the ObjectsFolder via Organizes
+	// if this InstanceSpecification is itself a slot of another InstanceSpecification, it shall not be referenced from the ObjectsFolder via Organizes
 	if(not self.isItselfASlot()) {
 		_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("Organizes"); value := getIdOrAlias("ObjectsFolder"); isForward := false};
 	};
