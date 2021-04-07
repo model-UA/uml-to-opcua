@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated NodeIdsCsv -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="at.ac.tuwien.auto.modelua.uml2opcua.nodeIdsCsv.NodeIdsCsv.presentation.NodeIdsCsvModelWizardID"
+            name="%_UI_NodeIdsCsvModelWizard_label"
+            class="at.ac.tuwien.auto.modelua.uml2opcua.nodeIdsCsv.NodeIdsCsv.presentation.NodeIdsCsvModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/NodeIdsCsvModelFile.gif">
+         <description>%_UI_NodeIdsCsvModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated NodeIdsCsv -->
+      <editor
+            id="at.ac.tuwien.auto.modelua.uml2opcua.nodeIdsCsv.NodeIdsCsv.presentation.NodeIdsCsvEditorID"
+            name="%_UI_NodeIdsCsvEditor_label"
+            icon="icons/full/obj16/NodeIdsCsvModelFile.gif"
+            extensions="csv"
+            class="at.ac.tuwien.auto.modelua.uml2opcua.nodeIdsCsv.NodeIdsCsv.presentation.NodeIdsCsvEditor"
+            contributorClass="at.ac.tuwien.auto.modelua.uml2opcua.nodeIdsCsv.NodeIdsCsv.presentation.NodeIdsCsvActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

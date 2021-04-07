@@ -9,13 +9,14 @@ modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
 modeltype OPCUA uses set('http://opcfoundation.org/UA/2011/03/UANodeSet.xsd');
 modeltype TYPES uses types('http://opcfoundation.org/UA/2008/02/Types.xsd');
 modeltype ecore "strict" uses 'http://www.eclipse.org/emf/2002/Ecore';
+modeltype NodeIdsCsv uses NodeIdsCsv('http://at.ac.tuwien.auto.modelua.uml2opcua.NodeIdsCsv.ecore');
 
 /*
  * UML to OPC UA Model Transformation using QVTo 
  * @param umlInputModel The UML input model.
  * @param opcuaOutputModel The OPC UA output model that will be generated from the umlInputModel by means of model transformation.
  */
-transformation UMLtoOPCUA(in umlInputModel : UML, out opcuaOutputModel : OPCUA);
+transformation UMLtoOPCUA(in umlInputModel : UML, out opcuaOutputModel : OPCUA, out nodeIdsCsvOutputModel : NodeIdsCsv);
 
 /*
  * The main entry point of the transformation.
@@ -41,6 +42,7 @@ main() {
 	// TODO: verify what happens if the inputModel contains multiple UML::Model elements
 	var x := documentRoot.xMLNSPrefixMap;
 	documentRoot.uANodeSet += umlInputModel.rootObjects()->selectByType(UML::Model)->map model2OPCUANodeSetType();
+	
 }
 
 /*
@@ -74,7 +76,8 @@ mapping UML::Model::model2OPCUANodeSetType() : OPCUA::UANodeSetType {
 	};
 	
 	// create NodeIdCsv
-	log("NodeIdsCsv:\n" + result.createNodeIdsCsv());
+	var nodeIdsCsvFile := object NodeIdsCsv::NodeIdsCsvFile{};
+	result.createNodeIdsCsv(nodeIdsCsvFile);
 }
 
 helper UML::Package::package2Namespace(inout nodeset : OPCUA::UANodeSetType) {

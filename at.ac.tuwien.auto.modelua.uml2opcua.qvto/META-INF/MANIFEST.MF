@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.workbench,
  at.ac.tuwien.auto.modelua.uml2opcua.emf.Opc.Ua.Types;bundle-version="1.0.0",
  at.ac.tuwien.auto.modelua.uml2opcua.emf.UANodeSet;bundle-version="1.0.0",
- at.ac.tuwien.auto.modelua.uml2opcua.qvto.transformation;bundle-version="0.1.0"
+ at.ac.tuwien.auto.modelua.uml2opcua.qvto.transformation;bundle-version="0.1.0",
+ at.ac.tuwien.auto.modelua.uml2opcua.nodeIdsCsv;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: at.ac.tuwien.auto.modelua.uml2opcua.qvto
 Bundle-ActivationPolicy: lazy

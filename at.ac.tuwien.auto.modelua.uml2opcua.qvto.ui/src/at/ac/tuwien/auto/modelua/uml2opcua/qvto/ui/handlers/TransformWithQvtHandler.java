@@ -74,13 +74,20 @@ public class TransformWithQvtHandler extends AbstractHandler {
     	}
 		
         String opcuaNodesetFilePath = umlFilePath.replace(".uml", ".xml");
+        String opcuaNodeIdsCsvFilePath = umlFilePath.replace(".uml", ".csv");
 		
 		Uml2OpcuaTransformer transformer = new Uml2OpcuaTransformer();
 		
 		// the transformer uses its internal UML to OPC UA QVTo transformation null is passed instead of a QVTo transformation file
-		ModelExtent result = transformer.transform(umlFilePath, null, out);
-		if(result != null) {
-			transformer.serialize(result, opcuaNodesetFilePath, out);
+        ModelExtent[] transformationResults = {null, null};
+		boolean success = transformer.transform(umlFilePath, null, transformationResults, out);
+		
+		if(success) {
+    		ModelExtent opcuaNodesetOutput = transformationResults[0];
+    		ModelExtent opcuaNodeIdsCsvOutput = transformationResults[1];
+
+    		transformer.serializeNodeset(opcuaNodesetOutput, opcuaNodesetFilePath, out);
+			transformer.serializeNodeIdsCsv(opcuaNodeIdsCsvOutput, opcuaNodeIdsCsvFilePath, out);
 			
             // Refresh the workspace (causing the new file to appear in the Project Explorer)
             try {

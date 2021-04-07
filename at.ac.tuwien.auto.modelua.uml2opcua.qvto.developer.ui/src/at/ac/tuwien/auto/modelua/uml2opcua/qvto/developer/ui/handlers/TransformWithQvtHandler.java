@@ -106,10 +106,17 @@ public class TransformWithQvtHandler extends AbstractHandler {
 
     		URI qvtTransformationFileUri = URI.createURI("/" + qvtProject.getName() + "/transforms/" + "Uml2Opcua.qvto", true);
             String opcuaNodesetFilePath = umlFilePath.replace(".uml", ".xml");
-    		
+            String opcuaNodeIdsCsvFilePath = umlFilePath.replace(".uml", ".csv");
+            
+            ModelExtent[] transformationResults = {null, null};
     		Uml2OpcuaTransformer transformer = new Uml2OpcuaTransformer();
-    		ModelExtent result = transformer.transform(umlFilePath, qvtTransformationFileUri, out);
-    		transformer.serialize(result, opcuaNodesetFilePath, out);
+    		boolean success = transformer.transform(umlFilePath, qvtTransformationFileUri, transformationResults, out);
+    		if(success) {
+        		ModelExtent opcuaNodesetOutput = transformationResults[0];
+        		ModelExtent opcuaNodeIdsCsvOutput = transformationResults[1];
+    			transformer.serializeNodeset(opcuaNodesetOutput, opcuaNodesetFilePath, out);
+    			transformer.serializeNodeIdsCsv(opcuaNodeIdsCsvOutput, opcuaNodeIdsCsvFilePath, out);
+    		} // otherwise errors have been written to out
     		
             // Refresh the workspace (causing the new file to appear in the Project Explorer)
             try {
