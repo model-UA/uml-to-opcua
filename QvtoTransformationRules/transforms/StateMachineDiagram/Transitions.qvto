@@ -28,7 +28,6 @@ mapping UML::Transition::transition2Transition(inout nodeset : OPCUA::UANodeSetT
 	// create the list of references object 
 	_references := object OPCUA::ListOfReferences{};
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := getIdOrAlias("TransitionType")};
-	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := parent.nodeId; isForward := false};
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("FromState"); value := self.source.createNodeId()};
 	_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("ToState"); value := self.target.createNodeId()};
@@ -71,7 +70,6 @@ mapping UML::Constraint::constraint2HasGuard(inout nodeset : OPCUA::UANodeSetTyp
 	guardVariable._references := object OPCUA::ListOfReferences{};
 	guardVariable._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := stateMachineType.nodeId; isForward := false};
 	guardVariable._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasGuard"); value := parent.nodeId; isForward := false};
-	guardVariable._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")}; // TODO replace with correct modelling rule
 
 	if(self.specification = null) { // guard without semantics
 		log("Processing constraint/guard without specification/semantics");

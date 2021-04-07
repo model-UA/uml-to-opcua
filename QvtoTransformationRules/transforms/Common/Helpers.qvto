@@ -141,6 +141,7 @@ helper loadInternalNodeIds() {
 	y->put("Int32", "i=6");
 	y->put("Double", "i=11");
 	y->put("String", "i=12");
+	y->put("NodeId", "i=17");
 	y->put("LocalizedText", "i=21");
 	y->put("NonHierarchicalReferences", "i=32");
 	y->put("Organizes", "i=35");
@@ -171,6 +172,8 @@ helper loadInternalNodeIds() {
 	y->put("TransitionEventType", "i=2311");
 	y->put("InitialStateType", "i=2309");
 	y->put("FiniteStateMachineType", "i=2771");
+	y->put("FiniteStateVariableType", "i=2760");
+	y->put("FiniteStateVariableType_Id", "i=2761");
 	y->put("HasGuard", "i=15112");
 	y->put("GuardVariableType", "i=15113");
 	y->put("ExpressionGuardVariableType", "i=15128");

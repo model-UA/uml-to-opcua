@@ -28,6 +28,14 @@ helper UML::Class::transformPropertiesAndLinkToUANode(inout uanode : OPCUA::UANo
 
 	// case 3: association --> property2UAReference
 	uanode._references.reference += self.ownedElement->selectByType(UML::Property)->select(x| x.association <> null and x.aggregation = UML::AggregationKind::none)->map property2UAReference(nodeset);
+	
+	// if the class inherits from another class, also the properties of the parent class need to be added to the uanode
+	// moved to Classes.qvto and Instances.qvto
+	/*
+	if(self.generalization->size() > 0 and self.generalization->asList()->first().general.oclIsTypeOf(UML::Class)) {
+		self.generalization->asList()->first().general.oclAsType(UML::Class).transformPropertiesAndLinkToUANode(uanode, nodeset);
+	};
+	*/
 }
 
 mapping UML::Property::property2UAVariable(inout parent : OPCUA::UANode) : OPCUA::UAVariable {
@@ -124,10 +132,49 @@ mapping UML::Property::property2UAObject(inout parent : OPCUA::UANode, inout nod
  	}; 	
  	_references.reference += modelingRuleReference;
  	
- 	// if the property refers to a class, not only the UAObject that is created from the class by this transformation rule is required
- 	// but also nodes for all methods, variables, etc. need to be created, possibly recursively
- 	if(self.type.oclIsTypeOf(UML::Class)) {
- 		self.type.oclAsType(UML::Class).transformPropertiesAndLinkToUANode(result, nodeset);
-		nodeset.uAMethod += self.ownedElement->selectByType(UML::Operation)->map operation2UAMethod(result, nodeset);
- 	};
+ 	// if the property refers to a state machine, the current state variable needs to be added to the opc ua object
+ 	// TODO: maybe in the future it would be useful to automatically add all mandatory OPC UA Nodes of all supertypes, e.g. the CurrentState Variable for any custom StateMachineType
+ 	// TODO: maybe this should be moved to Classes.qvto and Instances.qvto
+ 	if(self.type.oclIsTypeOf(UML::StateMachine)) {
+ 		log("property is a state machine");
+	 	var currentState := object OPCUA::UAVariable{};
+		currentState.nodeId := self.createNodeId(false);
+		currentState.browseName := "CurrentState";
+		currentState.displayName := object OPCUA::LocalizedText{value := currentState.browseName};
+		currentState.dataType := getIdOrAlias("LocalizedText");
+		currentState.parentNodeId := nodeId;
+		
+		currentState._references := object OPCUA::ListOfReferences{};
+		currentState._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := nodeId; isForward := false};
+		currentState._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := getIdOrAlias("FiniteStateVariableType")};
+		currentState._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")};
+
+		// link the OPCUA::UAVariable currentState to the parent via a HasComponent reference
+		_references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasComponent"); value := currentState.nodeId};
+
+		// add the currentState variable to the nodeset
+		nodeset.uAVariable += currentState;
+		
+		// and also add the Id Property of the CurrentStateVariable		
+	 	var id := object OPCUA::UAVariable{};
+		id.nodeId := self.createNodeId(false);
+		id.browseName := "Id";
+		id.displayName := object OPCUA::LocalizedText{value := currentState.browseName};
+		id.dataType := getIdOrAlias("NodeId");
+		id.parentNodeId := currentState.nodeId;
+		
+		id._references := object OPCUA::ListOfReferences{};
+		id._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasProperty"); value := currentState.nodeId; isForward := false};
+		id._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasTypeDefinition"); value := getIdOrAlias("PropertyType")};
+		id._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasModellingRule"); value := getIdOrAlias("ModellingRule_Mandatory")};
+
+		// link the OPCUA::UAVariable id to the parent via a HasProperty reference
+		currentState._references.reference += object OPCUA::Reference{referenceType := getIdOrAlias("HasProperty"); value := id.nodeId};
+		
+		// add the id variable to the nodeset
+		nodeset.uAVariable += id;
+	} else {
+		log("property is not a state machine");
+		
+	};
 }
