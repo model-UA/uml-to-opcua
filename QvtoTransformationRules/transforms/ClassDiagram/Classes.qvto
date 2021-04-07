@@ -29,7 +29,22 @@ mapping UML::Class::class2OPCUAObjectType(inout nodeset : OPCUA::UANodeSetType) 
 	};
 	
 	// transform properties of the class
-	self.transformPropertiesAndLinkToUANode(result, nodeset);
+	// if the class inherits from another class, also the properties of the parent class need to be added to the result
+	// transform primitive-type-properties of the corresponding class that are not defined as slots
+	// and repeat this for all superclasses
+	
+	// self.transformPropertiesAndLinkToUANode(result, nodeset);
+	var element := self;
+	while(element <> null) {
+		element.transformPropertiesAndLinkToUANode(result, nodeset);
+		
+		// if the class inherits from another class, also the properties of the parent class need to be added to the uanode
+		if(element.generalization->size() > 0 and element.generalization->asList()->first().general.oclIsTypeOf(UML::Class)) {
+			element := element.generalization->asList()->first().general.oclAsType(UML::Class);
+		} else {
+			element := null;
+		};
+	};
 	
 	// transform operations of the class
 	nodeset.uAMethod += self.ownedElement->selectByType(UML::Operation)->map operation2UAMethod(result, nodeset);

@@ -45,22 +45,44 @@ mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout node
 	nodeset.uAVariable += self.ownedElement->selectByType(UML::Slot)->select(
 		slot | slot.definingFeature.oclIsTypeOf(UML::Property) and slot.definingFeature.type.oclIsKindOf(UML::PrimitiveType)
 		)->map propertySlot2UAVariable(result);
-	
+
 	// transform primitive-type-properties of the corresponding class that are not defined as slots
-	nodeset.uAVariable += classifier.ownedElement->selectByType(UML::Property)->select(
-		p | p.type.oclIsKindOf(UML::PrimitiveType) and self.slot.definingFeature->excludes(p)
-		)->map property2UAVariable(result);
+	// and repeat this for all superclasses
+	var element := classifier;
+	while(element <> null) {
+		nodeset.uAVariable += element.ownedElement->selectByType(UML::Property)->select(
+			p | p.type.oclIsKindOf(UML::PrimitiveType) and self.slot.definingFeature->excludes(p)
+			)->map property2UAVariable(result);
+		
+		// if the class inherits from another class, also the properties of the parent class need to be added to the uanode
+		if(element.generalization->size() > 0 and element.generalization->asList()->first().general.oclIsTypeOf(UML::Class)) {
+			element := element.generalization->asList()->first().general.oclAsType(UML::Class);
+		} else {
+			element := null;
+		};
+	};
 		
 	// transform non-primitive-type-property-slots of the Instance. This non-primitive-type-property is itself defined by an InstanceSpecification
 	_references.reference += self.ownedElement->selectByType(UML::Slot)->select(
 		slot | slot.definingFeature.oclIsTypeOf(UML::Property) and (not slot.definingFeature.type.oclIsKindOf(UML::PrimitiveType))
 		)->map propertySlot2UAReference(result);
-
-	// transform non-primitive-type-properties of the corresponding class that are not defined as slots
-	nodeset.uAObject += classifier.ownedElement->selectByType(UML::Property)->select(
-		p | (not p.type.oclIsKindOf(UML::PrimitiveType)) and self.slot.definingFeature->excludes(p)
-		and p.lower >= 1 // mandatory or mandatory placeholder
-		)->map property2UAObject(result, nodeset);
+		
+	// transform primitive-type-properties of the corresponding class that are not defined as slots
+	// and repeat this for all superclasses
+	element := classifier;
+	while(element <> null) {
+		nodeset.uAObject += element.ownedElement->selectByType(UML::Property)->select(
+			p | (not p.type.oclIsKindOf(UML::PrimitiveType)) and self.slot.definingFeature->excludes(p)
+			and p.lower >= 1 // mandatory or mandatory placeholder
+			)->map property2UAObject(result, nodeset);
+		
+		// if the class inherits from another class, also the properties of the parent class need to be added to the uanode
+		if(element.generalization->size() > 0 and element.generalization->asList()->first().general.oclIsTypeOf(UML::Class)) {
+			element := element.generalization->asList()->first().general.oclAsType(UML::Class);
+		} else {
+			element := null;
+		};
+	};		
 }
 
 mapping UML::Slot::propertySlot2UAVariable(inout parent : OPCUA::UANode) : OPCUA::UAVariable {
