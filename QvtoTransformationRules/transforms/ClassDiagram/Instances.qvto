@@ -47,12 +47,17 @@ mapping UML::InstanceSpecification::instanceSpecification2OPCUAObject(inout node
 		)->map propertySlot2UAVariable(result);
 
 	// transform primitive-type-properties of the corresponding class that are not defined as slots
+	// do the same for methods
 	// and repeat this for all superclasses
 	var element := classifier;
 	while(element <> null) {
+		// add properties
 		nodeset.uAVariable += element.ownedElement->selectByType(UML::Property)->select(
 			p | p.type.oclIsKindOf(UML::PrimitiveType) and self.slot.definingFeature->excludes(p)
 			)->map property2UAVariable(result);
+			
+		// add methods
+		nodeset.uAMethod += element.ownedElement->selectByType(UML::Operation)->map operation2UAMethod(result, nodeset);
 		
 		// if the class inherits from another class, also the properties of the parent class need to be added to the uanode
 		if(element.generalization->size() > 0 and element.generalization->asList()->first().general.oclIsTypeOf(UML::Class)) {

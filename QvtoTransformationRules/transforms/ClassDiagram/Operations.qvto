@@ -19,7 +19,7 @@ mapping UML::Operation::operation2UAMethod(inout parent : OPCUA::UANode, inout n
 	log("operation2UAMethod for UML element " + self.name);
 
 	// set attributs of the OPCUA::UAMethod
-	nodeId := self.createNodeId();
+	nodeId := self.createNodeId(false);
 	browseName := self.createBrowseName();
 	displayName := displayName := object OPCUA::LocalizedText{value := browseName};
 	
