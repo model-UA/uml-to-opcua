@@ -128,20 +128,22 @@ Furthermore, this repository contains a standalone UML to OPC UA model transform
 
 A way to contribute to this project is by testing the transformation and submitting an issue if you encounter some unexpected behavior or error in the UML to OPC UA transformation.
 
-Instructions on how to clone this repository and contribute to underlying software (Eclipse plugins, etc.) the will be added some time in the future. The instructions below are not up-to-date but may serve as a starting point for the time being.
+Instructions on how to clone this repository and contribute to underlying software (Eclipse plugins, etc.) can be found below.
 
 ### Adding the Plugin to your Workspace
 
 The Plugin is implemented as an Eclipse Plugin Project. To execute the Plugin you have to
 
-1. Install and start Eclipse (or an Eclipse-based application such as Papyrus)
-2. Create a new Eclipse Workspace
-3. Clone this repository to your computer
-4. Add the Eclipse Projects contained in this repository to your Eclipse Workspace via the "File" --> "Import..." --> "Existing Projects into Workspace" dialog
-5. Clone another repository that actually adds the model transformation functionality, such as model-UA/uml-to-opcua-qvto to your computer
-6. Add the Eclipse Projects contained in the newly cloned repository to your Eclipse Workspace as described in Step 4.
-7. Start the Plugin by right-clicking on the "at.ac.tuwien.auto.modelua.uml2opcua.ui" Project and selecting "Run As" --> "Eclipse Application"
-8. Check the result by right-clicking in the Project Explorer of the newly started Eclipse instance. It should now contain the "Transform to OPC UA" menu entry.
+1. Clone this repository to your computer
+2. Install and start Papyrus (cf. https://www.eclipse.org/papyrus/)
+3. Create a new, empty Workspace (do NOT select the GIT repository folder, but another empty folder)
+4. Install QVTo via the QVTo update site via "Help" --> "Install New Software..." --> add a repository with this location: https://download.eclipse.org/mmt/qvto/updates/releases/latest/ and install all QVTo features
+5. Select "File" --> "Import..." --> "Existing Projects into Workspace" --> "Next >" ![](/doc/img/import_projects_2.png)
+6. Select the GIT repository folder uml-to-opcua as root directory. Enable option "Search for nested projects"![](/doc/img/import_projects_3.png)
+7. Import the projects by clicking "Finish". Wait for the projects to be imported and compiled.  
+8. Start the Plugin by right-clicking on the "at.ac.tuwien.auto.modelua.uml2opcua.ui" Project and selecting "Run As" --> "Eclipse Application" ![](/doc/img/run_as_eclipse_application.png)
+
+8. Follow the instructions above (under "Usage") to create and transform your first class diagram
 
 To gain knowledge about Eclipse Plugins in general you may want to visit https://www.vogella.com/tutorials/EclipsePlugin/article.html .
 
