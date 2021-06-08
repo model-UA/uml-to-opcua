@@ -76,5 +76,6 @@
 		<module>
 			at.ac.tuwien.auto.modelua.uml2opcua.qvto.developer.feature
 		</module>
+		<module>at.ac.tuwien.auto.modelua.uml2opcua.nodeIdsCsv</module>
 	</modules>
 </project>
