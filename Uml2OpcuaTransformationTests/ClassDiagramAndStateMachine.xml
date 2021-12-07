@@ -4,69 +4,92 @@
     <Uri>ClassDiagramAndStateMachine</Uri>
   </NamespaceUris>
   <Aliases>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasEffect">i=54</Alias>
+    <Alias Alias="PropertyType">i=68</Alias>
+    <Alias Alias="BaseObjectType">i=58</Alias>
+    <Alias Alias="FromState">i=51</Alias>
+    <Alias Alias="ModellingRule_Mandatory">i=78</Alias>
+    <Alias Alias="LocalizedText">i=21</Alias>
     <Alias Alias="HasModellingRule">i=37</Alias>
     <Alias Alias="FiniteStateMachineType">i=2771</Alias>
-    <Alias Alias="TransitionEventType">i=2311</Alias>
-    <Alias Alias="HasComponent">i=47</Alias>
-    <Alias Alias="StateType">i=2307</Alias>
-    <Alias Alias="FromState">i=51</Alias>
-    <Alias Alias="ToState">i=52</Alias>
-    <Alias Alias="BaseObjectType">i=58</Alias>
-    <Alias Alias="ModellingRule_Mandatory">i=78</Alias>
-    <Alias Alias="HasEffect">i=54</Alias>
     <Alias Alias="HasSubtype">i=45</Alias>
     <Alias Alias="TransitionType">i=2310</Alias>
-    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="NodeId">i=17</Alias>
+    <Alias Alias="HasProperty">i=46</Alias>
+    <Alias Alias="ToState">i=52</Alias>
+    <Alias Alias="FiniteStateVariableType">i=2760</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="TransitionEventType">i=2311</Alias>
+    <Alias Alias="StateType">i=2307</Alias>
   </Aliases>
-  <UAObject BrowseName="StateMachine1" NodeId="ns=1;s=StateMachine1" ParentNodeId="ns=1;s=Class1Type">
+  <UAVariable BrowseName="CurrentState" NodeId="ns=1;i=1003" ParentNodeId="ns=1;i=1001" DataType="LocalizedText">
+    <DisplayName>CurrentState</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">FiniteStateVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=1004</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable BrowseName="Id" NodeId="ns=1;i=1004" ParentNodeId="ns=1;i=1003" DataType="NodeId">
+    <DisplayName>CurrentState</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=1003</Reference>
+      <Reference ReferenceType="HasTypeDefinition">PropertyType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+    </References>
+  </UAVariable>
+  <UAObject BrowseName="StateMachine1" NodeId="ns=1;i=1001" ParentNodeId="ns=1;i=1000">
     <DisplayName>StateMachine1</DisplayName>
     <References>
-      <Reference ReferenceType="HasTypeDefinition">ns=1;s=MyStateMachineType</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=1002</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1000</Reference>
       <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=Class1Type</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1003</Reference>
     </References>
   </UAObject>
-  <UAObjectType BrowseName="Class1Type" NodeId="ns=1;s=Class1Type">
+  <UAObjectType BrowseName="Class1Type" NodeId="ns=1;i=1000">
     <DisplayName>Class1Type</DisplayName>
     <References>
       <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;s=StateMachine1</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1001</Reference>
     </References>
   </UAObjectType>
-  <UAObject BrowseName="State1" NodeId="ns=1;s=State1" ParentNodeId="ns=1;s=MyStateMachineType">
-    <DisplayName>State1</DisplayName>
-    <References>
-      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
-      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=MyStateMachineType</Reference>
-    </References>
-  </UAObject>
-  <UAObject BrowseName="State2" NodeId="ns=1;s=State2" ParentNodeId="ns=1;s=MyStateMachineType">
+  <UAObject BrowseName="State2" NodeId="ns=1;i=1006" ParentNodeId="ns=1;i=1002">
     <DisplayName>State2</DisplayName>
     <References>
       <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
       <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=MyStateMachineType</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1002</Reference>
     </References>
   </UAObject>
-  <UAObject BrowseName="State1_to_State2" NodeId="ns=1;s=State1_to_State2" ParentNodeId="ns=1;s=MyStateMachineType">
+  <UAObject BrowseName="State1" NodeId="ns=1;i=1005" ParentNodeId="ns=1;i=1002">
+    <DisplayName>State1</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">StateType</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1002</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="State1_to_State2" NodeId="ns=1;i=1007" ParentNodeId="ns=1;i=1002">
     <DisplayName>State1_to_State2</DisplayName>
     <References>
       <Reference ReferenceType="HasTypeDefinition">TransitionType</Reference>
       <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=MyStateMachineType</Reference>
-      <Reference ReferenceType="FromState">ns=1;s=State1</Reference>
-      <Reference ReferenceType="ToState">ns=1;s=State2</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1002</Reference>
+      <Reference ReferenceType="FromState">ns=1;i=1005</Reference>
+      <Reference ReferenceType="ToState">ns=1;i=1006</Reference>
       <Reference ReferenceType="HasEffect">TransitionEventType</Reference>
     </References>
   </UAObject>
-  <UAObjectType BrowseName="MyStateMachineType" NodeId="ns=1;s=MyStateMachineType">
+  <UAObjectType BrowseName="MyStateMachineType" NodeId="ns=1;i=1002">
     <DisplayName>MyStateMachineType</DisplayName>
     <References>
       <Reference IsForward="false" ReferenceType="HasSubtype">FiniteStateMachineType</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;s=State2</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;s=State1</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;s=State1_to_State2</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1005</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1006</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1007</Reference>
     </References>
   </UAObjectType>
 </UANodeSet>

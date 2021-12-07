@@ -1,0 +1,5 @@
+ToolType,1000,ObjectType
+Gripper1_Close,1004,Method
+GripperType,1002,ObjectType
+ToolType_Close,1001,Method
+Gripper1,1003,Object

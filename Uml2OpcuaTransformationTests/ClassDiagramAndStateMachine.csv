@@ -1,0 +1,8 @@
+Class1Type_StateMachine1_CurrentState_Id,1004,Variable
+Class1Type_StateMachine1,1001,Object
+Class1Type,1000,ObjectType
+MyStateMachineType,1002,ObjectType
+MyStateMachineType_State2,1006,Object
+MyStateMachineType_State1,1005,Object
+Class1Type_StateMachine1_CurrentState,1003,Variable
+MyStateMachineType_State1_to_State2,1007,Object

@@ -8,23 +8,23 @@
     <Alias Alias="HasSubtype">i=45</Alias>
     <Alias Alias="NonHierarchicalReferences">i=32</Alias>
   </Aliases>
-  <UAReferenceType BrowseName="MyAssociation" NodeId="ns=1;s=MyAssociation">
+  <UAReferenceType BrowseName="MyAssociation" NodeId="ns=1;i=1002">
     <DisplayName>MyAssociation</DisplayName>
     <References>
       <Reference IsForward="false" ReferenceType="HasSubtype">NonHierarchicalReferences</Reference>
     </References>
   </UAReferenceType>
-  <UAObjectType BrowseName="Class3Type" NodeId="ns=1;s=Class3Type">
-    <DisplayName>Class3Type</DisplayName>
+  <UAObjectType BrowseName="Class4Type" NodeId="ns=1;i=1001">
+    <DisplayName>Class4Type</DisplayName>
     <References>
       <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
+      <Reference ReferenceType="ns=1;i=1002">ns=1;i=1000</Reference>
     </References>
   </UAObjectType>
-  <UAObjectType BrowseName="Class2Type" NodeId="ns=1;s=Class2Type">
-    <DisplayName>Class2Type</DisplayName>
+  <UAObjectType BrowseName="Class5Type" NodeId="ns=1;i=1000">
+    <DisplayName>Class5Type</DisplayName>
     <References>
       <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
-      <Reference ReferenceType="ns=1;s=MyAssociation">ns=1;s=Class3Type</Reference>
     </References>
   </UAObjectType>
 </UANodeSet>

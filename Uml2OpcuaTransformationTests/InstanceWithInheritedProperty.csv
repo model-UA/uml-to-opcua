@@ -1,0 +1,6 @@
+Gripper1_ToolId,1005,Variable
+GripperType,1000,ObjectType
+ToolType,1001,ObjectType
+ToolType_ToolId,1003,Variable
+GripperType_ToolId,1002,Variable
+Gripper1,1004,Object

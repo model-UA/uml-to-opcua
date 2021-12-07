@@ -5,30 +5,22 @@
   </NamespaceUris>
   <Aliases>
     <Alias Alias="HasSubtype">i=45</Alias>
-    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="ObjectsFolder">i=85</Alias>
     <Alias Alias="BaseObjectType">i=58</Alias>
-    <Alias Alias="String">i=12</Alias>
-    <Alias Alias="HasComponent">i=47</Alias>
-    <Alias Alias="ModellingRule_Mandatory">i=78</Alias>
-    <Alias Alias="BaseDataVariableType">i=63</Alias>
-    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="Organizes">i=35</Alias>
   </Aliases>
-  <UAVariable BrowseName="Manufacturer" NodeId="ns=1;s=Manufacturer" ParentNodeId="ns=1;s=Class5Type" DataType="String">
-    <DisplayName>Manufacturer</DisplayName>
-    <References>
-      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
-      <Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</Reference>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;s=Class5Type</Reference>
-    </References>
-  </UAVariable>
-  <UAObjectType BrowseName="Class5Type" NodeId="ns=1;s=Class5Type">
+  <UAObjectType BrowseName="Class5Type" NodeId="ns=1;i=1000">
     <DisplayName>Class5Type</DisplayName>
     <References>
       <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;s=Manufacturer</Reference>
     </References>
   </UAObjectType>
-  <UAObject BrowseName="Class5Instance" NodeId="ns=1;s=Class5Instance">
+  <UAObject BrowseName="Class5Instance" NodeId="ns=1;i=1001">
     <DisplayName>Class5Instance</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=1000</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">ObjectsFolder</Reference>
+    </References>
   </UAObject>
 </UANodeSet>

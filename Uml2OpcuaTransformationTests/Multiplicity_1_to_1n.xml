@@ -1,35 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd" xsi:type="UANodeSet">
-  <NamespaceUris xsi:type="UriTable">
-    <Uri>Multiplicity_1_to_1..n</Uri>
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>Multiplicity_1_to_1n</Uri>
   </NamespaceUris>
-  <Aliases xsi:type="AliasTable">
-    <Alias xsi:type="NodeIdAlias" Alias="HasTypeDefinition">i=40</Alias>
-    <Alias xsi:type="NodeIdAlias" Alias="BaseObjectType">i=58</Alias>
-    <Alias xsi:type="NodeIdAlias" Alias="ModellingRule_MandatoryPlaceholder">i=11510</Alias>
-    <Alias xsi:type="NodeIdAlias" Alias="HasComponent">i=47</Alias>
-    <Alias xsi:type="NodeIdAlias" Alias="HasModellingRule">i=37</Alias>
-    <Alias xsi:type="NodeIdAlias" Alias="HasSubtype">i=45</Alias>
+  <Aliases>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="ModellingRule_MandatoryPlaceholder">i=11510</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="BaseObjectType">i=58</Alias>
   </Aliases>
-  <UAObject xsi:type="UAObject" BrowseName="Axis" NodeId="ns=1;s=Axis" ParentNodeId="ns=1;s=RobotType">
-    <DisplayName xsi:type="LocalizedText">Axis</DisplayName>
-    <References xsi:type="ListOfReferences">
-      <Reference xsi:type="Reference" ReferenceType="HasTypeDefinition">ns=1;s=AxisType</Reference>
-      <Reference xsi:type="Reference" IsForward="false" ReferenceType="HasComponent">ns=1;s=RobotType</Reference>
-      <Reference xsi:type="Reference" ReferenceType="HasModellingRule">ModellingRule_MandatoryPlaceholder</Reference>
+  <UAObject BrowseName="Axis" NodeId="ns=1;i=1001" ParentNodeId="ns=1;i=1000">
+    <DisplayName>Axis</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=1002</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1000</Reference>
+      <Reference ReferenceType="HasModellingRule">ModellingRule_MandatoryPlaceholder</Reference>
     </References>
   </UAObject>
-  <UAObjectType xsi:type="UAObjectType" BrowseName="AxisType" NodeId="ns=1;s=AxisType">
-    <DisplayName xsi:type="LocalizedText">AxisType</DisplayName>
-    <References xsi:type="ListOfReferences">
-      <Reference xsi:type="Reference" IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
+  <UAObjectType BrowseName="RobotType" NodeId="ns=1;i=1000">
+    <DisplayName>RobotType</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=1001</Reference>
     </References>
   </UAObjectType>
-  <UAObjectType xsi:type="UAObjectType" BrowseName="RobotType" NodeId="ns=1;s=RobotType">
-    <DisplayName xsi:type="LocalizedText">RobotType</DisplayName>
-    <References xsi:type="ListOfReferences">
-      <Reference xsi:type="Reference" IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
-      <Reference xsi:type="Reference" ReferenceType="HasComponent">ns=1;s=Axis</Reference>
+  <UAObjectType BrowseName="AxisType" NodeId="ns=1;i=1002">
+    <DisplayName>AxisType</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>
     </References>
   </UAObjectType>
 </UANodeSet>

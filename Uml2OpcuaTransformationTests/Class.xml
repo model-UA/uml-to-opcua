@@ -4,10 +4,10 @@
     <Uri>Class</Uri>
   </NamespaceUris>
   <Aliases>
-    <Alias Alias="BaseObjectType">i=58</Alias>
     <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="BaseObjectType">i=58</Alias>
   </Aliases>
-  <UAObjectType BrowseName="Class5Type" NodeId="ns=1;s=Class5Type">
+  <UAObjectType BrowseName="Class5Type" NodeId="ns=1;i=1000">
     <DisplayName>Class5Type</DisplayName>
     <References>
       <Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</Reference>

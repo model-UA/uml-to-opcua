@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set:UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:set="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd" xsi:schemaLocation="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd ../QvtoTransformationRules/metamodels/set.ecore">
+  <set:NamespaceUris>
+    <set:Uri>InstanceWithInheritedProperty</set:Uri>
+  </set:NamespaceUris>
+  <set:Aliases>
+    <set:Alias Alias="HasSubtype">i=45</set:Alias>
+    <set:Alias Alias="ModellingRule_Mandatory">i=78</set:Alias>
+    <set:Alias Alias="ObjectsFolder">i=85</set:Alias>
+    <set:Alias Alias="BaseDataVariableType">i=63</set:Alias>
+    <set:Alias Alias="BaseObjectType">i=58</set:Alias>
+    <set:Alias Alias="HasTypeDefinition">i=40</set:Alias>
+    <set:Alias Alias="HasModellingRule">i=37</set:Alias>
+    <set:Alias Alias="Organizes">i=35</set:Alias>
+    <set:Alias Alias="HasComponent">i=47</set:Alias>
+    <set:Alias Alias="String">i=12</set:Alias>
+  </set:Aliases>
+  <set:UAVariable BrowseName="ToolId" NodeId="ns=1;i=1002" ParentNodeId="ns=1;i=1000" DataType="String">
+    <set:DisplayName>ToolId</set:DisplayName>
+    <set:References>
+      <set:Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</set:Reference>
+      <set:Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</set:Reference>
+      <set:Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1000</set:Reference>
+    </set:References>
+  </set:UAVariable>
+  <set:UAVariable BrowseName="ToolId" NodeId="ns=1;i=1003" ParentNodeId="ns=1;i=1001" DataType="String">
+    <set:DisplayName>ToolId</set:DisplayName>
+    <set:References>
+      <set:Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</set:Reference>
+      <set:Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</set:Reference>
+      <set:Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1001</set:Reference>
+    </set:References>
+  </set:UAVariable>
+  <set:UAObjectType BrowseName="GripperType" NodeId="ns=1;i=1000">
+    <set:DisplayName>GripperType</set:DisplayName>
+    <set:References>
+      <set:Reference IsForward="false" ReferenceType="HasSubtype">ns=1;i=1001</set:Reference>
+      <set:Reference ReferenceType="HasComponent">ns=1;i=1002</set:Reference>
+    </set:References>
+  </set:UAObjectType>
+  <set:UAObjectType BrowseName="ToolType" NodeId="ns=1;i=1001">
+    <set:DisplayName>ToolType</set:DisplayName>
+    <set:References>
+      <set:Reference IsForward="false" ReferenceType="HasSubtype">BaseObjectType</set:Reference>
+      <set:Reference ReferenceType="HasComponent">ns=1;i=1003</set:Reference>
+    </set:References>
+  </set:UAObjectType>
+  <set:UAVariable BrowseName="ToolId" NodeId="ns=1;i=1005" ParentNodeId="ns=1;i=1004" DataType="String">
+    <set:DisplayName>ToolId</set:DisplayName>
+    <set:References>
+      <set:Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</set:Reference>
+      <set:Reference ReferenceType="HasModellingRule">ModellingRule_Mandatory</set:Reference>
+      <set:Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1004</set:Reference>
+    </set:References>
+  </set:UAVariable>
+  <set:UAObject BrowseName="Gripper1" NodeId="ns=1;i=1004">
+    <set:DisplayName>Gripper1</set:DisplayName>
+    <set:References>
+      <set:Reference ReferenceType="HasTypeDefinition">ns=1;i=1000</set:Reference>
+      <set:Reference IsForward="false" ReferenceType="Organizes">ObjectsFolder</set:Reference>
+      <set:Reference ReferenceType="HasComponent">ns=1;i=1005</set:Reference>
+    </set:References>
+  </set:UAObject>
+</set:UANodeSet>
